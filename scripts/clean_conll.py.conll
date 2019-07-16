@@ -1,0 +1,18 @@
+import sys
+
+PATH = sys.argv[0]
+PATH_SPLIT = PATH.split('/')
+DIR  = '/'.join(PATH_SPLIT[:-1])
+NAME = PATH_SPLIT[-1]
+
+with open(PATH) as f:
+    lines = []
+    for line in f:
+        if not line.startswith('#'):
+            line = line.split('\t')
+            for i in range(2, len(line)):
+                line[i] = '_'
+            lines.append('\t'.join(line))
+with open(PATH+'.conll', 'w') as f:
+    print('Writing to:', PATH+'.conll')
+    f.writelines(lines)
