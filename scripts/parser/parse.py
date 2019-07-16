@@ -31,10 +31,10 @@ if not os.path.isdir(log_path):
 
 batch_string = f"""#!/bin/bash
 
-#SBATCH -t 48:00:00
+#SBATCH -t 96:00:00
 #SBATCH -n 1
 #SBATCH -J "{lang}_parse"
-#SBATCH --mem-per-cpu=48GB
+#SBATCH --mem-per-cpu=96GB
 #SBATCH --account=nn9447k
 #SBATCH --output={log_path}/parse_{d[lang]}-%j.out
 
