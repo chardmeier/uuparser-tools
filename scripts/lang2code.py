@@ -4,10 +4,12 @@ import os
 d = {}
 lang2code = {}
 lang2code_trainable = {}
+SCRIPTS = os.environ['SCRIPTS'] # ToDO change to CONFIGS!
+assert bool(SCRIPTS), "Environment variable $SCRIPT not found!"
 
 parser = argparse.ArgumentParser(description='Extracts language to code mappings from ud-treebanks')
 parser.add_argument('treebank_dir', type=str, help='path to the ud-treebank-directory')
-parser.add_argument('--output_dir', '-o', type=str, default='.', help='specifies optional output directory (default=".")')
+parser.add_argument('--output_dir', '-o', type=str, default=SCRIPTS, help='specifies optional output directory (default=".")')
 args = parser.parse_args()
 
 assert os.path.isdir(args.treebank_dir)
@@ -30,7 +32,7 @@ for root, dirs, files in os.walk(args.treebank_dir):
             d[curr_dir] = code
             #print(len(path) * '---', file)
             lang2code[curr_dir[3:]] = code
-	
+    
 import json, pprint
 
 #with open('ud2.4_iso.json', 'w') as json_file:
