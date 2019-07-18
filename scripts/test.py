@@ -36,7 +36,7 @@ import json, pprint
 #with open('ud2.4_iso.json', 'w') as json_file:
 #    json.dump(d, json_file)
 
-print(f'{lang2code} treebanks found.')
+print(f'{len(lang2code)} treebanks found.')
 path = os.path.join(args.output_dir, "lang2code.dict")
 print(f'Writing to: "{path}"')
 with open(path, 'w') as f:
