@@ -2,8 +2,8 @@
 import argparse
 import os
 d = {}
-lang2code = {}
-lang2code_trainable = {}
+code2lang = {}
+code2lang_trainable = {}
 SCRIPTS = os.environ['SCRIPTS'] # ToDO change to CONFIGS!
 assert bool(SCRIPTS), "Environment variable $SCRIPT not found!"
 
@@ -26,27 +26,27 @@ for root, dirs, files in os.walk(args.treebank_dir):
             code = file.split('-')[0]
             d[curr_dir] = code
             #print(len(path) * '---', file)
-            lang2code_trainable[curr_dir[3:]] = code
+            code2lang_trainable[code] = curr_dir[3:]
         elif file.endswith('.conllu'):
             code = file.split('-')[0]
             d[curr_dir] = code
             #print(len(path) * '---', file)
-            lang2code[curr_dir[3:]] = code
+            code2lang[code] = curr_dir[3:]
     
 import json, pprint
 
 #with open('ud2.4_iso.json', 'w') as json_file:
 #    json.dump(d, json_file)
 
-print(f'{len(lang2code)} treebanks found.')
-path = os.path.join(args.output_dir, "lang2code.dict")
+print(f'{len(code2lang)} treebanks found.')
+path = os.path.join(args.output_dir, "code2lang.dict")
 print(f'Writing to: "{path}"')
 with open(path, 'w') as f:
-    f.write(pprint.pformat(lang2code))
+    f.write(pprint.pformat(code2lang))
 
-path = os.path.join(args.output_dir, "lang2code_trainable.dict")
-print(f'{len(lang2code_trainable)} trainable treebanks found.')
+path = os.path.join(args.output_dir, "code2lang_trainable.dict")
+print(f'{len(code2lang_trainable)} trainable treebanks found.')
 print(f'Writing to: "{path}"')
 with open(path, 'w') as f:
-    f.write(pprint.pformat(lang2code_trainable))
+    f.write(pprint.pformat(code2lang_trainable))
 
