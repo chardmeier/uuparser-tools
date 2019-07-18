@@ -11,12 +11,13 @@ args = parser.parse_args()
 
 assert os.path.isdir(args.treebank_dir)
 count = 0
-print('Reading directory..')
+print(f'Reading directory: "{args.treebank_dir}"')
 # traverse root directory, and list directories as dirs and files as files
 for root, dirs, files in os.walk(args.treebank_dir):
     path = root.split(os.sep)
     #print((len(path) - 1) * '---', os.path.basename(root))
     curr_dir = os.path.basename(root)
+    print(curr_dir, curr_dir.startswith('UD_'))
     if not curr_dir.startswith('UD_'):
         continue
     for file in files:
