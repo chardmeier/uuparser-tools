@@ -3,14 +3,14 @@ import argparse
 import os
 d = {}
 lang2code = {}
+lang2code_trainable = {}
 
 parser = argparse.ArgumentParser(description='Extracts language to code mappings from ud-treebanks')
 parser.add_argument('treebank_dir', type=str, help='path to the ud-treebank-directory')
-parser.add_argument('--output', '-o', type=str, default='lang2code.dict', help='specifies optional output path (default="lang2code.dict")')
+parser.add_argument('--output_dir', '-o', type=str, default='.', help='specifies optional output directory (default=".")')
 args = parser.parse_args()
 
 assert os.path.isdir(args.treebank_dir)
-count = 0
 print(f'Reading directory: "{args.treebank_dir}"')
 # traverse root directory, and list directories as dirs and files as files
 for root, dirs, files in os.walk(args.treebank_dir):
@@ -24,15 +24,27 @@ for root, dirs, files in os.walk(args.treebank_dir):
             code = file.split('-')[0]
             d[curr_dir] = code
             #print(len(path) * '---', file)
+            lang2code_trainable[curr_dir[3:]] = code
+        elif file.endswith('.conllu'):
+            code = file.split('-')[0]
+            d[curr_dir] = code
+            #print(len(path) * '---', file)
             lang2code[curr_dir[3:]] = code
-            count += 1
 	
 import json, pprint
 
 #with open('ud2.4_iso.json', 'w') as json_file:
 #    json.dump(d, json_file)
 
-print(f'{count} valid treebanks found.')
-print(f'Writing output to: "{args.output}"')
-with open(args.output, 'w') as f:
+print(f'{lang2code} treebanks found.')
+path = os.path.join(args.output, "lang2code.dict")
+print(f'Writing to: "{path}"')
+with open(path, 'w') as f:
     f.write(pprint.pformat(lang2code))
+
+path = os.path.join(args.output, "lang2code_trainable.dict")
+print(f'{len(lang2code_trainable)} trainable treebanks found.')
+print(f'Writing to: "{path}"')
+with open(args.output, 'w') as f:
+    f.write(pprint.pformat(lang2code_trainable))
+
