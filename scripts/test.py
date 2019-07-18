@@ -37,12 +37,12 @@ import json, pprint
 #    json.dump(d, json_file)
 
 print(f'{lang2code} treebanks found.')
-path = os.path.join(args.output, "lang2code.dict")
+path = os.path.join(args.output_dir, "lang2code.dict")
 print(f'Writing to: "{path}"')
 with open(path, 'w') as f:
     f.write(pprint.pformat(lang2code))
 
-path = os.path.join(args.output, "lang2code_trainable.dict")
+path = os.path.join(args.output_dir, "lang2code_trainable.dict")
 print(f'{len(lang2code_trainable)} trainable treebanks found.')
 print(f'Writing to: "{path}"')
 with open(args.output, 'w') as f:
