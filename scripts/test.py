@@ -9,8 +9,10 @@ for root, dirs, files in os.walk("ud-treebanks-v2.4"):
     curr_dir = os.path.basename(root)
     for file in files:
         if file.endswith('ud-train.conllu'):
-            d[curr_dir] = file.split('-')[0]
+            code = file.split('-')[0]
+            d[curr_dir] = code
             print(len(path) * '---', file)
+            print(curr_dir[3:], code)
 	
 import json
 
