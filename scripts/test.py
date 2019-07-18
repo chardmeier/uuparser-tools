@@ -45,6 +45,6 @@ with open(path, 'w') as f:
 path = os.path.join(args.output_dir, "lang2code_trainable.dict")
 print(f'{len(lang2code_trainable)} trainable treebanks found.')
 print(f'Writing to: "{path}"')
-with open(args.output, 'w') as f:
+with open(path, 'w') as f:
     f.write(pprint.pformat(lang2code_trainable))
 
