@@ -26,7 +26,7 @@ for root, dirs, files in os.walk(args.treebank_dir):
             #print(len(path) * '---', file)
             lang2code[curr_dir[3:]] = code
 	
-import json
+import json, pprint
 
 #with open('ud2.4_iso.json', 'w') as json_file:
 #    json.dump(d, json_file)
@@ -34,4 +34,4 @@ import json
 print(f'{count} valid treebanks found.')
 print(f'Writing output to: "{args.output}"')
 with open(args.output, 'w') as f:
-    f.write(repr(lang2code))
+    f.write(pprint.pformat(lang2code))
