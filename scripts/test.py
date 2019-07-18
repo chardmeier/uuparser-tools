@@ -17,7 +17,6 @@ for root, dirs, files in os.walk(args.treebank_dir):
     path = root.split(os.sep)
     #print((len(path) - 1) * '---', os.path.basename(root))
     curr_dir = os.path.basename(root)
-    print(curr_dir, curr_dir.startswith('UD_'))
     if not curr_dir.startswith('UD_'):
         continue
     for file in files:
@@ -26,6 +25,7 @@ for root, dirs, files in os.walk(args.treebank_dir):
             d[curr_dir] = code
             #print(len(path) * '---', file)
             lang2code[curr_dir[3:]] = code
+            count += 1
 	
 import json, pprint
 
