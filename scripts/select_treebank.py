@@ -10,7 +10,7 @@ def select_treebank(lang, code2lang, model_dir):
 if __name__ == '__main__':
     SCRIPTS = os.environ['SCRIPTS']
     MODELS = os.environ['MODELS']
-    TOKENIZER_NAME = os.environ['TOKENIZER_NAME']
+    TOKENIZER_NAME = os.environ['NAME_TOKENIZER']
     model_dir = os.path.join(MODELS, TOKENIZER_NAME)
     with open(os.path.join(SCRIPTS, 'code2lang.dict')) as f:
         code2lang = repr(f.read())
