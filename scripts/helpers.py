@@ -1,5 +1,5 @@
 import os, sys
-from config import SCRIPTS, MODELS, TOKENIZER_NAME
+from .config import SCRIPTS, MODELS, TOKENIZER_NAME
 
 
 def select_treebank(lang, code2lang, model_dir):
