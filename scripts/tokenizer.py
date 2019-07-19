@@ -1,7 +1,7 @@
 import sys, os, ntpath
 # UDPipe tokenize.py
 from .helpers import default_by_lang, create_dir
-from config import *
+from .config import *
 
 def tokenize(arg1, model_path=None):
     # arg1: path to file that will be tokenized/tagged
