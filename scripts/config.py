@@ -10,8 +10,8 @@ PARSER = os.environ.get('PARSER')
 
 TOKENIZER_NAME = os.environ.get('NAME_TOKENIZER')
 
-MODELS = "abs/models"
+"""MODELS = "abs/models"
 DATA = 'abc/data'
 PARSER_NAME = 'UUParser'
 PARSER = "abs/uuparser/barchybrid"
-LOGS = "abs/logfiles"
+LOGS = "abs/logfiles""""
