@@ -41,22 +41,22 @@ def tokenize(arg1, model_path=None):
 
     batch_string = f"""#!/bin/sh
 
-    #SBATCH -t 48:00:00
-    #SBATCH -n 1
-    #SBATCH -J "{lang}_tok"
-    #SBATCH --mem-per-cpu=16GB
-    #SBATCH --account=nn9447k
-    #SBATCH --output={log_path}/tokenize_{lang}-%j.out
+#SBATCH -t 48:00:00
+#SBATCH -n 1
+#SBATCH -J "{lang}_tok"
+#SBATCH --mem-per-cpu=16GB
+#SBATCH --account=nn9447k
+#SBATCH --output={log_path}/tokenize_{lang}-%j.out
 
-    source ~/.bashrc
+source ~/.bashrc
 
-    module purge
-    module load gcc
+module purge
+module load gcc
 
-    srun -t 48:00:00 \
-         --mem-per-cpu=16GB \
-         --account=nn9447k \
-         /projects/nlpl/software/udpipe/latest/bin/udpipe --tokenize --tag {model_path} {input_path} > {output_file}
+srun -t 48:00:00 \\
+     --mem-per-cpu=16GB \\
+     --account=nn9447k \\
+     /projects/nlpl/software/udpipe/latest/bin/udpipe --tokenize --tag {model_path} {input_path} > {output_file}
     """
     batch_path = f'{BATCHFILES}/tokenize.sh'
     with open(batch_path, 'w') as f:
