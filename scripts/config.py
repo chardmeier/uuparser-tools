@@ -14,4 +14,4 @@ TOKENIZER_NAME = os.environ.get('NAME_TOKENIZER')
 DATA = 'abc/data'
 PARSER_NAME = 'UUParser'
 PARSER = "abs/uuparser/barchybrid"
-LOGS = "abs/logfiles""""
+LOGS = "abs/logfiles"""
