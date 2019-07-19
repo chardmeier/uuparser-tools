@@ -10,6 +10,10 @@ PARSER = os.environ.get('PARSER')
 
 TOKENIZER_NAME = os.environ.get('NAME_TOKENIZER')
 
+
+with open(os.path.join(SCRIPTS, 'code2lang.dict')) as f:
+    code2lang = eval(f.read())
+
 """MODELS = "abs/models"
 DATA = 'abc/data'
 PARSER_NAME = 'UUParser'

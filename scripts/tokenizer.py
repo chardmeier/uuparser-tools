@@ -1,6 +1,6 @@
 import sys, os, ntpath
 # UDPipe tokenize.py
-from .helpers import default_by_lang, create_dir
+from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
 
 def tokenize(arg1, model_path=None):
@@ -16,6 +16,7 @@ def tokenize(arg1, model_path=None):
     lang = input_filename.split('.')[-1]  
     assert len(lang) == 2, f'Language detection is currently only working with binary language codes such as "de", instead got "{lang}"'
     model_path = default_by_lang(lang)
+    lang_code  = udpipe_model_to_code(model_path)
 
     create_dir(output_dir)
     print(f'Tokenized file will be saved to:')
@@ -43,10 +44,10 @@ def tokenize(arg1, model_path=None):
 
 #SBATCH -t 48:00:00
 #SBATCH -n 1
-#SBATCH -J "{lang}_tok"
+#SBATCH -J "{lang_code}_tok"
 #SBATCH --mem-per-cpu=16GB
 #SBATCH --account=nn9447k
-#SBATCH --output={log_path}/tokenize_{lang}-%j.out
+#SBATCH --output={log_path}/tokenize_{lang_code}-%j.out
 
 source ~/.bashrc
 
