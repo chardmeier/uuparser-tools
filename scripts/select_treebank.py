@@ -3,7 +3,7 @@ def select_treebank(lang, code2lang, model_dir):
     l = os.listdir(model_dir)
     select = list(filter(lambda key: f'{lang}_' in key, code2lang))
     possible_treebanks = list(map(code2lang.get, select))
-    reg_term = f'{possible[0].split("-")[0].lower()}*'
+    reg_term = f'{possible_treebanks[0].split("-")[0].lower()}*'
     selected = os.popen(f'du -sh {os.path.join(model_dir, reg_term)}').read().split()[1]
     return selected
     
