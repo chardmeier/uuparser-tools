@@ -17,7 +17,7 @@ def tokenize(arg1, model_path=None):
     print(f'Tokenized file will be saved to:')
     
     lang = input_filename.split('.')[-1]  
-    assert len(lang) == 2, 'Language detection is currently only working with binary language codes such as "de"'
+    assert len(lang) == 2, f'Language detection is currently only working with binary language codes such as "de", got "{lang}"'
     model_path = default_by_lang(lang)
     print(f'Using UDPipe model: {model_path}')
     """if not model_path:
