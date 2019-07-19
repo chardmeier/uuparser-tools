@@ -20,7 +20,7 @@ def default_by_lang(lang):
 
 def udpipe_model_to_code(path):
     file = ntpath.basename(path)
-    lang_code = list(filter(lambda x: file.startswith(x[1].lower()), d.items()))[0][0]
+    lang_code = list(filter(lambda x: file.startswith(x[1].lower()), code2lang.items()))[0][0]
     return lang_code
 
 
