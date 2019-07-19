@@ -35,8 +35,10 @@ def submit_job(batch_path):
     job_id       = shell_output.split()[-1]
     with open(batch_path) as f:
         batch_string = f.read()
-    batch_history_path = os.path.join(BATCHFILES, 'history', "{job_id}.sh")
-    create_dir(batch_history_path)
+    batch_history_dir = os.path.join(BATCHFILES, 'history')
+    create_dir(batch_history_dir)
+
+    batch_history_path = os.path.join(batch_history_dir, f"{job_id}.sh")
     with open(batch_history_path, 'w') as f:
         batch_string = f.write(batch_string)
 
