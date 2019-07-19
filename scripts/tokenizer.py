@@ -1,6 +1,6 @@
 import sys, os, ntpath
 # UDPipe tokenize.py
-from helpers import default_by_lang, create_dir
+from .helpers import default_by_lang, create_dir
 from config import *
 
 def tokenize(arg1, model_path=None):
