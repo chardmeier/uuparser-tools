@@ -3,6 +3,7 @@ from .config import SCRIPTS, MODELS, TOKENIZER_NAME
 
 
 def select_treebank(lang, code2lang, model_dir):
+    print(model_dir, lang)
     l = os.listdir(model_dir)
     select = list(filter(lambda key: f'{lang}_' in key, code2lang))
     possible_treebanks = list(map(code2lang.get, select))
