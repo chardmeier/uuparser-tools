@@ -1,6 +1,5 @@
 import os, sys, ntpath
 from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
-from .helpers import create_dir
 
 
 def select_treebank(lang, model_dir):
