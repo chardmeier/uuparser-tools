@@ -10,7 +10,7 @@ def select_treebank(lang, code2lang, model_dir):
     selected = os.popen(f'du -sh {os.path.join(model_dir, reg_term)}').read().split()[1]
     return os.path.abspath(selected)
     
-def default_by_lang(lang)
+def default_by_lang(lang):
     tokenizer_model_dir = os.path.join(MODELS, TOKENIZER_NAME)
     with open(os.path.join(SCRIPTS, 'code2lang.dict')) as f:
         code2lang = eval(f.read())
