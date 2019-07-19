@@ -12,13 +12,14 @@ def tokenize(arg1, model_path=None):
     input_dir = os.path.dirname(input_path)
     output_dir  = os.path.join(input_dir, 'conll')
     output_file = os.path.join(output_dir, f'{input_filename}.conll')
+    
+    lang = input_filename.split('.')[-1]  
+    assert len(lang) == 2, f'Language detection is currently only working with binary language codes such as "de", instead got "{lang}"'
+    model_path = default_by_lang(lang)
 
     create_dir(output_dir)
     print(f'Tokenized file will be saved to:')
-    
-    lang = input_filename.split('.')[-1]  
-    assert len(lang) == 2, f'Language detection is currently only working with binary language codes such as "de", got "{lang}"'
-    model_path = default_by_lang(lang)
+
     print(f'Using UDPipe model: {model_path}')
     """if not model_path:
                     model_path = f"{MODELS}/ud_custom_models"
@@ -60,6 +61,7 @@ def tokenize(arg1, model_path=None):
     batch_path = f'{BATCHFILES}/tokenize.sh'
     with open(batch_path, 'w') as f:
         f.write(batch_string)
+    print(f'Batchfile location: {batch_path}')
         
     os.system(f'sbatch {batch_path}')
 
