@@ -6,6 +6,7 @@ def select_treebank(lang, code2lang, model_dir):
     print(model_dir, lang)
     l = os.listdir(model_dir)
     select = list(filter(lambda key: f'{lang}_' in key, code2lang))
+    assert bool(select), f'No models found for for language {lang}'
     possible_treebanks = list(map(code2lang.get, select))
     print(possible_treebanks)
     reg_term = f'{possible_treebanks[0].split("-")[0].lower()}*'
