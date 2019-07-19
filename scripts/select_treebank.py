@@ -13,5 +13,5 @@ if __name__ == '__main__':
     TOKENIZER_NAME = os.environ['NAME_TOKENIZER']
     model_dir = os.path.join(MODELS, TOKENIZER_NAME)
     with open(os.path.join(SCRIPTS, 'code2lang.dict')) as f:
-        code2lang = repr(f.read())
+        code2lang = eval(f.read())
     print(select_treebank(sys.argv[1], code2lang, model_dir))
