@@ -1,5 +1,6 @@
 import os, sys, ntpath
-from .config import SCRIPTS, MODELS, TOKENIZER_NAME, code2lang
+from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
+from .helpers import create_dir
 
 
 def select_treebank(lang, model_dir):
@@ -28,3 +29,18 @@ def create_dir(dir_path):
     if not os.path.isdir(dir_path):
         print('Create directory:', dir_path)
         os.mkdir(dir_path)
+
+def submit_job(batch_path):
+    shell_output = os.popen(f'sbatch {batch_path}').read()
+    print(shell_output)
+    job_id       = shell_output.split()[-1]
+    with open(batch_path) as f:
+        batch_string = f.read()
+    batch_history_path = os.path.join(BATCHFILES, 'history', "{job_id}.sh")
+    create_dir(batch_history_path)
+    with open(batch_history_path, 'w') as f:
+        batch_string = f.write(batch_string)
+
+    print(f'Batchfile location: {batch_history_path}')
+
+

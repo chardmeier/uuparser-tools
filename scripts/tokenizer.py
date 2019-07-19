@@ -1,6 +1,6 @@
 import sys, os, ntpath
 # UDPipe tokenize.py
-from .helpers import default_by_lang, create_dir, udpipe_model_to_code
+from .helpers import default_by_lang, create_dir, udpipe_model_to_code, submit_job
 from .config import *
 
 def tokenize(arg1, model_path=None):
@@ -62,9 +62,8 @@ srun -t 48:00:00 \\
     batch_path = f'{BATCHFILES}/tokenize.sh'
     with open(batch_path, 'w') as f:
         f.write(batch_string)
-    print(f'Batchfile location: {batch_path}')
         
-    os.system(f'sbatch {batch_path}')
+    submit_job(batch_path)
 
 if __name__ == '__main__':
     tokenize(sys.argv[1])
