@@ -25,6 +25,14 @@ if not os.path.isdir(logpath):
     print('Create directory:', logpath)
     os.mkdir(logpath)
 
+#GenerateBatchfile
+
+def head(time, mem, account, logpath, name):
+    pass
+
+def command(save_dir, code, data_dir, lang_dir, code):
+    pass
+
 batch_string = f"""#!/bin/sh
 
 #SBATCH -t 96:00:00
