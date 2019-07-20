@@ -37,7 +37,7 @@ srun /projects/nlpl/software/udpipe/latest/bin/udpipe
         with open(path, 'w') as f:
             f.write(self.batch_string)
 
-    def submit(self, batch_path):
+    def submit(self):
         batch_path = os.path.join(BATCHFILES, 'submit.sh')
         self.save_batchstring(path=batch_path)
         shell_output = os.popen(f'sbatch {batch_path}').read() # getting output
