@@ -25,21 +25,21 @@ module load gcc
         """
         return head_string
 
-    def tokenize(model_path, input_path, output_file):
+    def tokenize(self, model_path, input_path, output_file):
         command_string = f"""
 srun /projects/nlpl/software/udpipe/latest/bin/udpipe 
     --tokenize --tag {model_path} {input_path} > {output_file}
         """
         self.batch_string = self.head() + command_string
-        self.save(path=os.path.join(BATCHFILES, 'latest_tokenize.sh'))
+        self.save_batchstring(path=os.path.join(BATCHFILES, 'latest_tokenize.sh'))
 
-    def save_batchfile(path):
+    def save_batchstring(self, path):
         with open(path, 'w') as f:
             f.write(self.batch_string)
 
     def submit(self, batch_path):
         batch_path = os.path.join(BATCHFILES, 'submit.sh')
-        self.save(path=batch_path)
+        self.save_batchstring(path=batch_path)
         shell_output = os.popen(f'sbatch {batch_path}').read() # getting output
         print(shell_output)
         job_id = shell_output.split()[-1]                      # extract job id
@@ -48,7 +48,7 @@ srun /projects/nlpl/software/udpipe/latest/bin/udpipe
         create_dir(batch_history_dir)
 
         batch_history_path = os.path.join(batch_history_dir, f"{job_id}.sh")
-        self.save(batch_history_path)
+        self.save_batchstring(batch_history_path)
 
         print(f'Batchfile location: {batch_history_path}')
 

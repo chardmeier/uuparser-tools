@@ -36,7 +36,6 @@ eflomal_args.add_argument('input', action='store', help='Input for eflomal')
 #                           help='Remove the contents of the directory, too',
 #                           )
 args = arg_parser.parse_args()
-print (args)
 #print (parser.parse_args())
 
 from scripts import tokenizer
