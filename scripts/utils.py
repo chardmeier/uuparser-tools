@@ -2,16 +2,19 @@ from .config import *
 from .helpers import create_dir
 
 class Batch:
-    def __init__(self, name, memory, log_path, partition='normal', account='nn9447k'):
+    def __init__(self, name, memory, log_path, timelimit='96:00:00', partition='normal', account='nn9447k'):
         self.name   = name
         self.memory = memory 
         self.log_path  = log_path
+        self.timelimit = timelimit
         self.partition = partition
         self.account   = account
         self.batch_string = ''
 
     def head(self):
-        head_string = f"""#SBATCH -t 48:00:00
+        head_string = f"""#!/bin/sh
+
+#SBATCH -t {self.timelimit}
 #SBATCH -n 1
 #SBATCH -J "{self.name}"
 #SBATCH --mem-per-cpu={self.memory} --partition={self.partition}
