@@ -28,13 +28,13 @@ log_path = f"{LOGS}/parser"
 if not os.path.isdir(log_path):
     print('Create directory:', log_path)
     os.mkdir(log_path)
-
+#--partition=hugemem
 batch_string = f"""#!/bin/bash
 
 #SBATCH -t 96:00:00
 #SBATCH -n 1
 #SBATCH -J "{lang}_parse"
-#SBATCH --mem-per-cpu=120GB --partition=hugemem
+#SBATCH --mem-per-cpu=120GB
 #SBATCH --account=nn9447k
 #SBATCH --output={log_path}/parse_{d[lang]}-%j.out
 
