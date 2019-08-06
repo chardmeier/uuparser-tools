@@ -27,11 +27,17 @@ module purge
 module load gcc
         """
         return head_string
+    def train_udpipe(self, model_path, train_data_path):
+        command_string = f"""
+srun udpipe --train \\
+    --tagger \\
+    --tokenizer {model_path} {train_data_path}"""
+        self.batch_string = self.head() + command_string
+        self.save_batchstring(path=os.path.join(BATCHFILES, 'latest_train_udpipe.sh'))
 
     def tokenize(self, model_path, input_path, output_file):
         command_string = f"""
-srun /projects/nlpl/software/udpipe/latest/bin/udpipe 
-    --tokenize --tag {model_path} {input_path} > {output_file}
+srun /projects/nlpl/software/udpipe/latest/bin/udpipe --tokenize --tag {model_path} {input_path} > {output_file}
         """
         self.batch_string = self.head() + command_string
         self.save_batchstring(path=os.path.join(BATCHFILES, 'latest_tokenize.sh'))
