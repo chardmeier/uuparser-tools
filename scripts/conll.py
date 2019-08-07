@@ -18,11 +18,11 @@ def extract_tokens(arg1):
     assert input_filename.endswith('.conll')
     output_file  = '.'.join(input_filename.split('.')[:-1] + ['txt']) 
     output_path  = os.path.join(output_dir, output_file)
-    print(f'Tokens will be saved to:\n', output_path)
+    print(f'Tokens will be saved to:\n'+output_path)
 
     
-    with open(file) as f:
-        print('Opening file:', file)
+    with open(input_path) as f:
+        print('Opening file:\n'+input_path)
         lines = []
         line  = []
         for token_line in f:
