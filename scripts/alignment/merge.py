@@ -24,6 +24,8 @@ if not os.path.isdir(write_dir):
 def get_pairs(path='.', ending=''):
     path = os.path.abspath(path)
     l = os.listdir(path)
+    import pprint
+    pprint.pprint(l)
     if ending:
         ending=r'\.'+ending
     else:
