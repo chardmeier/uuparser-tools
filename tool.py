@@ -13,14 +13,18 @@ arg_parser = argparse.ArgumentParser()
 
 subparsers = arg_parser.add_subparsers(title="commands", dest="command", help='Tool options:')
 
-# A list command
 sub_name = 'parser'
 uuparser_args = subparsers.add_parser(sub_name, help='Options for UUParser', parents=[batch_job_options])
 train_parse = uuparser_args.add_mutually_exclusive_group(required=True)
 train_parse.add_argument('--parse', '-p', type=str, help='Expects path to .conll file that will be parsed using UUParser')
 train_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
 
-# A create command
+sub_name = 'conll'
+conll_args = subparsers.add_parser(sub_name, help='Options for .conll files', parents=[batch_job_options])
+conll_parse = conll_args.add_mutually_exclusive_group(required=True)
+conll_parse.add_argument('--extract_tokens', '-e', type=str, help='Expects path to .conll file from that tokens will be extracted.')
+
+
 sub_name = 'tokenizer'
 tokenizer_args = subparsers.add_parser(sub_name, help='Options for UDPipe Tokenizer', parents=[batch_job_options])
 train_tokenize = tokenizer_args.add_mutually_exclusive_group(required=True)
@@ -28,7 +32,7 @@ train_tokenize.add_argument('--tokenize', type=str, help='Expects path to .txt f
 train_tokenize.add_argument('--train', '-t', type=str, help='Trains UDPipe on a given treebank, expects treebank language code as input such as "de_gsd"')
 train_tokenize.add_argument('--custom_model', '-c', action='store_true', help='If set UDPipe will load custom models instead of the official pre-trained ones.')
 
-# A delete command
+
 sub_name = 'align'
 eflomal_args = subparsers.add_parser(sub_name, help='Options for Eflomal alignment tool', parents=[batch_job_options])
 eflomal_args.add_argument('input', action='store', help='Input for eflomal')
@@ -39,10 +43,15 @@ args = arg_parser.parse_args()
 #print (parser.parse_args())
 
 from scripts import tokenizer
+from scripts import conll
 
 if args.command == 'tokenizer':
     if args.tokenize:
         tokenizer.tokenize(args.tokenize)
+
+elif args.command == 'conll':
+    if args.extract_tokens:
+        conll.extract_tokens(args.extract_tokens)
 
 
 
