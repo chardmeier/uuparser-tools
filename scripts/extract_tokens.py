@@ -45,7 +45,7 @@ for file in files:
     out_file = '.'.join(file.split('.')[:-1]) + ending
     out_path = os.path.join(output_dir, out_file)
     with open(out_path, 'w') as f:
-        print(' \u2b91  writing tokens to:', out_path)
+        print(f' \u2b91  writing tokens ({len(lines)} lines) to:', out_path)
         f.writelines(lines)
     print()
 
