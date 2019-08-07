@@ -16,7 +16,7 @@ def extract_tokens(arg1):
     create_dir(output_dir)
 
     assert input_filename.endswith('.conll')
-    output_file  = '.'.join(file.split('.')[:-1] + ['txt']) 
+    output_file  = '.'.join(input_filename.split('.')[:-1] + ['txt']) 
     output_path  = os.path.join(output_dir, output_file)
     print(f'Tokens will be saved to:\n', output_path)
 
