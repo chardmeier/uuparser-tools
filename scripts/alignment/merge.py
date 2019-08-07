@@ -46,8 +46,8 @@ pprint.pprint(pairs_dict)
     
 def merge(in_file_1, in_file_2, out_file, emtpy_dict=None):
     print('Writing:', out_file)
-    with open(in_file_1, 'r') as srcf, \
-         open(in_file_2, 'r') as trgf, \
+    with open(in_file_1, 'r', encoding='latin-1') as srcf, \
+         open(in_file_2, 'r', encoding='latin-1') as trgf, \
          open(out_file, 'w') as outf:
         empty_lines = []
         for i, (src, trg) in enumerate(zip(srcf, trgf)):
