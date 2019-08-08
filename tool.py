@@ -15,6 +15,8 @@ subparsers = arg_parser.add_subparsers(title="commands", dest="command", help='T
 
 sub_name = 'parser'
 uuparser_args = subparsers.add_parser(sub_name, help='Options for UUParser', parents=[batch_job_options])
+uuparser_args.add_argument('--split', '-s', type=int, help='Sets the split size. If set target file will be splited before parsing.')
+# use store true, set split size separately 
 train_parse = uuparser_args.add_mutually_exclusive_group(required=True)
 train_parse.add_argument('--parse', '-p', type=str, help='Expects path to .conll file that will be parsed using UUParser')
 train_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
