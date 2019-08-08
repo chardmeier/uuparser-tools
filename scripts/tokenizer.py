@@ -4,11 +4,14 @@ from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
 from .utils import Batch
 
-def split_and_tokenize(arg1, chunksize=150000, conll=False):
-    input_path = os.path.abspath(arg1)
+def split_and_tokenize(args, conll=False):
+    input_path = os.path.abspath(args.tokenize)
     print(f'Reading file: {input_path}')
     input_filename = ntpath.basename(input_path)
     input_dir = os.path.dirname(input_path)
+
+    chunksize = args.split_size
+
     with open(input_path) as f:
         counter = 0
         current_part = 0
@@ -47,10 +50,10 @@ def split_and_tokenize(arg1, chunksize=150000, conll=False):
             tokenize(part)
             print()
 
-def tokenize(arg1, model_path=None):
+def tokenize(args, model_path=None):
     # arg1: path to file that will be tokenized/tagged
     # input file is expected to end with the respective language for example: abc.xy.en
-    input_path = os.path.abspath(arg1)
+    input_path = os.path.abspath(args.tokenize)
     print(f'Reading file: {input_path}')
     input_filename = ntpath.basename(input_path)
     input_dir = os.path.dirname(input_path)

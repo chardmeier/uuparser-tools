@@ -28,6 +28,13 @@ def parse(arg1, model_path=None):
     batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir)
     batch.submit()
 
+def parse_split(input_dir, original_filename):
+
+    files = os.listdir(input_dir)
+    parse_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{original_filename}.*\.conll', x), files))
+    for file in files:
+        parse(os.path.join(input_dir, file))
+        print()
 
 def extract_tokens(arg1):
     # Script takes conll file output by udpipe and extracts the tokenized tokens.
