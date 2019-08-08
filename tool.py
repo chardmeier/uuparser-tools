@@ -15,7 +15,6 @@ subparsers = arg_parser.add_subparsers(title="commands", dest="command", help='T
 
 sub_name = 'parser'
 uuparser_args = subparsers.add_parser(sub_name, help='Options for UUParser', parents=[batch_job_options])
-uuparser_args.add_argument('--split', '-s', action='store_true', help='If active file will be split before tokenization.')
 # use store true, set split size separately 
 train_parse = uuparser_args.add_mutually_exclusive_group(required=True)
 train_parse.add_argument('--parse', '-p', type=str, help='Expects path to .conll file that will be parsed using UUParser')
@@ -29,6 +28,8 @@ conll_parse.add_argument('--extract_tokens', '-e', type=str, help='Expects path 
 
 sub_name = 'tokenizer'
 tokenizer_args = subparsers.add_parser(sub_name, help='Options for UDPipe Tokenizer', parents=[batch_job_options])
+tokenizer_args.add_argument('--split', '-s', action='store_true', help='If active file will be split before tokenization.')
+
 train_tokenize = tokenizer_args.add_mutually_exclusive_group(required=True)
 train_tokenize.add_argument('--tokenize', type=str, help='Expects path to .txt file that will be tokenized using UDPipe')
 train_tokenize.add_argument('--train', '-t', type=str, help='Trains UDPipe on a given treebank, expects treebank language code as input such as "de_gsd"')
