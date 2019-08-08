@@ -15,7 +15,7 @@ subparsers = arg_parser.add_subparsers(title="commands", dest="command", help='T
 
 sub_name = 'parser'
 uuparser_args = subparsers.add_parser(sub_name, help='Options for UUParser', parents=[batch_job_options])
-uuparser_args.add_argument('--split', '-s', type=int, help='Sets the split size. If set target file will be splited before parsing.')
+uuparser_args.add_argument('--split', '-s', action='store_true', help='If active file will be split before tokenization.')
 # use store true, set split size separately 
 train_parse = uuparser_args.add_mutually_exclusive_group(required=True)
 train_parse.add_argument('--parse', '-p', type=str, help='Expects path to .conll file that will be parsed using UUParser')
@@ -49,7 +49,10 @@ from scripts import conll
 
 if args.command == 'tokenizer':
     if args.tokenize:
-        tokenizer.tokenize(args.tokenize)
+        if args.split:
+            tokenizer.split_and_tokenize(args.tokenize)
+        else:
+            tokenizer.tokenize(args.tokenize)
 
 elif args.command == 'conll':
     if args.extract_tokens:

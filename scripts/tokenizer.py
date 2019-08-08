@@ -4,7 +4,7 @@ from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
 from .utils import Batch
 
-def split_and_tokenize(arg1, chunksize=200000, conll=False):
+def split_and_tokenize(arg1, chunksize=150000, conll=False):
     input_path = os.path.abspath(inputfile)
     print(f'Reading file: {input_path}')
     input_filename = ntpath.basename(input_path)
