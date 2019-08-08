@@ -58,9 +58,9 @@ from scripts import conll
 if args.command == 'tokenizer':
     if args.tokenize:
         if args.split:
-            tokenizer.split_and_tokenize(args)
+            tokenizer.split_and_tokenize(args.tokenize)
         else:
-            tokenizer.tokenize(args)
+            tokenizer.tokenize(args.tokenize)
 
 elif args.command == 'conll':
     if args.extract_tokens:
