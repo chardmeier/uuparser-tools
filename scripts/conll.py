@@ -1,4 +1,4 @@
-import sys, os, ntpath, re
+import sys, os, ntpath, re, pprint
 # UDPipe tokenize.py
 from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
@@ -31,8 +31,10 @@ def parse(arg1, model_path=None):
 def parse_split(input_dir, original_filename):
 
     files = os.listdir(input_dir)
-    parse_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{original_filename}.*\.conll', x), files))
-    for file in files:
+    part_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{original_filename}.*\.conll', x), files))
+    print('Found parts:')
+    pprint.pprint(part_files)
+    for file in part_files:
         parse(os.path.join(input_dir, file))
         print()
 
