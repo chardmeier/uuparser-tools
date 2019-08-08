@@ -5,6 +5,7 @@ from .config import *
 from .utils import Batch
 
 def split_and_tokenize(args, conll=False):
+    print(args)
     input_path = os.path.abspath(args.tokenize)
     print(f'Reading file: {input_path}')
     input_filename = ntpath.basename(input_path)
