@@ -45,6 +45,7 @@ def split_and_tokenize(arg1, chunksize=150000, conll=False):
         print('Submitting jobs:')
         for part in part_list:
             tokenize(part)
+            print()
 
 def tokenize(arg1, model_path=None):
     # arg1: path to file that will be tokenized/tagged

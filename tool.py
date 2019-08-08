@@ -23,6 +23,7 @@ train_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a g
 sub_name = 'conll'
 conll_args = subparsers.add_parser(sub_name, help='Options for .conll files', parents=[batch_job_options])
 conll_parse = conll_args.add_mutually_exclusive_group(required=True)
+conll_parse.add_argument('--parse', '-p', type=str, help='Expects path to .conll file that will be parsed using UUParser')
 conll_parse.add_argument('--extract_tokens', '-e', type=str, help='Expects path to .conll file from that tokens will be extracted.')
 
 
@@ -58,6 +59,10 @@ if args.command == 'tokenizer':
 elif args.command == 'conll':
     if args.extract_tokens:
         conll.extract_tokens(args.extract_tokens)
+    elif args.parse:
+        conll.parse(args.parse)
+
+
 
 
 

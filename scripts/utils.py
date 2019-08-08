@@ -21,12 +21,26 @@ class Batch:
 #SBATCH --account={self.account}
 #SBATCH --output={self.log_path}/{self.name}-%j.out
 
-source ~/.bashrc
-
 module purge
 module load gcc
+
+source ~/.bashrc
         """
         return head_string
+
+    def parse(self, model_path, input_path, output_dir):
+        command_string = f"""
+cd $PARSER
+python src/parser.py --predict \\
+        --outdir {output_dir} \\
+        --modeldir {model_path} \\
+        --disable-pred-eval \\
+        --graph-based \\
+        --testfile {input_path}"""
+        self.batch_string = self.head() + command_string
+        self.save_batchstring(path=os.path.join(BATCHFILES, 'latest_parse.sh'))
+
+
     def train_udpipe(self, model_path, train_data_path):
         command_string = f"""
 srun udpipe --train \\

@@ -2,7 +2,31 @@ import sys, os, ntpath
 # UDPipe tokenize.py
 from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
+d = parser_default_mappings
 from .utils import Batch
+
+def parse(arg1, model_path=None):
+    # arg1: path to file that will be tokenized/tagged
+    # input file is expected to end with the respective language for example: abc.xy.en
+    input_path = os.path.abspath(arg1)
+    input_file = ntpath.basename(input_path)
+
+    print(f'Reading file: {input_path}')
+    input_dir = os.path.dirname(input_path)
+    output_dir  = os.path.join(input_dir, 'parsed')
+    create_dir(output_dir)
+    print('Output directory:', output_dir)
+
+    
+    lang = re.findall(r'.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*', input_file)[0]
+    model_path = f"{MODELS}/UUParser/{d[lang]}/"
+
+    log_path = f"{LOGS}/parser"
+    create_dir(log_path)
+
+    batch = Batch(name=f'parse_{lang}', memory='62GB', log_path=log_path)
+    batch.parse(model_path=model_path, input_path, output_dir)
+    batch.submit()
 
 
 def extract_tokens(arg1):

@@ -2,7 +2,13 @@ import os, sys, ntpath
 from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
 
 
-def select_treebank(lang, model_dir):
+def udpipe_select_model(lang, model_dir):
+    """
+        lang:      (string) langauge code e.g. "de", "en", "fr"
+        model_dir: (string) directory with pre-trained UDPipe models e.g. "english-ewt-ud-2.4-190531.udpipe"
+        Effect:
+            Selects the largest treebank model within the given directory
+    """
     #print(model_dir, lang)
     l = os.listdir(model_dir)
     select = list(filter(lambda key: f'{lang}_' in key, code2lang)) # select all keys for this language in code2lang.dict
@@ -16,7 +22,7 @@ def select_treebank(lang, model_dir):
     
 def default_by_lang(lang):
     tokenizer_model_dir = os.path.join(MODELS, TOKENIZER_NAME)
-    return select_treebank(lang, tokenizer_model_dir)
+    return udpipe_select_model(lang, tokenizer_model_dir)
 
 def udpipe_model_to_code(path):
     file = ntpath.basename(path)
