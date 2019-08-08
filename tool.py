@@ -1,4 +1,4 @@
-import argparse
+import argparse, os
 
 batch_job_options  = argparse.ArgumentParser(add_help=False)
 batch_group = batch_job_options.add_argument_group('Batch Job Script options')
