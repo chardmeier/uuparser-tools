@@ -1,4 +1,4 @@
-import sys, os, ntpath
+import sys, os, ntpath, re
 # UDPipe tokenize.py
 from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
