@@ -24,7 +24,7 @@ def parse(arg1, model_path=None):
     log_path = f"{LOGS}/parser"
     create_dir(log_path)
 
-    batch = Batch(name=f'parse_{lang}', memory='62GB', log_path=log_path)
+    batch = Batch(name=f'parse_{lang}', memory='60GB', log_path=log_path)
     batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir)
     batch.submit()
 
