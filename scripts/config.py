@@ -28,3 +28,8 @@ LOGS = "abs/logfiles"""
 # ToDO:
 # - creating all paths in a more central part of the program
 # - integrate custom memory, time and partition
+# - integrating merging und alignment in tools.py
+# - integrating downloads in tools.py
+# - integrating pre-processing in tools.py
+#   - replace chards
+#   - remove sentences (tables)
