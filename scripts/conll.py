@@ -5,6 +5,13 @@ from .config import *
 d = parser_default_mappings
 from .utils import Batch
 
+def train_parser(code):
+    log_path = f"{LOGS}/{PARSER_NAME}"
+    create_dir(log_path)
+    batch = Batch(name=f'tp_{code}', memory='60GB', log_path=log_path)
+    batch.train_parser(code)
+    batch.submit()
+
 def parse(arg1, model_path=None):
     # arg1: path to file that will be tokenized/tagged
     # input file is expected to end with the respective language for example: abc.xy.en
@@ -19,19 +26,19 @@ def parse(arg1, model_path=None):
 
     
     lang = re.findall(r'.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*', input_file)[0]
-    model_path = f"{MODELS}/UUParser/{d[lang]}/"
+    model_path = f"{MODELS}/{PARSER_NAME}/{d[lang]}/" # ADD JOIN
 
-    log_path = f"{LOGS}/parser"
+    log_path = f"{LOGS}/{PARSER_NAME}"
     create_dir(log_path)
 
     batch = Batch(name=f'parse_{lang}', memory='60GB', log_path=log_path)
     batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir)
     batch.submit()
 
-def parse_split(input_dir, original_filename):
+def parse_split(input_dir, match_string):
 
     files = os.listdir(input_dir)
-    part_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{original_filename}.*\.conll', x), files))
+    part_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{match_string}.*\.conll', x), files))
     print('Found parts:')
     pprint.pprint(part_files)
     for file in part_files:

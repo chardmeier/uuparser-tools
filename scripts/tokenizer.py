@@ -25,7 +25,7 @@ def split_and_tokenize(input_file, chunksize, conll=False):
                 counter += 1
             
             if counter >= chunksize and line == '\n':
-                path = os.path.join(input_dir, f'PART_{current_part}___{input_filename}')
+                path = os.path.join(input_dir, f'PART_{current_part:02d}___{input_filename}')
                 part_list.append(path)
                 print(f'Writing ({len(current_part_lines)}):', path)  
                 with open(path, 'w') as p:
@@ -34,7 +34,7 @@ def split_and_tokenize(input_file, chunksize, conll=False):
                     counter = 0
                     current_part += 1
                     current_part_lines = []
-        path = os.path.join(input_dir, f'PART_{current_part}___{input_filename}')
+        path = os.path.join(input_dir, f'PART_{current_part:02d}___{input_filename}')
         part_list.append(path)
         print(f'Writing ({len(current_part_lines)}):', path)           
         with open(path, 'w') as p:

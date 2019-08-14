@@ -1,5 +1,6 @@
 from .config import *
 from .helpers import create_dir
+import os
 
 class Batch:
     def __init__(self, name, memory, log_path, timelimit='96:00:00', partition='normal', account='nn9447k'):
@@ -39,6 +40,24 @@ python src/parser.py --predict \\
         --testfile {input_path}"""
         self.batch_string = self.head() + command_string
         self.save_batchstring(path=os.path.join(BATCHFILES, 'latest_parse.sh'))
+
+    def train_uuparser(self, code):
+        MODEL_DIR = os.path.join(MODELS, NAME_PARSER)
+        create_dir(MODEL_DIR)
+
+        command_string = f"""
+cd {PARSER}
+srun python src/parser.py \
+     --graph-based \
+     --outdir {MODEL_DIR} \
+     --datadir {TREEBANKS} \
+     --include {code} \
+     --epochs 30 \
+     --dynet-seed 123456788 \
+     --dynet-mem 30000 \
+     --word-emb-size 300"""
+        self.batch_string = self.head() + command_string
+        self.save_batchstring(path=os.path.join(BATCHFILES, 'latest_train_uuparser.sh'))
 
 
     def train_udpipe(self, model_path, train_data_path):

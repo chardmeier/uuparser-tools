@@ -32,6 +32,7 @@ conll_parse = conll_args.add_mutually_exclusive_group(required=True)
 conll_parse.add_argument('--parse', '-p', type=str, nargs='*', metavar=('INPUT', 'MATCH_STRING'),
     help='INPUT musst be a .conll file or a directoy containing split conlls when --split is set. \nMATCH_STRING must be a string that all respective parts share e.g. the original file name like: "europarl-v7.de-en.de"')
 conll_parse.add_argument('--extract_tokens', '-e', type=str, help='Expects path to .conll file from that tokens will be extracted.')
+conll_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
 
 
 sub_name = 'tokenizer'
@@ -41,7 +42,7 @@ train_tokenize = tokenizer_args.add_mutually_exclusive_group(required=True)
 train_tokenize.add_argument('--tokenize', type=str, help='Expects path to .txt file that will be tokenized using UDPipe')
 train_tokenize.add_argument('--train', '-t', type=str, help='Trains UDPipe on a given treebank, expects treebank language code as input such as "de_gsd"')
 train_tokenize.add_argument('--custom_model', '-c', action='store_true', help='If set UDPipe will load custom models instead of the official pre-trained ones.')
-
+#train_tokenize.add_argument('--custom_model', '-c', action='store_true', help='If set UDPipe will load custom models instead of the official pre-trained ones.')
 
 sub_name = 'align'
 eflomal_args = subparsers.add_parser(sub_name, help='Options for Eflomal alignment tool', parents=[batch_job_options])
