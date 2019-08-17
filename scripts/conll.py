@@ -124,49 +124,5 @@ def extract_tokens(arg1):
         f.writelines(lines)
 
 
-
-class Counter:
-    def __init__(self, i=0):
-        self.i = i
-    
-    def next_i(self):
-        self.i += 1
-        return str(self.i)
-    
-    def process_line(self, line):
-        if line.startswith('# sent_id = '):
-            return f'# sent_id = {self.next_i()}\n'
-        elif line.startswith('# newdoc id = '):
-            return ''
-        else:
-            return line
-
-
-def merge_conll(input_dir, match_string, output_name=None):
-    input_dir = os.path.abspath(input_dir)
-    file_list = os.listdir(input_dir)
-    part_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{match_string}.*\.conll', x), file_list))
-    part_files.sort(key=lambda x: int(x.split('_')[1]))
-    print('Merging files:')
-    pprint.pprint(part_files)
-    if not output_name:
-        output_name = part_files[0].split('_'*3)[-1] + '.conll'
-        
-    output_path = os.path.join(input_dir, output_name)
-    c = Counter()
-    print('\nSaving merged output to:')
-    print(output_path)
-    with open(output_path, 'w') as out:
-        out.write(f"# newdoc id = {output_name}\n")
-        line_i = 1
-        for i, file in enumerate(part_files):
-            print(f'.. processing: {file}')
-            file_path = os.path.join(input_dir, file)
-            with open(file_path) as f:
-                for line in f:
-                    out.write(c.process_line(line))
-        
-
-
 if __name__ == '__main__':
     extract_tokens(sys.argv[1])
