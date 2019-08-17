@@ -23,13 +23,14 @@ arg_parser = argparse.ArgumentParser()
 
 subparsers = arg_parser.add_subparsers(title="commands", dest="command", help='Tool options:')
 
-sub_name = 'pre'
-pre_args = subparsers.add_parser(sub_name, help='Options for Preprocessing ', parents=[batch_job_options])
+sub_name = 'utils'
+utils_args = subparsers.add_parser(sub_name, help='Options for Preprocessing ', parents=[batch_job_options])
 # use store true, set split size separately 
-pre_parse = pre_args.add_mutually_exclusive_group(required=True)
-pre_parse.add_argument('--split', '-s', type=str, help='Selected file will be splited.')
-pre_parse.add_argument('--parse', '-p', type=str, help='Expects path to .conll file that will be parsed using UUParser')
-pre_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
+utils_group = utils_args.add_mutually_exclusive_group(required=True)
+utils_group.add_argument('--split', '-s', type=str, help='Selected file will be splited.')
+utils_group.add_argument('--merge', '-m', type=str, nargs='*', metavar=('DIRECTORY', 'MATCH_STRING', 'OUTPUT_NAME'), 
+    help='Merges all files in the given DIRECTORY that match the MATCH_STRING e.g. the original file name like: "europarl-v7.de-en.de". Can be set OUTPUT_NAME optionally.')
+
 
 
 
@@ -75,6 +76,7 @@ print (args)
 from scripts import tokenizer
 from scripts import conll
 from scripts import preprocessing
+from scripts import utils
 from scripts import helpers
 
 
@@ -85,9 +87,11 @@ if args.command == 'text':
         else:
             tokenizer.tokenize(args.tokenize)
 
-if args.command == 'pre':
+if args.command == 'utils':
     if args.split:
         preprocessing.split(args.split, args.split_size, double_n=args.double_n)
+    elif args.merge:
+        utils.merge(*args.merge)
 
 elif args.command == 'conll':
     if args.extract_tokens:

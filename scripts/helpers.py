@@ -1,13 +1,20 @@
-import os, sys, ntpath
+import os, sys, ntpath, pprint
 from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
+
+def get_split_files(input_dir, match_string, verbose=True):
+    files = os.listdir(input_dir)
+    part_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{match_string}.*\.conll', x), files))
+    part_files.sort(key=lambda x: int(x.split('_')[1]))
+    if verbose:
+        print('Found parts:')
+        pprint.pprint(part_files)
+    return part_files
 
 def handle_split(input_dir, match_string, do):
     """Collects all files from the input_dir matching with match_string and handing over to do=func()"""
     assert os.path.isdir(input_dir), f'Directory not found: {input_dir}'
-    files = os.listdir(input_dir)
-    part_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{match_string}.*\.conll', x), files))
-    print('Found parts:')
-    pprint.pprint(part_files)
+    part_files = get_split_files(input_dir, match_string)
+
     for file in part_files:
         do(os.path.join(input_dir, file))
         print()

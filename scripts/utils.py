@@ -1,6 +1,50 @@
 from .config import *
-from .helpers import create_dir
-import os
+from .helpers import create_dir, get_split_files
+import ntpath, os, pprint, re
+
+
+class Counter:
+    def __init__(self, i=0):
+        self.i = i
+        self.line_i = -1
+        
+    def count_line(self):
+        self.line_i += 1
+    
+    def next_i(self):
+        self.i += 1
+        return str(self.i)
+    
+    def process_line(self, line):
+        self.count_line()
+        if line.startswith('# sent_id = '):
+            return f'# sent_id = {self.next_i()}\n'
+        elif line.startswith('# newdoc id = '):
+            return ''
+        else:
+            return line
+
+
+def merge_conll(input_dir, match_string, output_name=None):
+    input_dir = os.path.abspath(input_dir)
+
+    part_files = get_split_files(input_dir, match_string)
+
+    if not output_name:
+        output_name = part_files[0].split('_'*3)[-1] + '.conll'
+        
+    output_path = os.path.join(input_dir, output_name)
+    c = Counter()
+    print('\nMerged output will be saved to:')
+    print(output_path)
+    with open(output_path, 'w') as out:
+        out.write(f"# newdoc id = {output_name}\n")
+        for i, file in enumerate(part_files):
+            print(f'.. processing (line: {c.line_i}): {file} ')
+            file_path = os.path.join(input_dir, file)
+            with open(file_path) as f:
+                for line in f:
+                    out.write(c.process_line(line))
 
 class Batch:
     def __init__(self, name, memory, log_path, timelimit='96:00:00', partition='normal', account='nn9447k'):
