@@ -5,6 +5,7 @@ from .config import *
 from .utils import Batch
 
 def split(input_file, chunksize, conll=False, double_n=False):
+    print('double_n', double_n)
     assert os.path.isfile(input_file), f'File "{input_file}" not found!'
     input_path = os.path.abspath(input_file)
     print(f'Splitting file: {input_path}')
