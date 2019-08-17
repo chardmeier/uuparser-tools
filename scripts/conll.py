@@ -5,6 +5,22 @@ from .config import *
 d = parser_default_mappings
 from .utils import Batch
 
+def remove_added_n(input_file):
+    """Removes added \n from file. Note: File will be overwritten!"""
+    input_path = os.path.abspath(input_file)
+    print(f'Removing added newlines in: {input_path}')
+    with open(input_path) as f:
+        text = f.read()
+    r = r"""SpacesAfter=\\n\\n\n\n# newpar"""
+    n = r"""SpacesAfter=\\n\n"""
+    text = re.sub(r, n, text)
+    r = r"SpacesAfter=\\n\\n\\n\\n"
+    n = r"SpacesAfter=\\n\\n"
+    text = re.sub(r, n, text)
+
+    with open(input_path, 'w') as f:
+        f.write(text)
+
 class Counter:
     def __init__(self, i=0, line_i=0):
         self.i = i
@@ -27,7 +43,7 @@ class Counter:
             return line
 
 
-def merge_conll(input_dir, match_string, output_name=None):
+def merge_conll(input_dir, match_string, output_name=None, remove_n=True):
     input_dir = os.path.abspath(input_dir)
 
     part_files = get_split_files(input_dir, match_string)
@@ -47,6 +63,8 @@ def merge_conll(input_dir, match_string, output_name=None):
             with open(file_path) as f:
                 for line in f:
                     out.write(c.process_line(line))
+    if remove_n
+    remove_added_n(output_path)
 
 def train_parser(code):
     log_path = f"{LOGS}/{PARSER_NAME}"
