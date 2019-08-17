@@ -13,6 +13,8 @@ other_options  = argparse.ArgumentParser(add_help=False)
 other_options_group = batch_job_options.add_argument_group('Other options')
 #other_options_group.add_argument('--split', '-s', nargs='?', const=True, default=False, help='If set True, text file will be splitted before tokenizing.')
 other_options_group.add_argument('--split_size', type=int, default=150000, help='Sets split size (in lines).')
+other_options_group.add_argument('--double_n', action='store_true', help='If set, newlines will be doubled while processing.')
+
 
 
 
@@ -77,13 +79,13 @@ from scripts import preprocessing
 if args.command == 'text':
     if args.tokenize:
         if args.split:
-            tokenizer.split_and_tokenize(args.tokenize, args.split_size)
+            tokenizer.split_and_tokenize(args.tokenize, args.split_size, double_n=args.double_n)
         else:
             tokenizer.tokenize(args.tokenize)
 
 if args.command == 'pre':
     if args.split:
-        preprocessing.split(args.split, args.split_size)
+        preprocessing.split(args.split, args.split_size, double_n=args.double_n)
 
 elif args.command == 'conll':
     if args.extract_tokens:

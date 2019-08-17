@@ -4,7 +4,7 @@ from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
 from .utils import Batch
 
-def split(input_file, chunksize, conll=False):
+def split(input_file, chunksize, conll=False, double_n=False):
     assert os.path.isfile(input_file), f'File "{input_file}" not found!'
     input_path = os.path.abspath(input_file)
     print(f'Splitting file: {input_path}')
@@ -20,12 +20,14 @@ def split(input_file, chunksize, conll=False):
         
         for line in f:
             current_part_lines.append(line)
+            if double_n and line == '\n':
+                current_part_lines.append(line)
             if conll and line.startswith('#'):
                 counter += 1
             else:
                 counter += 1
             
-            if counter >= chunksize and line == '\n':
+            if counter >= chunksize and line == '\n': ### Looking for empty line
                 path = os.path.join(input_dir, f'PART_{current_part:02d}___{input_filename}') # Writing Parts
                 part_list.append(path)
                 print(f'Writing ({len(current_part_lines)}):', path)  
