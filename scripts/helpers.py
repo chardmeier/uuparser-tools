@@ -4,9 +4,12 @@ from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
 
 def get_split_files(input_dir, match_string, verbose=True):
     files = os.listdir(input_dir)
-    part_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{match_string}.*\.conll', x), files))
+    full_match_string = fr'PART_\d+___.*{match_string}.*\.conll'
+    part_files = list(filter(lambda x: re.match(full_match_string, x), files))
     part_files.sort(key=lambda x: int(x.split('_')[1]))
     if verbose:
+        print('Input:', match_string)
+        print('Full match-string:', full_match_string)
         print(f'Found parts in "{input_dir}":')
         pprint.pprint(part_files)
     return part_files
