@@ -101,7 +101,7 @@ elif args.command == 'conll':
         if args.split:
             input_dir = args.parse
             match_string = args.split
-            handle_split(input_dir, match_string, do=conll.parse)
+            helpers.handle_split(input_dir, match_string, do=conll.parse)
         else:
             conll.parse(args.parse)
 
