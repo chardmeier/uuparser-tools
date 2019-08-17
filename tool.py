@@ -47,8 +47,8 @@ conll_parse.add_argument('--parse', '-p', type=str,
     help='Argument musst be a .conll file or a directoy containing split .conll-files when --split is set.')
 conll_parse.add_argument('--extract_tokens', '-e', type=str, help='Expects path to .conll file from that tokens will be extracted.')
 conll_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
-conll_parse.add_argument('--merge', '-m', type=str, nargs='+', metavar=['DIRECTORY', 'MATCH_STRING', 'OUTPUT_NAME'], 
-    help='Merges all files in the given DIRECTORY that match the MATCH_STRING e.g. the original file name like: "europarl-v7.de-en.de". Can be set OUTPUT_NAME optionally.')
+conll_parse.add_argument('--merge', '-m', type=str, nargs='+', metavar=['Directory', 'MatchString', 'OutputName'], 
+    help='Merges all files in the given Directory that match the MatchString e.g. the original file name like: "europarl-v7.de-en.de". OutputName can be set  optionally.')
 
 
 
