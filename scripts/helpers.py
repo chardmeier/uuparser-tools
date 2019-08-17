@@ -1,4 +1,5 @@
 import os, sys, ntpath, pprint
+import re
 from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
 
 def get_split_files(input_dir, match_string, verbose=True):
