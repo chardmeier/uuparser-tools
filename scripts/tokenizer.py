@@ -6,7 +6,7 @@ from .utils import Batch
 from .preprocessing import split
 
 def split_and_tokenize(input_file, chunksize, conll=False, double_n=False):
-    part_list = split(input_file, chunksize, conll=False, double_n=False)
+    part_list = split(input_file, chunksize, conll, double_n)
     print('Submitting jobs:')
     for part in part_list:
         tokenize(part)
