@@ -28,9 +28,6 @@ utils_args = subparsers.add_parser(sub_name, help='Options for Preprocessing ', 
 # use store true, set split size separately 
 utils_group = utils_args.add_mutually_exclusive_group(required=True)
 utils_group.add_argument('--split', '-s', type=str, help='Selected file will be splited.')
-utils_group.add_argument('--merge', '-m', type=str, nargs='*', metavar=('DIRECTORY', 'MATCH_STRING', 'OUTPUT_NAME'), 
-    help='Merges all files in the given DIRECTORY that match the MATCH_STRING e.g. the original file name like: "europarl-v7.de-en.de". Can be set OUTPUT_NAME optionally.')
-
 
 
 
@@ -49,8 +46,10 @@ conll_parse.add_argument('--parse', '-p', type=str,
 conll_parse.add_argument('--split', '-s', help='Argument must be a match-string that all respective parts share e.g. the original file name like: "europarl-v7.de-en.de"')
 conll_parse.add_argument('--extract_tokens', '-e', type=str, help='Expects path to .conll file from that tokens will be extracted.')
 conll_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
-conll_parse.add_argument('--merge', '-m', type=str, nargs='*', metavar=('DIRECTORY', 'MATCH_STRING'),
-    help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
+conll_parse.add_argument('--merge', '-m', type=str, nargs='*', metavar=('DIRECTORY', 'MATCH_STRING', 'OUTPUT_NAME'), 
+    help='Merges all files in the given DIRECTORY that match the MATCH_STRING e.g. the original file name like: "europarl-v7.de-en.de". Can be set OUTPUT_NAME optionally.')
+
+
 
 
 
@@ -90,12 +89,13 @@ if args.command == 'text':
 if args.command == 'utils':
     if args.split:
         preprocessing.split(args.split, args.split_size, double_n=args.double_n)
-    elif args.merge:
-        utils.merge_conll(*args.merge)
+
 
 elif args.command == 'conll':
     if args.extract_tokens:
         conll.extract_tokens(args.extract_tokens)
+    elif args.merge:
+        conll.merge_conll(*args.merge)
     elif args.parse:
         if args.split:
             input_dir = args.parse
