@@ -1,8 +1,24 @@
-import sys, os, ntpath
+import sys, os, ntpath, re
 # UDPipe tokenize.py
 from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
 from .utils import Batch
+
+def remove_n(input_file):
+    """Removes added \n from file. Note: File will be overwritten!"""
+    input_path = os.path.abspath(input_file)
+    print(f'Removing added newlines in: {input_path}')
+    with open(input_path) as f:
+        text = f.read()
+    r = r"""SpacesAfter=\\n\\n\n\n# newpar"""
+    n = r"""SpacesAfter=\\n\n"""
+    text = re.sub(r, n, text)
+    r = r"SpacesAfter=\\n\\n\\n\\n"
+    n = r"SpacesAfter=\\n\\n"
+    text = re.sub(r, n, text)
+
+    with open(input_path, 'w') as f:
+        f.write(text)
 
 def split(input_file, chunksize, conll=False, double_n=False):
     print('double_n', double_n)
