@@ -21,8 +21,9 @@ def split(input_file, chunksize, conll=False, double_n=False):
         
         for line in f:            
             if double_n:
-                line += '\n'
-            current_part_lines.append(line)
+                current_part_lines.append(line+'\n')
+            else:
+                current_part_lines.append(line)
 
             if conll and line.startswith('#'):
                 counter += 1
