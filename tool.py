@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse, os
 
 batch_job_options  = argparse.ArgumentParser(add_help=False)
