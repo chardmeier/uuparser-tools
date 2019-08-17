@@ -64,7 +64,7 @@ def merge_conll(input_dir, match_string, output_name=None, remove_n=True):
                 for line in f:
                     out.write(c.process_line(line))
     if remove_n:
-    remove_added_n(output_path)
+        remove_added_n(output_path)
 
 def train_parser(code):
     log_path = f"{LOGS}/{PARSER_NAME}"
