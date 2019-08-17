@@ -75,6 +75,7 @@ print (args)
 from scripts import tokenizer
 from scripts import conll
 from scripts import preprocessing
+from scripts import helpers
 
 
 if args.command == 'text':
@@ -93,13 +94,11 @@ elif args.command == 'conll':
         conll.extract_tokens(args.extract_tokens)
     elif args.parse:
         if args.split:
-            assert len(args.parse) == 2, f'When using --split, --parse expects two arguments but got: {len(args.parse)}'
-            input_dir, original_filename = args.parse
-            assert os.path.isdir(input_dir), 'Argument needs to be a directory when --split is used.'
-            conll.parse_split(input_dir, original_filename)
+            input_dir = args.parse
+            match_string = args.split
+            handle_split(input_dir, match_string, do=conll.parse)
         else:
-            assert len(args.parse) == 1, f'--parse expects one argument but got: {len(args.parse)}'
-            conll.parse(args.parse[0])
+            conll.parse(args.parse)
 
 
 

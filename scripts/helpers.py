@@ -1,6 +1,17 @@
 import os, sys, ntpath
 from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
 
+def handle_split(input_dir, match_string, do):
+    """Collects all files from the input_dir matching with match_string and handing over to do=func()"""
+    assert os.path.isdir(input_dir), f'Directory not found: {input_dir}'
+    files = os.listdir(input_dir)
+    part_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{match_string}.*\.conll', x), files))
+    print('Found parts:')
+    pprint.pprint(part_files)
+    for file in part_files:
+        do(os.path.join(input_dir, file))
+        print()
+
 
 def udpipe_select_model(lang, model_dir):
     """
