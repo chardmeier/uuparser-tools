@@ -58,7 +58,7 @@ def merge_conll(input_dir, match_string, output_name=None, remove_n=True):
     with open(output_path, 'w') as out:
         out.write(f"# newdoc id = {output_name}\n")
         for i, file in enumerate(part_files):
-            print(f'.. processing (starting at line: {c.line_i}): {file} ')
+            print(f'.. processing (starting at sent {c.i}: {c.line_i}): {file} ')
             file_path = os.path.join(input_dir, file)
             with open(file_path) as f:
                 for line in f:
