@@ -40,7 +40,7 @@ train_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a g
 
 sub_name = 'conll'
 conll_args = subparsers.add_parser(sub_name, help='Options for .conll files', parents=[batch_job_options])
-conll_args.add_argument('--split', '-s', help='Argument must be a match-string that all respective parts share e.g. the original file name like: "europarl-v7.de-en.de"')
+#conll_args.add_argument('--split', '-s', help='Argument must be a match-string that all respective parts share e.g. the original file name like: "europarl-v7.de-en.de"')
 
 conll_parse = conll_args.add_mutually_exclusive_group(required=True)
 conll_parse.add_argument('--parse', '-p', type=str,
