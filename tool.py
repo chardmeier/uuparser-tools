@@ -91,7 +91,7 @@ if args.command == 'utils':
     if args.split:
         preprocessing.split(args.split, args.split_size, double_n=args.double_n)
     elif args.merge:
-        utils.merge(*args.merge)
+        utils.merge_conll(*args.merge)
 
 elif args.command == 'conll':
     if args.extract_tokens:
