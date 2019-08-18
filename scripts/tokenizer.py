@@ -1,4 +1,4 @@
-import sys, os, ntpath
+import sys, os
 # UDPipe tokenize.py
 from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
@@ -17,7 +17,7 @@ def tokenize(input_file, model_path=None):
     # input file is expected to end with the respective language for example: abc.xy.en
     input_path = os.path.abspath(input_file)
     print(f'Reading file: {input_path}')
-    input_filename = ntpath.basename(input_path)
+    input_filename = os.path.basename(input_path)
     input_dir = os.path.dirname(input_path)
     output_dir  = os.path.join(input_dir, 'conll')
     output_file = os.path.join(output_dir, f'{input_filename}.conll')

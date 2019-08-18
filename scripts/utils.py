@@ -1,6 +1,6 @@
 from .config import *
 from .helpers import create_dir, get_split_files
-import ntpath, os, pprint, re
+import os, pprint, re
 
 
 class Batch:

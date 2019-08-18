@@ -1,4 +1,4 @@
-import sys, os, ntpath, re, pprint
+import sys, os, re, pprint
 # UDPipe tokenize.py
 from .helpers import default_by_lang, create_dir, udpipe_model_to_code, get_split_files
 from .config import *
@@ -77,11 +77,11 @@ def parse(arg1, model_path=None):
     # arg1: path to file that will be tokenized/tagged
     # input file is expected to end with the respective language for example: abc.xy.en
     input_path = os.path.abspath(arg1)
-    input_file = ntpath.basename(input_path)
+    input_file = os.path.basename(input_path)
 
     print(f'Reading file: {input_path}')
-    input_dir = os.path.dirname(input_path)
-    output_dir  = os.path.join(input_dir, 'parsed')
+    input_dir = os.path.dirname(input_path) # expecting to be .conll/
+    output_dir  = os.path.abspath(os.path.join(input_dir, '..', 'parsed'))
     create_dir(output_dir)
     print('Output directory:', output_dir)
 
@@ -116,9 +116,7 @@ def extract_tokens(arg1):
     input_dir = os.path.abspath(arg1)
     assert os.path.isdir(input_dir)
 
-    #output_dir  = os.path.join(main_dir, 'tokens')
-    output_dir  = os.path.join(input_dir, 'tokens')
-
+    output_dir  = os.path.abspath(os.path.join(input_dir, '..', 'tokens'))
     create_dir(output_dir)
 
     print('Loading directory: ', input_dir)
