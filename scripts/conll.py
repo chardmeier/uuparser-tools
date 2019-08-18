@@ -78,6 +78,8 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                     elif line:
                         if (not remove_next_newpar) or (not line.startswith('# newpar')):
                             lines.append(line)
+                        else:
+                            remove_next_newpar = False
 
                 out.writelines(lines)
 
