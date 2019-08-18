@@ -19,8 +19,8 @@ def merge_files(in_file_1, in_file_2, out_file, emtpy_dict=None):
             else:
                 empty_lines.append(i)
                 
-        if emtpy_dict != None:
-            empty_dict[out_file] = empty_lines
+    if emtpy_dict != None:
+        empty_dict[out_file] = empty_lines
 
 def merge_dir_files(input_dir):
     input_dir, output_dir = create_same_level_output_dir(input_dir, 'merged')
