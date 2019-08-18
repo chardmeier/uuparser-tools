@@ -107,7 +107,7 @@ def parse_split(input_dir, match_string):
 def chr_format_file(input_file, output_file, verbose=True):
     input_file = os.path.abspath(input_file)
     output_file = os.path.abspath(output_file)
-    with open(input_file) as f, open(output_file, 'w') as o:
+    with open(input_file) as f:
         if verbose:
             print('Reading file:', input_file)
         doc_id = 1
@@ -115,6 +115,7 @@ def chr_format_file(input_file, output_file, verbose=True):
         doc_sents    = []
         
         string_chunk = ''
+        out_lines = []
         for line in f:
             #print(current_sent, doc_sents)
             if line.startswith('# newpar'):
@@ -125,7 +126,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                         doc_line = str(i+1)
                         string_chunk += '\t'.join((print_doc_id, doc_line, sent))
                         print_doc_id = ''
-                    o.write(string_chunk + '\n')
+                    out_lines.append(string_chunk + '\n')
                 current_sent = []
                 doc_sents    = []
             elif line.startswith('# sent_id'):
@@ -137,8 +138,10 @@ def chr_format_file(input_file, output_file, verbose=True):
             else:
                 token = line.split()[1]
                 current_sent.append(token)
-    if verbose:
-        print(f' \u2b91 writing chr-format output to:', output_file)
+    with open(output_file, 'w') as o:
+        if verbose:
+            print(f' \u2b91 writing chr-format output to:', output_file)
+        o.writelines(out_lines)
                 
 def chr_format_dir(input_dir, verbose=True):
     print('Convert .conll -> chr-format')
