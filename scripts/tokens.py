@@ -18,7 +18,7 @@ def merge_files(in_file_1, in_file_2, out_file, empty_dict=None):
                 outf.write(src + ' ||| ' + trg + '\n')
             else:
                 empty_lines.append(i)
-                
+
     if empty_dict != None:
         empty_dict[out_file] = empty_lines
 
@@ -67,7 +67,7 @@ def align(input_dir):
     pprint.pprint(merged_files)
     print()
     print('Create and submit batchfiles..')
-    batch = Batch(name=f'alignment', memory='GB', log_dir='alignment')
+    batch = Batch(name=f'alignment', memory='20GB', log_dir='alignment')
 
     for file in merged_files:
         pair = file.split('.')[-1]
