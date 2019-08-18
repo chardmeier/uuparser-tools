@@ -111,7 +111,7 @@ elif args.command == 'token':
 
 elif args.command == 'conll':
     if args.extract_tokens:
-        conll.extract_tokens(args.extract_tokens)
+        conll.extract_tokens(args.extract_tokens, nl2x=args.nl2x)
     elif args.merge:
         conll.merge_conll(*args.merge, nl2x=args.nl2x)
     elif args.chr:
