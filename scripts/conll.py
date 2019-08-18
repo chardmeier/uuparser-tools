@@ -123,7 +123,7 @@ def extract_tokens(arg1):
 
     print('Loading directory: ', input_dir)
 
-    files = list(filter(lambda f: f.endswith('.conll'), os.listdir(input_dir)))
+    files = list(filter(lambda f: f.endswith('.conll') and (not f.startswith('PART_')) , os.listdir(input_dir)))
     print('Found .conll files:',)
     pprint.pprint(files)
     print()
