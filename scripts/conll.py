@@ -62,7 +62,7 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
             file_path = os.path.join(input_dir, file)
             with open(file_path) as f:
                 lines = []
-                for i, line in enumerate(f):
+                for line in f:
                     if nl2x and ('SpacesAfter=\\n' in line):
                         line_seg = line.split('\t')
 
@@ -72,7 +72,8 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
 
                         line_seg[9] = 'SpacesAfter=' + '\\n'*n + '\n'
                         lines.append('\t'.join(line_seg))
-                    lines.append(line)
+                    else:
+                        lines.append(line)
                 out.writelines(lines)
 
 def merge_conll(input_dir, match_string, output_name=None, nl2x=False):
