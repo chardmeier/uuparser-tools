@@ -116,7 +116,8 @@ def extract_tokens(arg1):
     input_dir = os.path.abspath(arg1)
     assert os.path.isdir(input_dir)
 
-    output_dir  = os.path.join(main_dir, 'tokens')
+    #output_dir  = os.path.join(main_dir, 'tokens')
+    output_dir  = os.path.join(input_dir, 'tokens')
 
     create_dir(output_dir)
 
