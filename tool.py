@@ -13,7 +13,7 @@ other_options  = argparse.ArgumentParser(add_help=False)
 other_options_group = batch_job_options.add_argument_group('Other options')
 #other_options_group.add_argument('--split', '-s', nargs='?', const=True, default=False, help='If set True, text file will be splitted before tokenizing.')
 other_options_group.add_argument('--split_size', type=int, default=150000, help='Sets split size (in lines).')
-other_options_group.add_argument('--double_n', action='store_true', help='If set, newlines will be doubled while processing.')
+other_options_group.add_argument('--nlx2', action='store_true', help='If set, newlines will be doubled while processing.')
 
 
 
@@ -28,6 +28,9 @@ utils_args = subparsers.add_parser(sub_name, help='Options for Preprocessing ', 
 # use store true, set split size separately 
 utils_group = utils_args.add_mutually_exclusive_group(required=True)
 utils_group.add_argument('--split', '-s', type=str, help='Selected file will be splited.')
+utils_group.add_argument('--fast_text', type=str, nargs=2, metavar=('lang1', 'lang2', 'output'), help='Expects path to two parallel language token files. Files will be converted into a single file in fast_text format.')
+utils_group.add_argument('--fast_text_dir', type=str, help='Expects path to directory with parallel token files. Files will be converted to fast_text format.')
+
 
 
 
@@ -69,7 +72,6 @@ sub_name = 'token'
 eflomal_args = subparsers.add_parser(sub_name, help='Options for Eflomal alignment tool', parents=[batch_job_options])
 eflomal_group = eflomal_args.add_mutually_exclusive_group(required=True)
 eflomal_group.add_argument('--align', '-a', type=str, help='Expects path to token directory. Word alignment is performed for all files.')
-eflomal_group.add_argument('--merge', '-m', type=str, help='Expects path to token directory. Merges token files into fasttext format.')
 #delete_parser.add_argument('--file', '-r', default=False, action='store_true',
 #                           help='Remove the contents of the directory, too',
 #                           )
@@ -89,17 +91,22 @@ if args.command == 'text':
     if args.tokenize:
         preprocessing.replace_chars_file(args.tokenize)
         if args.split:
-            tokenizer.split_and_tokenize(args.tokenize, args.split_size, double_n=args.double_n)
+            tokenizer.split_and_tokenize(args.tokenize, args.split_size, double_n=args.nlx2)
         else:
             tokenizer.tokenize(args.tokenize)
 
 elif args.command == 'utils':
     if args.split:
-        preprocessing.split(args.split, args.split_size, double_n=args.double_n)
+        preprocessing.split(args.split, args.split_size, double_n=args.nlx2)
+    elif args.fast_text:
+        tokens.file2fast_text(*args.fast_text)
+    elif args.fast_text_dir:
+        tokens.align(args.align)
 
 elif args.command == 'token':
     if args.align:
         tokens.align(args.align)
+
 
 
 elif args.command == 'conll':

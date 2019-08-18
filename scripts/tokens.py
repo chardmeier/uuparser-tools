@@ -5,7 +5,7 @@ from .config import *
 
 from .utils import Batch
 
-def merge_files(in_file_1, in_file_2, out_file, empty_dict=None):
+def file2fast_text(in_file_1, in_file_2, out_file, empty_dict=None):
     print('Writing:', out_file)
     with open(in_file_1, 'r') as srcf, \
          open(in_file_2, 'r') as trgf, \
@@ -22,7 +22,7 @@ def merge_files(in_file_1, in_file_2, out_file, empty_dict=None):
     if empty_dict != None:
         empty_dict[out_file] = empty_lines
 
-def merge_dir_files(input_dir):
+def dir2fast_text(input_dir):
     input_dir, output_dir = create_same_level_output_dir(input_dir, 'merged')
     pairs_dict = get_pairs(input_dir, verbose=False)
     print('Pairs found:')
@@ -39,13 +39,13 @@ def merge_dir_files(input_dir):
 
         inputpath_l1 = os.path.join(input_dir, pairs_dict[pair][lang_1])
         inputpath_l2 = os.path.join(input_dir, pairs_dict[pair][lang_2])
-        merge_files(inputpath_l1, inputpath_l2, outputpath_d1, empty_dict)
+        file2fast_text(inputpath_l1, inputpath_l2, outputpath_d1, empty_dict)
         
 
         filename_d2 = f'{root}.{lang_2}-{lang_1}'
 
         outputpath_d2 = os.path.join(output_dir, filename_d2)
-        merge_files(inputpath_l2, inputpath_l1, outputpath_d2, empty_dict)
+        file2fast_text(inputpath_l2, inputpath_l1, outputpath_d2, empty_dict)
         
     empty_dict_path = os.path.join(output_dir, 'empty.dict')
     with open(empty_dict_path, 'w') as f:
@@ -58,7 +58,7 @@ def align(input_dir):
         input_dir: token directory
     """
 
-    input_dir = merge_dir_files(input_dir=input_dir)
+    input_dir = dir2fast_text(input_dir=input_dir)
     # changing input dir to merged_dir for alignment input
     input_dir, output_dir = create_same_level_output_dir(input_dir, 'alignment')
 
