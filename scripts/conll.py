@@ -49,7 +49,7 @@ def merge_conll(input_dir, match_string, output_name=None, nl2x=True):
     part_files = get_split_files(input_dir, match_string)
 
     if not output_name:
-        output_name = part_files[0].split('_'*3)[-1] + '.conll'
+        output_name = part_files[0].split('_'*3)[-1]
         
     output_path = os.path.join(input_dir, output_name)
     c = Counter()
@@ -149,7 +149,7 @@ def chr_format_dir(input_dir, verbose=True):
         output_file = os.path.join(output_dir, file[:-5] + 'chr')
         chr_format_file(input_file, output_file, verbose)
 
-def extract_tokens(input_dir):
+def extract_tokens(input_dir, nl2x=False):
     #main_dir  = os.path.abspath(sys.argv[1])
 
     # set ending of output files  (dot (.) must be included !):
