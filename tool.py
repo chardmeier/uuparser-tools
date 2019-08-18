@@ -84,7 +84,7 @@ from scripts import preprocessing
 from scripts import utils
 from scripts import helpers
 from scripts import tokens
-
+import time
 
 
 if args.command == 'text':
@@ -108,7 +108,7 @@ elif args.command == 'token':
         tokens.align(args.align)
 
 
-import time
+
 elif args.command == 'conll':
     if args.extract_tokens:
         conll.extract_tokens(args.extract_tokens, nl2x=args.nl2x)
