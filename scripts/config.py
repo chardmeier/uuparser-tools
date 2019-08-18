@@ -31,3 +31,4 @@ with open(os.path.join(SCRIPTS, 'code2lang.dict')) as f:
 #   - remove sentences (tables)
 
 # put batch_history_dir in config
+# global double_n switch for all operations

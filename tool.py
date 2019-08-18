@@ -87,6 +87,7 @@ from scripts import tokens
 
 if args.command == 'text':
     if args.tokenize:
+        preprocessing.replace_chars_file(args.tokenize)
         if args.split:
             tokenizer.split_and_tokenize(args.tokenize, args.split_size, double_n=args.double_n)
         else:

@@ -4,8 +4,21 @@ from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
 from .utils import Batch
 
+def replace_chars_file(filepath):
+    filepath = os.path.abspath(filepath)
+    with open(filepath) as f:
+        data = f.read()
+        for pair in replace_pairs:
+            data = data.replace(*pair)
+    with open(filepath, 'w') as f:
+            f.write(data)
+    print('Replaced:', replace_pairs)
+    print('.. in', filepath)
 
-def replace_chars(target_dir):
+
+
+
+def replace_chars_dir(target_dir):
     # Script replaces characters in all files in the respective target directory
     assert os.path.isdir(target_dir)
     target_dir = os.path.abspath(target_dir)

@@ -111,9 +111,9 @@ srun /projects/nlpl/software/udpipe/latest/bin/udpipe --tokenize --tag {model_pa
         batch_path = self.save_batchstring(name='submit.sh')
 
         shell_output = os.popen(f'sbatch {batch_path}').read() # getting output
-        print(shell_output)
+        print(shell_output, end='')
         job_id = shell_output.split()[-1]                      # extract job id
 
         batch_history_path = self.save_batchstring(name=f"{job_id}.sh", history=True)
-        print(f'Batchfile location: {batch_history_path}')
+        print(f'Batchfile location: {batch_history_path}\n')
 
