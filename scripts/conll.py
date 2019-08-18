@@ -176,13 +176,13 @@ def extract_tokens(input_arg, nl2x=False):
                     line_no, token = token_line[0], token_line[1] # extract token
                     if not ('-' in line_no):
                         line.append(token_line[1])  
-                    n = re.findall(r'\\n', token_line[9])
+                    n = len(re.findall(r'\\n', token_line[9]))
                     if n:
                         if nl2x:
                             assert n % 2 == 0, f'Number of \\n cannot be odd with nl2x activated. Got {n} \\n at line {i}'
                             n = n // 2
 
-                        lines.append(' '.join(line) + '\n'*len(n))
+                        lines.append(' '.join(line) + '\n'*n)
                         line = []
                         
         out_file = '.'.join(file.split('.')[:-1]) + ending
