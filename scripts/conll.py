@@ -58,7 +58,7 @@ def merge_conll(input_dir, match_string, output_name=None, nl2x=True):
     with open(output_path, 'w') as out:
         out.write(f"# newdoc id = {output_name}\n")
         for i, file in enumerate(part_files):
-            print(f'.. processing (starting at sent {c.i+1}: {c.line_i}): {file} ')
+            print(f'.. processing (starting at sent {c.i+1}): {file} ')
             file_path = os.path.join(input_dir, file)
             with open(file_path) as f:
                 for line in f:
@@ -164,7 +164,7 @@ def extract_tokens(input_dir, nl2x=False):
             print('Reading file:', in_path)
             lines = []
             line  = []
-            for token_line in f:
+            for i, token_line in enumerate(f):
                 if (not token_line.startswith('#')) and (token_line != '\n'):
                     token_line = token_line.split('\t')
                     line_no, token = token_line[0], token_line[1] # extract token
@@ -172,6 +172,10 @@ def extract_tokens(input_dir, nl2x=False):
                         line.append(token_line[1])  
                     n = re.findall(r'\\n', token_line[9])
                     if n:
+                        if nl2x:
+                            assert n % 2 == 0, f'Number of \\n cannot be odd with nl2x activated. Got {n} \\n at line {i}'
+                            n = n // 2
+
                         lines.append(' '.join(line) + '\n'*len(n))
                         line = []
                         
