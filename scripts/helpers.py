@@ -58,7 +58,7 @@ def handle_split(input_dir, match_string, do):
 
 def create_same_level_output_dir(input_dir, output_dir_name, verbose=True):
     input_dir = os.path.abspath(input_dir)
-    assert os.path.isdir(input_dir), f'Directory not found: {input_dir}'
+    assert os.path.isdir(input_dir), f'Input needs to be a directory: {input_dir}'
 
     output_dir  = os.path.abspath(os.path.join(input_dir, '..', output_dir_name))
     create_dir(output_dir)
