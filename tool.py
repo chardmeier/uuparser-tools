@@ -42,13 +42,13 @@ sub_name = 'conll'
 conll_args = subparsers.add_parser(sub_name, help='Options for .conll files', parents=[batch_job_options])
 conll_args.add_argument('--split', '-s', help='Argument must be a match-string that all respective parts share e.g. the original file name like: "europarl-v7.de-en.de"')
 
-conll_parse = conll_args.add_mutually_exclusive_group(required=True)
-conll_parse.add_argument('--parse', '-p', type=str,
+conll_group= conll_args.add_mutually_exclusive_group(required=True)
+conll_group.add_argument('--parse', '-p', type=str,
     help='Argument musst be a .conll file or a directoy containing split .conll-files when --split is set.')
-conll_parse.add_argument('--extract_tokens', '-e', type=str, help='Expects path to directory with conll-files from that tokens will be extracted.')
-conll_parse.add_argument('--chr', '-c', type=str, help='Expects path to directory with conll-files that will be converted.')
-conll_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
-conll_parse.add_argument('--merge', '-m', metavar=['Directory', 'MatchString', 'OutputName'], type=str, nargs='+', 
+conll_group.add_argument('--extract_tokens', '-e', type=str, help='Expects path to directory with conll-files from that tokens will be extracted.')
+conll_group.add_argument('--chr', '-c', type=str, help='Expects path to directory with conll-files that will be converted.')
+conll_group.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
+conll_group.add_argument('--merge', '-m', metavar=['Directory', 'MatchString', 'OutputName'], type=str, nargs='+', 
     help='Merges all files in the given Directory that match the MatchString e.g. the original file name like: "europarl-v7.de-en.de". OutputName can be set  optionally.')
 
 
