@@ -191,12 +191,13 @@ def chr_format_dir(input_dir, verbose=True):
         chr_format_file(input_file, output_file, verbose)
 
 def extract_tokens(input_arg, nl2x=False):
+    print('nl2x:', nl2x)
     #main_dir  = os.path.abspath(sys.argv[1])
 
     # set ending of output files  (dot (.) must be included !):
     ending = '' # '.token'
     if os.path.isdir(input_arg):
-        input_dir, output_dir = create_same_level_output_dir(input_dir, 'tokens')
+        input_dir, output_dir = create_same_level_output_dir(input_arg, 'tokens')
         files = get_conlls(input_dir)
     elif os.path.isfile(input_arg):
         input_dir = os.path.dirname(input_arg)
