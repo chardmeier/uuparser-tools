@@ -68,8 +68,8 @@ train_tokenize.add_argument('--custom_model', '-c', action='store_true', help='I
 sub_name = 'token'
 eflomal_args = subparsers.add_parser(sub_name, help='Options for Eflomal alignment tool', parents=[batch_job_options])
 eflomal_group = eflomal_args.add_mutually_exclusive_group(required=True)
-eflomal_group.add_argument('--align', '-a' type=str, help='Expects path to token directory. Word alignment is performed for all files.')
-eflomal_group.add_argument('--merge', '-m' type=str, help='Expects path to token directory. Merges token files into fasttext format.')
+eflomal_group.add_argument('--align', '-a', type=str, help='Expects path to token directory. Word alignment is performed for all files.')
+eflomal_group.add_argument('--merge', '-m', type=str, help='Expects path to token directory. Merges token files into fasttext format.')
 #delete_parser.add_argument('--file', '-r', default=False, action='store_true',
 #                           help='Remove the contents of the directory, too',
 #                           )
