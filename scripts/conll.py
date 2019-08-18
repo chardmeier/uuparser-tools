@@ -149,14 +149,20 @@ def chr_format_dir(input_dir, verbose=True):
         output_file = os.path.join(output_dir, file[:-5] + 'chr')
         chr_format_file(input_file, output_file, verbose)
 
-def extract_tokens(input_dir, nl2x=False):
+def extract_tokens(input_arg, nl2x=False):
     #main_dir  = os.path.abspath(sys.argv[1])
 
     # set ending of output files  (dot (.) must be included !):
     ending = '' # '.token'
+    if os.path.isdir(input_arg):
+        input_dir, output_dir = create_same_level_output_dir(input_dir, 'tokens')
+        files = get_conlls(input_dir)
+    elif os.path.isfile(input_arg):
+        input_dir = os.path.dirname(input_arg)
+        input_dir, output_dir = create_same_level_output_dir(input_dir, 'tokens')
+        assert input_arg.endswith('.conll'), 'Input needs to be .conll-file!'
+        files = [input_arg]
 
-    input_dir, output_dir = create_same_level_output_dir(input_dir, 'tokens')
-    files = get_conlls(input_dir)
 
     for file in files:
         in_path = os.path.join(input_dir, file)
