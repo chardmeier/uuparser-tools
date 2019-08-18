@@ -114,7 +114,6 @@ def chr_format_file(input_file, output_file, verbose=True):
         current_sent = []
         doc_sents    = []
         
-        string_chunk = ''
         out_lines = []
         for line in f:
             #print(current_sent, doc_sents)
@@ -124,9 +123,10 @@ def chr_format_file(input_file, output_file, verbose=True):
                     doc_id += 1
                     for i, sent in enumerate(doc_sents):
                         doc_line = str(i+1)
-                        string_chunk += '\t'.join((print_doc_id, doc_line, sent))
+                        out_line = '\t'.join((print_doc_id, doc_line, sent)) + '\n'
+                        out_lines.append(out_line)
                         print_doc_id = ''
-                    out_lines.append(string_chunk + '\n')
+                    out_lines.append('\n')
                 current_sent = []
                 doc_sents    = []
             elif line.startswith('# sent_id'):
