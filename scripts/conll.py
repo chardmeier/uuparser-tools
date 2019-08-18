@@ -70,7 +70,7 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                         assert n % 2 == 0, f'Number of \\n cannot be odd with nl2x activated. Got {n} \\n at line {i}'
                         n = n // 2
 
-                        line_seg[9] = f'SpacesAfter={"\\n"*n}\n'
+                        line_seg[9] = 'SpacesAfter=' + '\\n'*n + '\n'
                         lines.append('\t'.join(line_seg))
                     lines.append(line)
                 out.writelines(lines)
