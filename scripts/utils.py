@@ -41,7 +41,7 @@ srun python3 /usit/abel/u1/trembczm/software/eflomal/align.py \\
         -r {os.path.join(output_dir, filename)}.rev
         
 srun python3 /usit/abel/u1/trembczm/software/eflomal/makepriors.py \\
-        -i {os.path.join(target_dir, filename)} \\
+        -i {os.path.join(output_dir, filename)} \\
         -f {os.path.join(output_dir, filename)}.fwd \\
         -r {os.path.join(output_dir, filename)}.rev \\
         --priors {os.path.join(output_dir, filename)}.priors"""
