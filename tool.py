@@ -91,13 +91,13 @@ if args.command == 'text':
     if args.tokenize:
         preprocessing.replace_chars_file(args.tokenize)
         if args.split:
-            tokenizer.split_and_tokenize(args.tokenize, args.split_size, double_n=args.nlx2)
+            tokenizer.split_and_tokenize(args.tokenize, args.split_size, nl2x=args.nl2x)
         else:
             tokenizer.tokenize(args.tokenize)
 
 elif args.command == 'utils':
     if args.split:
-        preprocessing.split(args.split, args.split_size, double_n=args.nlx2)
+        preprocessing.split(args.split, args.split_size, nl2x=args.nl2x)
     elif args.fast_text:
         tokens.file2fast_text(*args.fast_text)
     elif args.fast_text_dir:
