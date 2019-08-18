@@ -140,7 +140,8 @@ def chr_format_file(input_file, output_file, verbose=True):
                 current_sent.append(token)
     with open(output_file, 'w') as o:
         if verbose:
-            print(f' \u2b91 writing chr-format output to:', output_file)
+            print(f' \u2b91  writing chr-format output to:', output_file)
+            print()
         o.writelines(out_lines)
                 
 def chr_format_dir(input_dir, verbose=True):
@@ -150,7 +151,7 @@ def chr_format_dir(input_dir, verbose=True):
     files = get_conlls(input_dir)
     for file in files:
         input_file  = os.path.join(input_dir, file)
-        output_file = os.path.join(input_dir, file[:6] + 'chr')
+        output_file = os.path.join(output_dir, file[:6] + 'chr')
         chr_format_file(input_file, output_file, verbose)
 
 def extract_tokens(input_dir):
