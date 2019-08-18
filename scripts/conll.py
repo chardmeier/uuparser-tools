@@ -76,7 +76,7 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                         line_seg[9] = 'SpacesAfter=' + '\\n'*n + '\n'
                         lines.append('\t'.join(line_seg))
                     elif line:
-                        if (not remove_next_newpar) or (not line.startswith('# newpar'):
+                        if (not remove_next_newpar) or (not line.startswith('# newpar')):
                             lines.append(line)
 
                 out.writelines(lines)
