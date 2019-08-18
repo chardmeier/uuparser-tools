@@ -5,7 +5,7 @@ from .config import *
 
 from .utils import Batch
 
-def merge_files(in_file_1, in_file_2, out_file, emtpy_dict=None):
+def merge_files(in_file_1, in_file_2, out_file, empty_dict=None):
     print('Writing:', out_file)
     with open(in_file_1, 'r') as srcf, \
          open(in_file_2, 'r') as trgf, \
@@ -19,7 +19,7 @@ def merge_files(in_file_1, in_file_2, out_file, emtpy_dict=None):
             else:
                 empty_lines.append(i)
                 
-    if emtpy_dict != None:
+    if empty_dict != None:
         empty_dict[out_file] = empty_lines
 
 def merge_dir_files(input_dir):
