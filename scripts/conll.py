@@ -151,7 +151,7 @@ def chr_format_dir(input_dir, verbose=True):
     files = get_conlls(input_dir)
     for file in files:
         input_file  = os.path.join(input_dir, file)
-        output_file = os.path.join(output_dir, file[:6] + 'chr')
+        output_file = os.path.join(output_dir, file[:-5] + 'chr')
         chr_format_file(input_file, output_file, verbose)
 
 def extract_tokens(input_dir):
