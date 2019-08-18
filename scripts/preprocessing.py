@@ -6,6 +6,7 @@ from .utils import Batch
 
 def replace_chars_file(filepath):
     filepath = os.path.abspath(filepath)
+    replace_pairs = [('\u2028', ' '), ('\x85', '')]
     with open(filepath) as f:
         data = f.read()
         for pair in replace_pairs:
@@ -14,8 +15,6 @@ def replace_chars_file(filepath):
             f.write(data)
     print('Replaced:', replace_pairs)
     print('.. in', filepath)
-
-
 
 
 def replace_chars_dir(target_dir):
@@ -57,8 +56,8 @@ def remove_n(input_file):
     with open(input_path, 'w') as f:
         f.write(text)
 
-def split(input_file, chunksize, conll=False, double_n=False):
-    print('double_n', double_n)
+def split(input_file, chunksize, conll=False, nl2x=False):
+    print('nl2x', nl2x)
     assert os.path.isfile(input_file), f'File "{input_file}" not found!'
     input_path = os.path.abspath(input_file)
     print(f'Splitting file: {input_path}')
@@ -73,7 +72,7 @@ def split(input_file, chunksize, conll=False, double_n=False):
         
         
         for line in f:            
-            if double_n:
+            if nl2x:
                 current_part_lines.append(line+'\n')
             else:
                 current_part_lines.append(line)
