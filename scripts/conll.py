@@ -63,6 +63,7 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
             with open(file_path) as f:
                 lines = []
                 for line in f:
+                    line = c.process_line(line)
                     if nl2x and ('SpacesAfter=\\n' in line):
                         line_seg = line.split('\t')
 
@@ -72,7 +73,7 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
 
                         line_seg[9] = 'SpacesAfter=' + '\\n'*n + '\n'
                         lines.append('\t'.join(line_seg))
-                    else:
+                    elif line:
                         lines.append(line)
                 out.writelines(lines)
 
