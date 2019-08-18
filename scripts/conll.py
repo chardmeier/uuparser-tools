@@ -25,6 +25,8 @@ class Counter:
     def __init__(self, i=0, line_i=0):
         self.i = i
         self.line_i = line_i
+        self.nl2x_n = 0
+        self.new_n  = 0
         
     def count_line(self):
         self.line_i += 1
@@ -70,7 +72,9 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
 
                         n = len(re.findall(r'\\n', line_seg[9]))
                         assert n % 2 == 0, f'Number of \\n cannot be odd with nl2x activated. Got {n} \\n at line {i}'
+                        c.nl2x_n += n
                         n = n // 2
+                        c.new_n += n
                         if n < 2:
                             remove_next_newpar = True
                         line_seg[9] = 'SpacesAfter=' + '\\n'*n + '\n'
@@ -82,6 +86,8 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                             remove_next_newpar = False
 
                 out.writelines(lines)
+        print(f'{c.nl2x_n} "\\n" counted in input.')
+        print(f'{c.new_n} "\\n" counted in output.')
 
 def merge_conll(input_dir, match_string, output_name=None, nl2x=False):
     print('nl2x:', nl2x)
