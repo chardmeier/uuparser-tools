@@ -42,8 +42,41 @@ class Counter:
         else:
             return line
 
+def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
+    print('nl2x:', nl2x)
+    input_dir = os.path.abspath(input_dir)
 
-def merge_conll(input_dir, match_string, output_name=None, nl2x=True):
+    part_files = get_split_files(input_dir, match_string)
+
+    if not output_name:
+        output_name = part_files[0].split('_'*3)[-1]
+        
+    output_path = os.path.join(input_dir, output_name)
+    c = Counter()
+    print('\nMerged output will be saved to:')
+    print(output_path)
+    with open(output_path, 'w') as out:
+        out.write(f"# newdoc id = {output_name}\n")
+        for i, file in enumerate(part_files):
+            print(f'.. processing (starting at sent {c.i+1}): {file} ')
+            file_path = os.path.join(input_dir, file)
+            with open(file_path) as f:
+                lines = []
+                for i, line in enumerate(f):
+                    if nl2x and ('SpacesAfter=\\n' in line):
+                        line_seg = line.split('\t')
+
+                        n = len(re.findall(r'\\n', line_seg[9]))
+                        assert n % 2 == 0, f'Number of \\n cannot be odd with nl2x activated. Got {n} \\n at line {i}'
+                        n = n // 2
+
+                        line_seg[9] = f'SpacesAfter={"\\n"*n}\n'
+                        lines.append('\t'.join(line_seg))
+                    lines.append(line)
+                out.writelines(lines)
+
+def merge_conll(input_dir, match_string, output_name=None, nl2x=False):
+    print('nl2x:', nl2x)
     input_dir = os.path.abspath(input_dir)
 
     part_files = get_split_files(input_dir, match_string)
@@ -174,7 +207,7 @@ def extract_tokens(input_arg, nl2x=False):
                 if (not token_line.startswith('#')) and (token_line != '\n'):
                     token_line = token_line.split('\t')
                     line_no, token = token_line[0], token_line[1] # extract token
-                    if not ('-' in line_no):
+                    if not ('-' in line_no):         # omit 17-18 in lines am / an dem
                         line.append(token_line[1])  
                     n = len(re.findall(r'\\n', token_line[9]))
                     if n:

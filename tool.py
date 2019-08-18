@@ -108,12 +108,17 @@ elif args.command == 'token':
         tokens.align(args.align)
 
 
-
+import time
 elif args.command == 'conll':
     if args.extract_tokens:
         conll.extract_tokens(args.extract_tokens, nl2x=args.nl2x)
     elif args.merge:
-        conll.merge_conll(*args.merge, nl2x=args.nl2x)
+        t1 = time.time()
+        if args.nl2x:
+            conll.merge_conll_nl2x(*args.merge)
+        else:
+            conll.merge_conll(*args.merge)
+        print(round(time.time()-t1, 1))
     elif args.chr:
         conll.chr_format_dir(args.chr)
     elif args.parse:
