@@ -62,6 +62,7 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
             file_path = os.path.join(input_dir, file)
             with open(file_path) as f:
                 lines = []
+                remove_next_newpar = False
                 for line in f:
                     line = c.process_line(line)
                     if nl2x and ('SpacesAfter=\\n' in line):
@@ -70,11 +71,14 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                         n = len(re.findall(r'\\n', line_seg[9]))
                         assert n % 2 == 0, f'Number of \\n cannot be odd with nl2x activated. Got {n} \\n at line {i}'
                         n = n // 2
-
+                        if n < 2:
+                            remove_next_newpar = True
                         line_seg[9] = 'SpacesAfter=' + '\\n'*n + '\n'
                         lines.append('\t'.join(line_seg))
                     elif line:
-                        lines.append(line)
+                        if (not remove_next_newpar) or (not line.startswith('# newpar'):
+                            lines.append(line)
+
                 out.writelines(lines)
 
 def merge_conll(input_dir, match_string, output_name=None, nl2x=False):
