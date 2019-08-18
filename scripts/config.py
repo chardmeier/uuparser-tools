@@ -29,3 +29,5 @@ with open(os.path.join(SCRIPTS, 'code2lang.dict')) as f:
 # - integrating pre-processing in tools.py
 #   - replace chards
 #   - remove sentences (tables)
+
+# put batch_history_dir in config

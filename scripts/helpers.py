@@ -1,6 +1,30 @@
 import os, sys, ntpath, pprint
 import re
+from collections import defaultdict
+
+
 from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
+
+def get_pairs(input_dir, ending='', verbose=False):
+    input_dir = os.path.abspath(input_dir)
+    files = os.listdir(input_dir)
+    import pprint
+    if verbose:
+        print('Files found in:', input_dir)
+        pprint.pprint(files)
+    if ending:
+        ending=r'\.'+ending.lstrip('.')
+    else:
+        ending=''
+    pair_files = list(filter(lambda x: re.match(r'\w*[a-z]{2}-[a-z]{2}\.[a-z]{2}'+ending+r'\b', x), files))
+    pairs_dict = defaultdict(dict)
+    if not pair_files:
+        raise(ValueError('No valid files found.'))
+    for file in pair_files:    
+        #print(f)
+        lang = re.findall(r'[a-z]{2}-[a-z]{2}\.([a-z]{2})', file)[0]
+        pairs_dict[re.findall(r'([a-z]{2}-[a-z]{2})\.', file)[0]][lang] = file
+    return dict(pairs_dict)
 
 def get_conlls(input_dir, exclude_parts=True, verbose=True):
     files = os.listdir(input_dir)

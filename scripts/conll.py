@@ -67,9 +67,7 @@ def merge_conll(input_dir, match_string, output_name=None, remove_n=True):
         remove_added_n(output_path)
 
 def train_parser(code):
-    log_path = f"{LOGS}/{PARSER_NAME}"
-    create_dir(log_path)
-    batch = Batch(name=f'tp_{code}', memory='60GB', log_path=log_path)
+    batch = Batch(name=f'tp_{code}', memory='60GB', log_dir=PARSER_NAME)
     batch.train_parser(code)
     batch.submit()
 
@@ -87,10 +85,7 @@ def parse(arg1, model_path=None):
     lang = re.findall(r'.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*', input_file)[0]
     model_path = f"{MODELS}/{PARSER_NAME}/{d[lang]}/" # ADD JOIN
 
-    log_path = f"{LOGS}/{PARSER_NAME}"
-    create_dir(log_path)
-
-    batch = Batch(name=f'parse_{lang}', memory='60GB', log_path=log_path)
+    batch = Batch(name=f'parse_{lang}', memory='60GB', log_dir=PARSER_NAME)
     batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir)
     batch.submit()
 

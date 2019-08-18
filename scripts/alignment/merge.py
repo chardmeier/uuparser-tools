@@ -21,7 +21,7 @@ print(write_dir)
 if not os.path.isdir(write_dir):
     os.mkdir(write_dir)
     
-def get_pairs(path='.', ending=''):
+def get_pairs(path='.', ending='',):
     path = os.path.abspath(path)
     l = os.listdir(path)
     import pprint

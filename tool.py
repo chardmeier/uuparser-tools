@@ -65,9 +65,11 @@ train_tokenize.add_argument('--train', '-t', type=str, help='Trains UDPipe on a 
 train_tokenize.add_argument('--custom_model', '-c', action='store_true', help='If set UDPipe will load custom models instead of the official pre-trained ones.')
 #train_tokenize.add_argument('--custom_model', '-c', action='store_true', help='If set UDPipe will load custom models instead of the official pre-trained ones.')
 
-sub_name = 'align'
+sub_name = 'token'
 eflomal_args = subparsers.add_parser(sub_name, help='Options for Eflomal alignment tool', parents=[batch_job_options])
-eflomal_args.add_argument('input', action='store', help='Input for eflomal')
+eflomal_group = eflomal_args.add_mutually_exclusive_group(required=True)
+eflomal_group.add_argument('--align', '-a' type=str, help='Expects path to token directory. Word alignment is performed for all files.')
+eflomal_group.add_argument('--merge', '-m' type=str, help='Expects path to token directory. Merges token files into fasttext format.')
 #delete_parser.add_argument('--file', '-r', default=False, action='store_true',
 #                           help='Remove the contents of the directory, too',
 #                           )
@@ -79,6 +81,8 @@ from scripts import conll
 from scripts import preprocessing
 from scripts import utils
 from scripts import helpers
+from scripts import tokens
+
 
 
 if args.command == 'text':
@@ -88,9 +92,13 @@ if args.command == 'text':
         else:
             tokenizer.tokenize(args.tokenize)
 
-if args.command == 'utils':
+elif args.command == 'utils':
     if args.split:
         preprocessing.split(args.split, args.split_size, double_n=args.double_n)
+
+elif args.command == 'token':
+    if args.align:
+        tokens.align(args.align)
 
 
 elif args.command == 'conll':
