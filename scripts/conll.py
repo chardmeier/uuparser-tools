@@ -43,7 +43,7 @@ class Counter:
             return line
 
 
-def merge_conll(input_dir, match_string, output_name=None, remove_n=True):
+def merge_conll(input_dir, match_string, output_name=None, nl2x=True):
     input_dir = os.path.abspath(input_dir)
 
     part_files = get_split_files(input_dir, match_string)

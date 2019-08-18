@@ -13,7 +13,7 @@ other_options  = argparse.ArgumentParser(add_help=False)
 other_options_group = batch_job_options.add_argument_group('Other options')
 #other_options_group.add_argument('--split', '-s', nargs='?', const=True, default=False, help='If set True, text file will be splitted before tokenizing.')
 other_options_group.add_argument('--split_size', type=int, default=150000, help='Sets split size (in lines).')
-other_options_group.add_argument('--nlx2', action='store_true', help='If set, newlines will be doubled while processing.')
+other_options_group.add_argument('--nl2x', action='store_true', help='If set, newlines will be doubled while processing.')
 
 
 
@@ -113,7 +113,7 @@ elif args.command == 'conll':
     if args.extract_tokens:
         conll.extract_tokens(args.extract_tokens)
     elif args.merge:
-        conll.merge_conll(*args.merge)
+        conll.merge_conll(*args.merge, nl2x=args.nl2x)
     elif args.chr:
         conll.chr_format_dir(args.chr)
     elif args.parse:
