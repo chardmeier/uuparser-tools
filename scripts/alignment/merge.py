@@ -30,14 +30,14 @@ def get_pairs(path='.', ending=''):
         ending=r'\.'+ending
     else:
         ending=''
-    l = list(filter(lambda x: re.match(r'\w.*\.[a-z]{2}-[a-z]{2}\.[a-z]{2}'+ending+r'\b', x), l))
+    l = list(filter(lambda x: re.match(r'\w.*[a-z]{2}-[a-z]{2}\.[a-z]{2}'+ending+r'\b', x), l))
     pairs_dict = defaultdict(dict)
     if not l:
         raise(ValueError('No valid files found.'))
     for f in l:    
         #print(f)
-        lang = re.findall(r'\.[a-z]{2}-[a-z]{2}\.([a-z]{2})', f)[0]
-        pairs_dict[re.findall(r'\.([a-z]{2}-[a-z]{2})\.', f)[0]][lang] = f
+        lang = re.findall(r'[a-z]{2}-[a-z]{2}\.([a-z]{2})', f)[0]
+        pairs_dict[re.findall(r'([a-z]{2}-[a-z]{2})\.', f)[0]][lang] = f
     return dict(pairs_dict)
 
 pairs_dict = get_pairs(input_dir)
