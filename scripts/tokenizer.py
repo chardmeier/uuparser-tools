@@ -39,7 +39,7 @@ def tokenize(input_file, model_path=None):
     batch.tokenize(model_path=model_path, input_path=input_path, output_file=output_file)
     batch.submit()
 
-def extract_tokens(arg1):
+def extract_tokens(arg1, new_par_nl=True):
     # Script takes conll file output by udpipe and extracts the tokenized tokens.
     # Newline will only be added if SpacesAfter is '\n'
     input_path = os.path.abspath(arg1)
@@ -68,6 +68,8 @@ def extract_tokens(arg1):
                 if token_line[9].split('=')[-1] == '\\n\n':   # checks for newline
                     lines.append(' '.join(line) + '\n')       # joins tokens with newline at the end
                     line = []                                 # initialize new line
+            elif new_par_nl and token_line.startswith('# newpar'):
+                lines.append(['\n'])
     
     with open(output_path, 'w') as f:
         print('Writing tokens to:', output_path)
