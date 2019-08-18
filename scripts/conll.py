@@ -142,7 +142,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                 
 def chr_format_dir(input_dir, verbose=True):
     print('Convert .conll -> chr-format')
-    input_dir, output_dir = same_level_output_dir(input_dir, 'chr_format')
+    input_dir, output_dir = create_same_level_output_dir(input_dir, 'chr_format')
     
     files = get_conlls(input_dir)
     for file in files:
