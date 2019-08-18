@@ -115,7 +115,7 @@ def chr_format_file(input_file, output_file, verbose=True):
         doc_sents    = []
         
         string_chunk = ''
-        for line in sys.stdin:
+        for line in f:
             #print(current_sent, doc_sents)
             if line.startswith('# newpar'):
                 if doc_sents:
@@ -138,7 +138,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                 token = line.split()[1]
                 current_sent.append(token)
     if verbose:
-        print(f' \u2b91 chr-format output to:', output_file)
+        print(f' \u2b91 writing chr-format output to:', output_file)
                 
 def chr_format_dir(input_dir, verbose=True):
     print('Convert .conll -> chr-format')
