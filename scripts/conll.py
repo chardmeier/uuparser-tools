@@ -161,7 +161,7 @@ def extract_tokens(input_arg, nl2x=False):
         input_dir = os.path.dirname(input_arg)
         input_dir, output_dir = create_same_level_output_dir(input_dir, 'tokens')
         assert input_arg.endswith('.conll'), 'Input needs to be .conll-file!'
-        files = [input_arg]
+        files = [os.path.basename(input_arg)]
 
 
     for file in files:
