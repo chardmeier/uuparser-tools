@@ -2,6 +2,15 @@ import os, sys, ntpath, pprint
 import re
 from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
 
+def get_conlls(input_dir, exclude_parts=True, verbose=True):
+    files = os.listdir(input_dir)
+    conll_files = list(filter(lambda f: f.endswith('.conll'), files))
+    if exclude_parts:
+        conll_files = list(filter(lambda f: (not f.startswith('PART_')), conll_files))
+    print('Found .conll files:',)
+    pprint.pprint(conll_files)
+    return conll_files
+
 def get_split_files(input_dir, match_string, verbose=True):
     files = os.listdir(input_dir)
     full_match_string = fr'PART_\d+___.*{match_string}.*\.conll'
@@ -22,6 +31,19 @@ def handle_split(input_dir, match_string, do):
     for file in part_files:
         do(os.path.join(input_dir, file))
         print()
+
+def create_same_level_output_dir(input_dir, output_dir_name, verbose=True):
+    input_dir = os.path.abspath(input_dir)
+    assert os.path.isdir(input_dir), f'Directory not found: {input_dir}'
+
+    output_dir  = os.path.abspath(os.path.join(input_dir, '..', output_dir_name))
+    create_dir(output_dir)
+
+    if verbose:
+        print('Input directory: ', input_dir)
+        print('Output directory:', output_dir)
+        print()
+    return input_dir, output_dir
 
 
 def udpipe_select_model(lang, model_dir):

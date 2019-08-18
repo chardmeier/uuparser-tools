@@ -1,6 +1,6 @@
 import sys, os, re, pprint
 # UDPipe tokenize.py
-from .helpers import default_by_lang, create_dir, udpipe_model_to_code, get_split_files
+from .helpers import *
 from .config import *
 d = parser_default_mappings
 from .utils import Batch
@@ -80,10 +80,8 @@ def parse(arg1, model_path=None):
     input_file = os.path.basename(input_path)
 
     print(f'Reading file: {input_path}')
-    input_dir = os.path.dirname(input_path) # expecting to be .conll/
-    output_dir  = os.path.abspath(os.path.join(input_dir, '..', 'parsed'))
-    create_dir(output_dir)
-    print('Output directory:', output_dir)
+    input_dir, output_dir = create_same_level_output_dir(os.path.dirname(input_path), 'parsed')
+    # input_dir expected to be .conll/
 
     
     lang = re.findall(r'.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*', input_file)[0]
@@ -106,27 +104,61 @@ def parse_split(input_dir, match_string):
         parse(os.path.join(input_dir, file))
         print()
 
-def extract_tokens(arg1):
+def chr_format_file(input_file, output_file, verbose=True):
+    input_file = os.path.abspath(input_file)
+    output_file = os.path.abspath(output_file)
+    with open(input_file) as f, open(output_file, 'w') as o:
+        if verbose:
+            print('Reading file:', input_file)
+        doc_id = 1
+        current_sent = []
+        doc_sents    = []
+        
+        string_chunk = ''
+        for line in sys.stdin:
+            #print(current_sent, doc_sents)
+            if line.startswith('# newpar'):
+                if doc_sents:
+                    print_doc_id = str(doc_id)
+                    doc_id += 1
+                    for i, sent in enumerate(doc_sents):
+                        doc_line = str(i+1)
+                        string_chunk += '\t'.join((print_doc_id, doc_line, sent))
+                        print_doc_id = ''
+                    o.write(string_chunk + '\n')
+                current_sent = []
+                doc_sents    = []
+            elif line.startswith('# sent_id'):
+                if current_sent:
+                    doc_sents.append(' '.join(current_sent))
+                    current_sent = []
+            elif line.startswith('#') or line == '\n':
+                continue
+            else:
+                token = line.split()[1]
+                current_sent.append(token)
+    if verbose:
+        print(f' \u2b91 chr-format output to:', output_file)
+                
+def chr_format_dir(input_dir, verbose=True):
+    print('Convert .conll -> chr-format')
+    input_dir, output_dir = same_level_output_dir(input_dir, 'chr_format')
+    
+    files = get_conlls(input_dir)
+    for file in files:
+        input_file  = os.path.join(input_dir, file)
+        output_file = os.path.join(input_dir, file[:6] + 'chr')
+        chr_format_file(input_file, output_file, verbose)
+
+def extract_tokens(input_dir):
     #main_dir  = os.path.abspath(sys.argv[1])
 
     # set ending of output files  (dot (.) must be included !):
     ending = '' # '.token'
 
-    #input_dir = os.path.join(main_dir, 'conll')
-    input_dir = os.path.abspath(arg1)
-    assert os.path.isdir(input_dir)
+    input_dir, output_dir = create_same_level_output_dir(input_dir, 'tokens')
+    files = get_conlls(input_dir)
 
-    output_dir  = os.path.abspath(os.path.join(input_dir, '..', 'tokens'))
-    create_dir(output_dir)
-
-    print('Loading directory: ', input_dir)
-
-    files = list(filter(lambda f: f.endswith('.conll') and (not f.startswith('PART_')) , os.listdir(input_dir)))
-    print('Found .conll files:',)
-    pprint.pprint(files)
-    print()
-    print('Output directory:', output_dir)
-    print()
     for file in files:
         in_path = os.path.join(input_dir, file)
         with open(in_path) as f:
