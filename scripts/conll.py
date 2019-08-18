@@ -63,7 +63,7 @@ def merge_conll(input_dir, match_string, output_name=None, nl2x=True):
             with open(file_path) as f:
                 for line in f:
                     out.write(c.process_line(line))
-    if remove_n:
+    if nl2x:
         remove_added_n(output_path)
 
 def train_parser(code):
