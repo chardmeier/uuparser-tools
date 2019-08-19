@@ -21,16 +21,16 @@ class Batch:
     def construct_command(self, name, num_prefix=1):
         self.batch_string = self.head() + self.command_string.format(*[self.srun_prefix]*num_prefix)
         self.save_batchstring(name=f'latest_{name}.sh')
-        self.shell_string = self.shell_head(use_shebang=True) + self.command_string.format(*['']*num_prefix)
+        self.shell_string = self.shell_head(use_shebang=True, use_source=False) + self.command_string.format(*['']*num_prefix)
 
-    def shell_head(self, use_shebang=False):
+    def shell_head(self, use_shebang=False, use_source=True):
         shebang = '#!/bin/sh\n'
+        source  = 'source ~/.bashrc\n'
         head_string = """
 module purge
 module load gcc
-
-source ~/.bashrc"""
-        return shebang*use_shebang + head_string
+"""
+        return shebang*use_shebang + source*use_source + head_string
 
     def head(self):
         head_string = f"""#!/bin/sh
@@ -53,7 +53,7 @@ source activate py37
         -r {os.path.join(output_dir, filename)}.rev
         
 {'{}'}python3 {os.path.join(EFLOMAL, 'makepriors.py')} \\
-        -i {os.path.join(output_dir, filename)} \\
+        -i {os.path.join(input_dir, filename)} \\
         -f {os.path.join(output_dir, filename)}.fwd \\
         -r {os.path.join(output_dir, filename)}.rev \\
         --priors {os.path.join(output_dir, filename)}.priors"""
