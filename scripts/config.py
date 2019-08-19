@@ -1,6 +1,7 @@
 import os
 
 PROJECT=    os.path.abspath("~/pronoun_project")
+print('projext', PROJECT)
 PARSER=     os.path.join(PROJECT, "uuparser/barchybrid")
 BATCHFILES= os.path.join(PROJECT, "batchfiles")
 LOGS=       os.path.join(PROJECT, "logfiles")
