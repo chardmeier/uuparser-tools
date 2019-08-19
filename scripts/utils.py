@@ -9,6 +9,7 @@ class Batch:
         self.memory = memory 
         log_path = os.path.join(LOGS, log_dir)
         create_dir(log_path)
+        
         self.log_path  = log_path
         self.timelimit = timelimit
         self.partition = partition
