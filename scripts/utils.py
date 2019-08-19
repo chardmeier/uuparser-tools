@@ -26,7 +26,6 @@ class Batch:
     def shell_head(self, use_shebang=False):
         shebang = '#!/bin/sh\n'
         head_string = """
-source activate py37
 module purge
 module load gcc
 
@@ -46,6 +45,7 @@ source ~/.bashrc"""
 
     def align(self, input_dir, output_dir, filename):
         self.command_string = f"""
+source activate py37
 {'{}'}python3 {os.path.join(EFLOMAL, 'align.py')} \\
         -i {os.path.join(input_dir, filename)} \\
         -m 3  \\
