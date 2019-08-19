@@ -53,7 +53,7 @@ def dir2fast_text(input_dir):
     print('.. done.')
     return output_dir
 
-def align(input_dir):
+def align(input_dir, use_shell=False):
     """
         input_dir: token directory
     """
@@ -73,4 +73,4 @@ def align(input_dir):
         pair = 'al_'+file.split('.')[-1]
         batch.name = pair
         batch.align(input_dir=input_dir, output_dir=output_dir, filename=file)
-        batch.submit()
+        batch.shell() if use_shell else batch.submit()

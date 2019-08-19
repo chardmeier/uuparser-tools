@@ -1,6 +1,6 @@
 from .config import *
 from .helpers import create_dir, get_split_files
-import os, pprint, re
+import os, pprint, re, random
 
 
 class Batch:
@@ -21,8 +21,17 @@ class Batch:
     def construct_command(self, name, num_prefix=1):
         self.batch_string = self.head() + self.command_string.format(*[self.srun_prefix]*num_prefix)
         self.save_batchstring(name=f'latest_{name}.sh')
-        self.shell_string = self.command_string.format(*['']*num_prefix)
+        self.shell_string = self.shell_head(use_shebang=True) + self.command_string.format(*['']*num_prefix)
 
+    def shell_head(self, use_shebang=False):
+        shebang = '#!/bin/sh\n'
+        head_string = """
+
+module purge
+module load gcc
+
+source ~/.bashrc"""
+        return shebang*use_shebang + head_string
 
     def head(self):
         head_string = f"""#!/bin/sh
@@ -32,14 +41,8 @@ class Batch:
 #SBATCH -J "{self.name}"
 #SBATCH --mem-per-cpu={self.memory} --partition={self.partition}
 #SBATCH --account={self.account}
-#SBATCH --output={self.log_path}/{self.name}-%j.out
-
-module purge
-module load gcc
-
-source ~/.bashrc
-        """
-        return head_string
+#SBATCH --output={self.log_path}/{self.name}-%j.out"""
+        return head_string + self.shell_head()
 
     def align(self, input_dir, output_dir, filename):
         self.command_string = f"""
@@ -98,7 +101,7 @@ cd {PARSER}
 {'{}'}/projects/nlpl/software/udpipe/latest/bin/udpipe --tokenize --tag {model_path} {input_path} > {output_file}"""
         self.construct_command('tokenize')
 
-    def save_batchstring(self, name, history=False):
+    def save_batchstring(self, name, history=False, shell=False):
         if history:
             HISTORY = os.path.join(BATCHFILES, 'history')  # put in main config?
             create_dir(HISTORY)
@@ -107,8 +110,18 @@ cd {PARSER}
             batch_file_path = os.path.join(BATCHFILES, name)
 
         with open(batch_file_path, 'w') as f:
-            f.write(self.batch_string)
+            if shell:
+                f.write(self.shell_string)
+            else:
+                f.write(self.batch_string)
         return batch_file_path
+
+
+    def shell(self):
+        shell_path = self.save_batchstring(name='shell_job.sh', shell=True)
+        logfile = os.path.join(self.log_path, f'{self.name}_{random.randint(10000, 99999)}.log')
+        shell_output = os.popen(f'sh {shell_path} &> {logfile} &').read()
+        print('Writing logs to:', logfile)
 
     def submit(self):
         batch_path = self.save_batchstring(name='submit.sh')

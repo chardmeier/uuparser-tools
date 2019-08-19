@@ -9,11 +9,13 @@ batch_group.add_argument('--duration', '-d', default='96:00:00', type=str, help=
 batch_group.add_argument('--name', '-n', type=str, help='Option for setting a manual name for batch job.')
 batch_group.add_argument('--partition', type=str, choices=['normal', 'hugemem', 'accel'], default='normal', help='Setting partition for the job to run on (default=normal).')
 
+
 other_options  = argparse.ArgumentParser(add_help=False)
 other_options_group = batch_job_options.add_argument_group('Other options')
 #other_options_group.add_argument('--split', '-s', nargs='?', const=True, default=False, help='If set True, text file will be splitted before tokenizing.')
 other_options_group.add_argument('--split_size', type=int, default=150000, help='Sets split size (in lines).')
 other_options_group.add_argument('--nl2x', action='store_true', help='If set, newlines will be doubled while processing.')
+other_options_group.add_argument('--shell', action='store_true', help='If set, job will be executed via local shell instead of slurm-srun.')
 
 
 
@@ -101,7 +103,7 @@ elif args.command == 'utils':
     elif args.fast_text:
         tokens.file2fast_text(*args.fast_text)
     elif args.fast_text_dir:
-        tokens.align(args.align)
+        tokens.align(args.align, args.shell)
 
 elif args.command == 'token':
     if args.align:
