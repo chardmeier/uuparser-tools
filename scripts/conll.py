@@ -83,7 +83,7 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                 remove_next_newpar = False
                 for line in f:
                     line = c.process_line(line)
-                    if nl2x and ('\\n' in line[-7:]):
+                    if nl2x and ('\\n' in line):
                         line_seg = line.split('\t')
 
                         nl2x_n = len(re.findall(r'\\n', line_seg[9]))
