@@ -16,7 +16,7 @@ def get_pairs(input_dir, ending='', verbose=False):
         ending=r'\.'+ending.lstrip('.')
     else:
         ending=''
-    pair_files = list(filter(lambda x: re.match(r'.*\.?[a-z]{2}-[a-z]{2}\.[a-z]{2}'+ending+r'\b' and , x) and (not x.startswith('PART_')), files))
+    pair_files = list(filter(lambda x: re.match(r'.*\.?[a-z]{2}-[a-z]{2}\.[a-z]{2}'+ending+r'\b', x) and (not x.startswith('PART_')), files))
     pairs_dict = defaultdict(dict)
     if not pair_files:
         raise(ValueError('No valid files found.'))
