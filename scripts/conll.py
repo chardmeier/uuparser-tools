@@ -83,7 +83,7 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                 remove_next_newpar = False
                 for line in f:
                     line = c.process_line(line)
-                    if nl2x and ('SpacesAfter=\\n' in line) or ('SpacesAfter=\\s\\n' in line):
+                    if nl2x and re.match(r'.*SpacesAfter=\s\\n', line):
                         line_seg = line.split('\t')
 
                         nl2x_n = len(re.findall(r'\\n', line_seg[9]))
@@ -235,6 +235,7 @@ def extract_tokens(input_arg, nl2x=False):
             print('Reading file:', in_path)
             lines = []
             line  = []
+            count_n = 0
             for i, token_line in enumerate(f):
                 if (not token_line.startswith('#')) and (token_line != '\n'):
                     token_line = token_line.split('\t')
@@ -246,14 +247,14 @@ def extract_tokens(input_arg, nl2x=False):
                         if nl2x:
                             assert n % 2 == 0, f'Number of \\n cannot be odd with nl2x activated. Got {n} \\n at line {i}'
                             n = n // 2
-
+                        count_n += n
                         lines.append(' '.join(line) + '\n'*n)
                         line = []
                         
         out_file = '.'.join(file.split('.')[:-1]) + ending
         out_path = os.path.join(output_dir, out_file)
         with open(out_path, 'w') as f:
-            print(f' \u2b91  writing tokens ({len(lines)} lines) to:', out_path)
+            print(f' \u2b91  writing tokens ({count_n} lines) to:', out_path)
             f.writelines(lines)
         print()
 
