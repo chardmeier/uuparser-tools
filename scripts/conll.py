@@ -51,7 +51,9 @@ for i, line in enumerate(sys.stdin):
     if ('SpacesAfter=\\n' in line) or ('SpacesAfter=\\s\\n' in line):
         line_seg = line.split('\t')
         nl2x_n = len(re.findall(r'\\n', line_seg[9]))
+        first_match = re.search(r'\\n', line_seg[9])
         l.append(nl2x_n)
+        print(line_seg[9][:first_match.start()])
         print(nl2x_n, line)
         if nl2x_n == 4:
             print(i)
@@ -91,7 +93,8 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                         c.new_n += n
                         if n < 2:
                             remove_next_newpar = True
-                        line_seg[9] = 'SpacesAfter=' + '\\n'*n + '\n'
+                        n_start = re.search(r'\\n', line_seg[9]).start()
+                        line_seg[9] = line_seg[9][:n_start] '\\n'*n + '\n'
                         lines.append('\t'.join(line_seg))
                     elif line:
                         if (not remove_next_newpar) or (not line.startswith('# newpar')):
