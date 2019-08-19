@@ -8,7 +8,7 @@ DATA=       os.path.join(PROJECT, "data")
 MODELS=     os.path.join(PROJECT, "models")
 SCRIPTS=    os.path.join(PROJECT, "scripts")
 
-EFLOMAL=    os.path.abspath('~/software/eflomal/')
+EFLOMAL=    os.path.abspath(os.path.expanduser('~/software/eflomal/'))
 
 NAME_PARSER="UUParser"
 NAME_TOKENIZER="UDPipe"
