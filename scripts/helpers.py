@@ -32,6 +32,7 @@ def get_conlls(input_dir, exclude_parts=True, verbose=True):
     if exclude_parts:
         conll_files = list(filter(lambda f: (not f.startswith('PART_')), conll_files))
     print('Found .conll files:',)
+    conll_files.sort()
     pprint.pprint(conll_files)
     return conll_files
 
