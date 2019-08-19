@@ -9,7 +9,7 @@ class Batch:
         self.memory = memory 
         log_path = os.path.join(LOGS, log_dir)
         create_dir(log_path)
-        
+
         self.log_path  = log_path
         self.timelimit = timelimit
         self.partition = partition
@@ -21,7 +21,7 @@ class Batch:
     def construct_command(self, name, num_prefix=1):
         self.batch_string = self.head() + self.command_string.format(*[self.srun_prefix]*num_prefix)
         self.save_batchstring(name=f'latest_{name}.sh')
-        self.shell_string = self.head() + self.command_string.format(*['']*num_prefix)
+        self.shell_string = self.command_string.format(*['']*num_prefix)
 
 
     def head(self):
