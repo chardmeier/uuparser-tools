@@ -1,23 +1,24 @@
 import os
 
-DATA   = os.environ.get('DATA')
-MODELS = os.environ.get('MODELS')
-PROJECT = os.environ.get('PROJECT')
-BATCHFILES = os.environ.get('BATCHFILES')
-LOGS = os.environ.get('LOGS')
-SCRIPTS = os.environ.get('SCRIPTS')
-PARSER = os.environ.get('PARSER')
+PROJECT=    os.path.abspath("~/pronoun_project")
+PARSER=     os.path.join(PROJECT, "uuparser/barchybrid")
+BATCHFILES= os.path.join(PROJECT, "batchfiles")
+LOGS=       os.path.join(PROJECT, "logfiles")
+DATA=       os.path.join(PROJECT, "data")
+MODELS=     os.path.join(PROJECT, "models")
+SCRIPTS=    os.path.join(PROJECT, "scripts")
 
-PARSER_NAME = os.environ.get('NAME_PARSER')
-TOKENIZER_NAME = os.environ.get('NAME_TOKENIZER')
+EFLOMAL=    os.path.abspath('~/software/eflomal/')
+
+NAME_PARSER="UUParser"
+NAME_TOKENIZER="UDPipe"
 
 TREEBANKS = os.path.join(DATA, 'ud-treebanks-v2.4')
 
 parser_default_mappings = {'de':'de_gsd', 'en':'en_ewt', 'cs':'cs_pdt', 'fr':'fr_gsd', 'sv':'sv_talbanken'}
 
 
-with open(os.path.join(SCRIPTS, 'code2lang.dict')) as f:
-    code2lang = eval(f.read())
+from .mappings import code2lang
 
 
 # ToDO:

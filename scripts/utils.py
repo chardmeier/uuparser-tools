@@ -13,7 +13,15 @@ class Batch:
         self.timelimit = timelimit
         self.partition = partition
         self.account   = account
-        self.batch_string = ''
+        self.batch_string = None
+        self.shell_string = None
+        self.srun_prefix  = 'srun '
+
+    def construct_command(self, name, num_prefix=1):
+        self.batch_string = self.head() + self.command_string.format(*[self.srun_prefix]*num_prefix)
+        self.save_batchstring(name=f'latest_{name}.sh')
+        self.shell_string = self.head() + self.command_string.format(*['']*num_prefix)
+
 
     def head(self):
         head_string = f"""#!/bin/sh
@@ -33,41 +41,39 @@ source ~/.bashrc
         return head_string
 
     def align(self, input_dir, output_dir, filename):
-        command_string = f"""
-srun python3 /usit/abel/u1/trembczm/software/eflomal/align.py \\
+        self.command_string = f"""
+{'{}'}python3 {os.path.join(EFLOMAL, 'align.py')} \\
         -i {os.path.join(input_dir, filename)} \\
         -m 3  \\
         -f {os.path.join(output_dir, filename)}.fwd \\
         -r {os.path.join(output_dir, filename)}.rev
         
-srun python3 /usit/abel/u1/trembczm/software/eflomal/makepriors.py \\
+{'{}'}python3 {os.path.join(EFLOMAL, 'makepriors.py')} \\
         -i {os.path.join(output_dir, filename)} \\
         -f {os.path.join(output_dir, filename)}.fwd \\
         -r {os.path.join(output_dir, filename)}.rev \\
         --priors {os.path.join(output_dir, filename)}.priors"""
-
-        self.batch_string = self.head() + command_string
-        self.save_batchstring(name='latest_align.sh')
+        self.construct_command('align', num_prefix=2)
 
     def parse(self, model_path, input_path, output_dir):
-        command_string = f"""
-cd $PARSER
-python src/parser.py --predict \\
+        self.command_string = f"""
+cd {PARSER}
+{'{}'}python src/parser.py --predict \\
         --outdir {output_dir} \\
         --modeldir {model_path} \\
         --disable-pred-eval \\
         --graph-based \\
         --testfile {input_path}"""
-        self.batch_string = self.head() + command_string
-        self.save_batchstring(name='latest_parse.sh')
+        self.construct_command('parse')
+
 
     def train_uuparser(self, code):
         MODEL_DIR = os.path.join(MODELS, NAME_PARSER)
         create_dir(MODEL_DIR)
 
-        command_string = f"""
+        self.command_string = f"""
 cd {PARSER}
-srun python src/parser.py \
+{'{}'}python src/parser.py \
      --graph-based \
      --outdir {MODEL_DIR} \
      --datadir {TREEBANKS} \
@@ -76,24 +82,20 @@ srun python src/parser.py \
      --dynet-seed 123456788 \
      --dynet-mem 30000 \
      --word-emb-size 300"""
-        self.batch_string = self.head() + command_string
-        self.save_batchstring(name='latest_train_uuparser.sh')
+        self.construct_command('train_parser')
 
 
     def train_udpipe(self, model_path, train_data_path):
-        command_string = f"""
-srun udpipe --train \\
+        self.command_string = f"""
+{'{}'}udpipe --train \\
     --tagger \\
     --tokenizer {model_path} {train_data_path}"""
-        self.batch_string = self.head() + command_string
-        self.save_batchstring(name='latest_train_udpipe.sh')
+        self.construct_command('train_udpipe')
 
     def tokenize(self, model_path, input_path, output_file):
-        command_string = f"""
-srun /projects/nlpl/software/udpipe/latest/bin/udpipe --tokenize --tag {model_path} {input_path} > {output_file}
-        """
-        self.batch_string = self.head() + command_string
-        self.save_batchstring(name='latest_tokenize.sh')
+        self.command_string = f"""
+{'{}'}/projects/nlpl/software/udpipe/latest/bin/udpipe --tokenize --tag {model_path} {input_path} > {output_file}"""
+        self.construct_command('tokenize')
 
     def save_batchstring(self, name, history=False):
         if history:

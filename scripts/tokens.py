@@ -70,7 +70,7 @@ def align(input_dir):
     batch = Batch(name=f'alignment', memory='20GB', log_dir='alignment')
 
     for file in merged_files:
-        pair = file.split('.')[-1]
+        pair = 'al_'+file.split('.')[-1]
         batch.name = pair
         batch.align(input_dir=input_dir, output_dir=output_dir, filename=file)
         batch.submit()

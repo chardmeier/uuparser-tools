@@ -3,7 +3,7 @@ import re
 from collections import defaultdict
 
 
-from .config import SCRIPTS, MODELS, TOKENIZER_NAME, BATCHFILES, code2lang
+from .config import SCRIPTS, MODELS, NAME_TOKENIZER, BATCHFILES, code2lang
 
 def get_pairs(input_dir, ending='', verbose=False):
     input_dir = os.path.abspath(input_dir)
@@ -91,7 +91,7 @@ def udpipe_select_model(lang, model_dir):
     return selected
     
 def default_by_lang(lang):
-    tokenizer_model_dir = os.path.join(MODELS, TOKENIZER_NAME)
+    tokenizer_model_dir = os.path.join(MODELS, NAME_TOKENIZER)
     return udpipe_select_model(lang, tokenizer_model_dir)
 
 def udpipe_model_to_code(path):
