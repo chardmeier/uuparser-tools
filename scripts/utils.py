@@ -26,7 +26,7 @@ class Batch:
     def shell_head(self, use_shebang=False):
         shebang = '#!/bin/sh\n'
         head_string = """
-
+source activate py37
 module purge
 module load gcc
 
@@ -119,7 +119,10 @@ cd {PARSER}
 
     def shell(self):
         shell_path = self.save_batchstring(name='shell_job.sh', shell=True)
-        logfile = os.path.join(self.log_path, f'{self.name}_{random.randint(10000, 99999)}.log')
+        rnd_id = random.randint(10000, 99999)
+        logfile = os.path.join(self.log_path, f'{self.name}_{rnd_id}.log')
+        batch_history_path = self.save_batchstring(name=f"{rnd_id}.sh", history=True, shell=True)
+        print(f'Batchfile location: {batch_history_path}\n')
         command = f'sh {shell_path} &> {logfile} &'
         print(f'Executing:', command)
         shell_output = os.popen(command).read()
