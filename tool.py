@@ -103,11 +103,12 @@ elif args.command == 'utils':
     elif args.fast_text:
         tokens.file2fast_text(*args.fast_text)
     elif args.fast_text_dir:
+        raise NotImplementedError()
         tokens.align(args.align, args.shell)
 
 elif args.command == 'token':
     if args.align:
-        tokens.align(args.align)
+        tokens.align(args.align, args.shell)
 
 
 
