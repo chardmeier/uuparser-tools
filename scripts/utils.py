@@ -120,8 +120,10 @@ cd {PARSER}
     def shell(self):
         shell_path = self.save_batchstring(name='shell_job.sh', shell=True)
         logfile = os.path.join(self.log_path, f'{self.name}_{random.randint(10000, 99999)}.log')
-        shell_output = os.popen(f'sh {shell_path} &> {logfile} &').read()
-        print('Writing logs to:', logfile)
+        command = f'sh {shell_path} &> {logfile} &'
+        print(f'Executing:', command)
+        shell_output = os.popen(command).read()
+        print(shell_output)
 
     def submit(self):
         batch_path = self.save_batchstring(name='submit.sh')
