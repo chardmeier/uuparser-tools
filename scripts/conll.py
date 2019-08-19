@@ -94,7 +94,7 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                         if n < 2:
                             remove_next_newpar = True
                         n_start = re.search(r'\\n', line_seg[9]).start()
-                        line_seg[9] = line_seg[9][:n_start] '\\n'*n + '\n'
+                        line_seg[9] = line_seg[9][:n_start] + '\\n'*n + '\n'
                         lines.append('\t'.join(line_seg))
                     elif line:
                         if (not remove_next_newpar) or (not line.startswith('# newpar')):
