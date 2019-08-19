@@ -45,6 +45,7 @@ def get_split_files(input_dir, match_string, verbose=True):
         print('Full match-string:', full_match_string)
         print(f'Found parts in "{input_dir}":')
         pprint.pprint(part_files)
+    assert part_files, 'No valid files found!'
     return part_files
 
 def handle_split(input_dir, match_string, do):

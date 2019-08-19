@@ -44,6 +44,20 @@ class Counter:
         else:
             return line
 
+"""
+import re, sys
+l = []
+for i, line in enumerate(sys.stdin):
+    if ('SpacesAfter=\\n' in line) or ('SpacesAfter=\\s\\n' in line):
+        line_seg = line.split('\t')
+        nl2x_n = len(re.findall(r'\\n', line_seg[9]))
+        l.append(nl2x_n)
+        print(nl2x_n, line)
+        if nl2x_n == 4:
+            print(i)
+print(l)
+"""
+
 def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
     print('nl2x:', nl2x)
     input_dir = os.path.abspath(input_dir)
@@ -67,13 +81,13 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
                 remove_next_newpar = False
                 for line in f:
                     line = c.process_line(line)
-                    if nl2x and ('SpacesAfter=\\n' in line):
+                    if nl2x and ('SpacesAfter=\\n' in line) or ('SpacesAfter=\\s\\n' in line):
                         line_seg = line.split('\t')
 
-                        n = len(re.findall(r'\\n', line_seg[9]))
-                        assert n % 2 == 0, f'Number of \\n cannot be odd with nl2x activated. Got {n} \\n at line {i}'
-                        c.nl2x_n += n
-                        n = n // 2
+                        nl2x_n = len(re.findall(r'\\n', line_seg[9]))
+                        assert nl2x_n % 2 == 0, f'Number of \\n cannot be odd with nl2x activated. Got {nl2x_n} \\n at line {i}'
+                        c.nl2x_n += nl2x_n
+                        n = nl2x_n // 2
                         c.new_n += n
                         if n < 2:
                             remove_next_newpar = True
