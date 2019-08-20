@@ -17,31 +17,25 @@ class Batch:
         self.batch_string = None
         self.shell_string = None
         self.srun_prefix  = 'srun '
+        self.shebang = '#!/bin/sh\n'
+        self.source  = '\nsource ~/.bashrc\n'
+        self.modules = "module purge\nmodule load gcc"
+
 
     def construct_command(self, name, num_prefix=1):
         self.batch_string = self.head() + self.command_string.format(*[self.srun_prefix]*num_prefix)
         self.save_batchstring(name=f'latest_{name}.sh')
-        self.shell_string = self.shell_head(use_shebang=True, use_source=False) + self.command_string.format(*['']*num_prefix)
-
-    def shell_head(self, use_shebang=False, use_source=True):
-        shebang = '#!/bin/sh\n'
-        source  = 'source ~/.bashrc\n'
-        head_string = """
-module purge
-module load gcc
-"""
-        return shebang*use_shebang + source*use_source + head_string
+        self.shell_string = self.shebang + self.modules + self.command_string.format(*['']*num_prefix)
 
     def head(self):
-        head_string = f"""#!/bin/sh
-
+        slurm_string = f"""
 #SBATCH -t {self.timelimit}
 #SBATCH -n 1
 #SBATCH -J "{self.name}"
 #SBATCH --mem-per-cpu={self.memory} --partition={self.partition}
 #SBATCH --account={self.account}
 #SBATCH --output={self.log_path}/{self.name}-%j.out"""
-        return head_string + self.shell_head()
+        return self.shebang + slurm_string + self.modules
 
     def align(self, input_dir, output_dir, filename):
         self.command_string = f"""
