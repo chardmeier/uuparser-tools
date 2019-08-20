@@ -176,15 +176,19 @@ def chr_format_file(input_file, output_file, verbose=True):
         out_lines = []
         for line in f:
             #print(current_sent, doc_sents)
-            if line.startswith('# newpar'):
-                if doc_sents:
-                    print_doc_id = str(doc_id)
-                    doc_id += 1
-                    for i, sent in enumerate(doc_sents):
-                        doc_line = str(i+1)
+            if line.startswith('# newpar'): # initalize new document
+                if doc_sents: 
+                    print_doc_id = str(doc_id)   # set doc_id to write at first doc line
+                    doc_id += 1                  # add doc id
+                    for i, sent in enumerate(doc_sents):    # write all doc sents
+                        if current_sent:
+                            doc_sents.append(' '.join(current_sent))
+                            current_sent = []
+                        doc_line = str(i+1)     
                         out_line = '\t'.join((print_doc_id, doc_line, sent)) + '\n'
                         out_lines.append(out_line)
                         print_doc_id = ''
+                    #out_lines.append('\n')
                 current_sent = []
                 doc_sents    = []
             elif line.startswith('# sent_id'):
