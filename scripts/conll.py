@@ -201,6 +201,17 @@ def chr_format_file(input_file, output_file, verbose=True):
             else:
                 token = line.split()[1]
                 current_sent.append(token)
+        if current_sent:            # if there is a # newpar after a sentence it must be still written to old doc
+            doc_sents.append(' '.join(current_sent))
+            current_sent = []
+        if doc_sents: 
+            print_doc_id = str(doc_id)   # set doc_id to write at first doc line
+            doc_id += 1                  # add doc id
+            for i, sent in enumerate(doc_sents):    # write all doc sents
+                doc_line = str(i+1)     
+                out_line = '\t'.join((print_doc_id, doc_line, sent)) + '\n'
+                out_lines.append(out_line)
+                print_doc_id = ''
     with open(output_file, 'w') as o:
         if verbose:
             print(f' \u2b91  writing chr-format output ({len(out_lines)}) to:', output_file)
