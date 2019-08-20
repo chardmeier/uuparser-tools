@@ -25,6 +25,9 @@ def file2fast_text(in_file_1, in_file_2, out_file, empty_dict=None):
 def dir2fast_text(input_dir):
     input_dir, output_dir = create_same_level_output_dir(input_dir, 'merged')
     pairs_dict = get_pairs(input_dir, verbose=False)
+    for lang_pair in pairs_dict:
+        for lang in lang_pair:
+            assert not lang_pair[lang].endswith('.conll'), 'Fast Text format cannot be applied to .conll-files!'
     print('Pairs found:')
     pprint.pprint(pairs_dict)
 
@@ -67,7 +70,7 @@ def align(input_dir, use_shell=False):
     pprint.pprint(merged_files)
     print()
     print('Create and submit batchfiles..')
-    batch = Batch(name=f'alignment', memory='20GB', log_dir='alignment', timelimit='00:60:00')
+    batch = Batch(name=f'alignment', memory='20GB', log_dir='alignment', timelimit='00:30:00')
 
     for file in merged_files:
         pair = 'al_'+file.split('.')[-1]
