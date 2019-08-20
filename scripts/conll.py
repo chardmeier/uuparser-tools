@@ -196,7 +196,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                     doc_sents.append(' '.join(current_sent))
                     current_sent = []
             elif line.startswith('#') or line == '\n':
-                assert line == '# text' or line == '# newdoc' or line == '\n' 
+                assert line == '# text' or line == '# newdoc' or line == '\n', f'Got: {line}'
                 continue
             else:
                 token = line.split()[1]
