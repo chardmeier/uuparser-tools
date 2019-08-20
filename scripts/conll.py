@@ -185,7 +185,6 @@ def chr_format_file(input_file, output_file, verbose=True):
                         out_line = '\t'.join((print_doc_id, doc_line, sent)) + '\n'
                         out_lines.append(out_line)
                         print_doc_id = ''
-                    out_lines.append('\n')
                 current_sent = []
                 doc_sents    = []
             elif line.startswith('# sent_id'):
