@@ -19,7 +19,7 @@ class Batch:
         self.srun_prefix  = 'srun '
         self.shebang = '#!/bin/sh\n'
         self.source  = '\nsource ~/.bashrc\n'
-        self.modules = "module purge\nmodule load gcc"
+        self.modules = "\n\nmodule purge\nmodule load gcc\n\n"
 
 
     def construct_command(self, name, num_prefix=1):
