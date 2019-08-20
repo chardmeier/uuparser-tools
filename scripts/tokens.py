@@ -26,8 +26,9 @@ def dir2fast_text(input_dir):
     input_dir, output_dir = create_same_level_output_dir(input_dir, 'merged')
     pairs_dict = get_pairs(input_dir, verbose=False)
     for lang_pair in pairs_dict:
-        for lang in lang_pair:
-            assert not lang_pair[lang].endswith('.conll'), 'Fast Text format cannot be applied to .conll-files!'
+        print(lang_pair)
+        for lang in pairs_dict[lang_pair]:
+            assert not pairs_dict[lang_pair][lang].endswith('.conll'), 'Fast Text format cannot be applied to .conll-files!'
     print('Pairs found:')
     pprint.pprint(pairs_dict)
 
