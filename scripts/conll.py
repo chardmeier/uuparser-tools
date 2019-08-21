@@ -172,7 +172,9 @@ def chr_format_file(input_file, output_file, verbose=True):
         doc_id = 1
         current_sent = []
         doc_sents    = []
-        
+        n_in_token   = []
+        n_in_sent    = []
+
         out_lines = []
         for line in f:
             #print(current_sent, doc_sents)
@@ -180,35 +182,47 @@ def chr_format_file(input_file, output_file, verbose=True):
                 if current_sent:            # if there is a # newpar after a sentence it must be still written to old doc
                     doc_sents.append(' '.join(current_sent))
                     current_sent = []
+                    n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
+                    n_in_token = []
                 if doc_sents: 
                     print_doc_id = str(doc_id)   # set doc_id to write at first doc line
                     doc_id += 1                  # add doc id
                     for i, sent in enumerate(doc_sents):    # write all doc sents
-                        doc_line = str(i+1)     
+                        number_n_in_sent = sum(n_in_sent[i])
+                        assert number_n_in_sent <= 1
+                        doc_line = str(number_n_in_sent)   # adding document line id
                         out_line = '\t'.join((print_doc_id, doc_line, sent)) + '\n'
                         out_lines.append(out_line)
                         print_doc_id = ''
                     #out_lines.append('\n')
                 current_sent = []
                 doc_sents    = []
+                n_in_sent    = []
             elif line.startswith('# sent_id'):
                 if current_sent:
                     doc_sents.append(' '.join(current_sent))
                     current_sent = []
+                    n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
+                    n_in_token = []
             elif line.startswith('#') or line == '\n':
                 assert line.startswith('# text') or line.startswith('# newdoc') or line == '\n', f'Got: {line}'
                 continue
             else:
-                token = line.split()[1]
+                line_split = line.split()
+                token = line_split[1]
                 current_sent.append(token)
+                n_in_token.append(('\\n' in line_split[9])) # checks for \n at the end of sent (\n should not appear within the sentence)
+
         if current_sent:            # if there is a # newpar after a sentence it must be still written to old doc
             doc_sents.append(' '.join(current_sent))
             current_sent = []
+            n_in_sent.append((True in n_in_token))
+            n_in_token = []
         if doc_sents: 
             print_doc_id = str(doc_id)   # set doc_id to write at first doc line
             doc_id += 1                  # add doc id
             for i, sent in enumerate(doc_sents):    # write all doc sents
-                doc_line = str(i+1)     
+                doc_line = str(sum(n_in_sent[i]))   
                 out_line = '\t'.join((print_doc_id, doc_line, sent)) + '\n'
                 out_lines.append(out_line)
                 print_doc_id = ''

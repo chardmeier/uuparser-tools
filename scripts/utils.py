@@ -117,7 +117,7 @@ cd {PARSER}
         logfile = os.path.join(self.log_path, f'{self.name}_{rnd_id}.log')
         batch_history_path = self.save_batchstring(name=f"{rnd_id}.sh", history=True, shell=True)
         print(f'Batchfile location: {batch_history_path}\n')
-        command = f'sh {shell_path} &> {logfile} &'
+        command = f'nohup sh {shell_path} &> {logfile} &'
         print(f'Executing:', command)
         shell_output = os.popen(command).read()
         print(shell_output)
