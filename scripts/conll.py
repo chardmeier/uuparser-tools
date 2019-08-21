@@ -176,7 +176,7 @@ def chr_format_file(input_file, output_file, verbose=True):
         n_in_sent    = []
 
         out_lines = []
-        for line in f:
+        for conll_line_id, line in enumerate(f):
             #print(current_sent, doc_sents)
             if line.startswith('# newpar'): # initalize new document
                 if current_sent:            # if there is a # newpar after a sentence it must be still written to old doc
@@ -203,7 +203,11 @@ def chr_format_file(input_file, output_file, verbose=True):
                 if current_sent:
                     doc_sents.append(' '.join(current_sent))
                     current_sent = []
-                    assert sum(n_in_token) <= 1
+                    if sum(n_in_token) > 1:
+                        print('Line:', conll_line_id)
+                        print('n_in_token', n_in_token)
+                        print('current_sent', current_sent)
+
                     n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
                     n_in_token = []
             elif line.startswith('#') or line == '\n':
