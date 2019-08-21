@@ -187,13 +187,16 @@ def chr_format_file(input_file, output_file, verbose=True):
                 if doc_sents: 
                     print_doc_id = str(doc_id)   # set doc_id to write at first doc line
                     doc_id += 1                  # add doc id
+                    current_line_id = 1
+                    print_next_line_id = str(current_line_id)*True
                     for i, sent in enumerate(doc_sents):    # write all doc sents
-                        number_n_in_sent = sum(n_in_sent[i])
+                        current_line_id += n_in_sent[i]
                         assert number_n_in_sent <= 1
                         doc_line = str(number_n_in_sent)   # adding document line id
                         out_line = '\t'.join((print_doc_id, doc_line, sent)) + '\n'
                         out_lines.append(out_line)
                         print_doc_id = ''
+                        print_next_line_id = str(current_line_id)*n_in_sent[i]
                     #out_lines.append('\n')
                 current_sent = []
                 doc_sents    = []
