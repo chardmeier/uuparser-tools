@@ -191,7 +191,6 @@ def chr_format_file(input_file, output_file, verbose=True):
                     print_next_line_id = str(line_id)*True
                     for i, sent in enumerate(doc_sents):    # write all doc sents
                         line_id += n_in_sent[i]
-                        assert number_n_in_sent <= 1
                         out_line = '\t'.join((print_doc_id, print_next_line_id, sent)) + '\n'
                         out_lines.append(out_line)
                         print_doc_id = ''
