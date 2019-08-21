@@ -203,6 +203,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                 if current_sent:
                     doc_sents.append(' '.join(current_sent))
                     current_sent = []
+                    assert sum(n_in_token) <= 1
                     n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
                     n_in_token = []
             elif line.startswith('#') or line == '\n':
@@ -219,14 +220,17 @@ def chr_format_file(input_file, output_file, verbose=True):
             current_sent = []
             n_in_sent.append((True in n_in_token))
             n_in_token = []
-        if doc_sents: 
-            print_doc_id = str(doc_id)   # set doc_id to write at first doc line
-            doc_id += 1                  # add doc id
-            for i, sent in enumerate(doc_sents):    # write all doc sents
-                doc_line = str(sum(n_in_sent[i]))   
-                out_line = '\t'.join((print_doc_id, doc_line, sent)) + '\n'
-                out_lines.append(out_line)
-                print_doc_id = ''
+            if doc_sents: 
+                print_doc_id = str(doc_id)   # set doc_id to write at first doc line
+                doc_id += 1                  # add doc id
+                line_id = 1
+                print_next_line_id = str(line_id)*True
+                for i, sent in enumerate(doc_sents):    # write all doc sents
+                    line_id += n_in_sent[i]
+                    out_line = '\t'.join((print_doc_id, print_next_line_id, sent)) + '\n'
+                    out_lines.append(out_line)
+                    print_doc_id = ''
+                    print_next_line_id = str(line_id)*n_in_sent[i]
     with open(output_file, 'w') as o:
         if verbose:
             print(f' \u2b91  writing chr-format output ({len(out_lines)}) to:', output_file)
