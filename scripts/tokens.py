@@ -57,7 +57,7 @@ def dir2fast_text(input_dir):
     print('.. done.')
     return output_dir
 
-def align(input_dir, use_shell=False):
+def align(input_dir, use_shell=False, args=None):
     """
         input_dir: token directory
     """
@@ -71,7 +71,7 @@ def align(input_dir, use_shell=False):
     pprint.pprint(merged_files)
     print()
     print('Create and submit batchfiles..')
-    batch = Batch(name=f'alignment', memory='10GB', log_dir='alignment', timelimit='00:30:00')
+    batch = Batch(name=f'alignment', memory='10GB', log_dir='alignment', timelimit='00:25:00', args=args)
 
     for file in merged_files:
         pair = 'al_'+file.split('.')[-1]

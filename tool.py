@@ -122,7 +122,7 @@ elif args.command == 'utils':
 
 elif args.command == 'token':
     if args.align:
-        tokens.align(args.align, args.shell)
+        tokens.align(args.align, use_shell=args.shell, args=args)
 
 
 
