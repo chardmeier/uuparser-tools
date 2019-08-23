@@ -150,8 +150,7 @@ def parse(arg1, model_path=None, args=None):
     model_path = f"{MODELS}/{NAME_PARSER}/{d[lang]}/" # ADD JOIN
 
     batch = Batch(name=f'parse_{lang}', log_dir=NAME_PARSER, args=args)
-    batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir, 
-                duration=args.duration, memory=args.mem, partition=args.partition)
+    batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir)
     batch.submit()
 
 def parse_split(input_dir, match_string):
