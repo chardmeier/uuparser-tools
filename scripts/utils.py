@@ -10,8 +10,8 @@ DEFAULT_Memory    = '60GB'
 class Batch:
     def __init__(self, name, log_dir, memory=None, timelimit=None, partition=None, account=None, args=None):
         self.name   = name
-        log_path = os.path.join(LOGS, log_dir)
-        create_dir(log_path)
+        self.log_path = os.path.join(LOGS, log_dir)
+        create_dir(self.log_path)
 
         self.memory    = DEFAULT_Memory
         self.timelimit = DEFAULT_TimeLimit
