@@ -174,7 +174,7 @@ def chr_format_file(input_file, output_file, verbose=True):
         doc_sents    = []
         n_in_token   = []
         n_in_sent    = []
-
+        count_insent_n = 0
         out_lines = []
         for conll_line_id, line in enumerate(f):
             #print(current_sent, doc_sents)
@@ -204,8 +204,9 @@ def chr_format_file(input_file, output_file, verbose=True):
                     doc_sents.append(' '.join(current_sent))
                     current_sent = []
                     if sum(n_in_token) > 1:
-                        print('Line:', conll_line_id, f'({len(n_in_token)})')
+                        print('Line:', conll_line_id, f'({sum(n_in_token)})')
                         #print('n_in_token', n_in_token)
+                        count_insent_n += 1
 
                     n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
                     n_in_token = []
@@ -234,6 +235,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                     out_lines.append(out_line)
                     print_doc_id = ''
                     print_next_line_id = str(line_id)*n_in_sent[i]
+    print(f'{count_insent_n} sentences found containing more than one \\n.')
     with open(output_file, 'w') as o:
         if verbose:
             print(f' \u2b91  writing chr-format output ({len(out_lines)}) to:', output_file)
