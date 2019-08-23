@@ -61,8 +61,11 @@ def add_nl2x(input_file):
     print(f'Adding \\n to every line in: {input_path}')
     with open(input_path) as i:
         lines = i.readlines()
-    with open(input_path) as o:
-        o.writelines(map(lambda l: l + '\n', lines))
+        print(f'Reading {len(lines)} lines.')
+    with open(input_path, 'w') as o:
+        lines = list(map(lambda l: l + '\n', lines))
+        print(f'Writing {len(lines)} lines.')
+        o.writelines(lines)
 
 
 def split(input_file, chunksize, conll=False, nl2x=False):
