@@ -131,7 +131,7 @@ def merge_conll(input_dir, match_string, output_name=None, nl2x=False):
         remove_added_n(output_path)
 
 def train_parser(code):
-    batch = Batch(name=f'tp_{code}', memory='60GB', log_dir=PARSER_NAME)
+    batch = Batch(name=f'tp_{code}', memory='60GB', log_dir=NAME_PARSER)
     batch.train_parser(code)
     batch.submit()
 
@@ -147,9 +147,9 @@ def parse(arg1, model_path=None):
 
     
     lang = re.findall(r'.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*', input_file)[0]
-    model_path = f"{MODELS}/{PARSER_NAME}/{d[lang]}/" # ADD JOIN
+    model_path = f"{MODELS}/{NAME_PARSER}/{d[lang]}/" # ADD JOIN
 
-    batch = Batch(name=f'parse_{lang}', memory='60GB', log_dir=PARSER_NAME)
+    batch = Batch(name=f'parse_{lang}', memory='60GB', log_dir=NAME_PARSER)
     batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir)
     batch.submit()
 
@@ -235,7 +235,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                     out_lines.append(out_line)
                     print_doc_id = ''
                     print_next_line_id = str(line_id)*n_in_sent[i]
-    print(f'{count_insent_n} sentences found containing more than one \\n.')
+    print(f'Found {count_insent_n} sentences that contain multiple \\n.')
     with open(output_file, 'w') as o:
         if verbose:
             print(f' \u2b91  writing chr-format output ({len(out_lines)}) to:', output_file)
