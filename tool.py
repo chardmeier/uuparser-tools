@@ -32,6 +32,7 @@ utils_group = utils_args.add_mutually_exclusive_group(required=True)
 utils_group.add_argument('--split', '-s', type=str, help='Selected file will be splited.')
 utils_group.add_argument('--fast_text', type=str, nargs=3, metavar=['lang1', 'lang2', 'output'], help='Expects path to two parallel language token files. Files will be converted into a single file in fast_text format.')
 utils_group.add_argument('--fast_text_dir', type=str, help='Expects path to directory with parallel token files. Files will be converted to fast_text format.')
+utils_group.add_argument('--add_nl2x', type=str, help='Adds a \\n to every line in the input file.')
 
 
 
@@ -105,6 +106,9 @@ elif args.command == 'utils':
     elif args.fast_text_dir:
         raise NotImplementedError()
         tokens.align(args.align, args.shell)
+    elif args.add_nl2x:
+        preprocessing.add_nl2x(args.add_nl2x)
+
 
 elif args.command == 'token':
     if args.align:
