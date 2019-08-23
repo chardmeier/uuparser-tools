@@ -110,7 +110,7 @@ elif args.command == 'utils':
     elif args.add_nl2x:
         preprocessing.add_nl2x(args.add_nl2x)
     elif args.del_nl2x:
-        preprocessing.add_nl2x(args.del_nl2x)
+        preprocessing.del_nl2x(args.del_nl2x)
 
 
 elif args.command == 'token':
