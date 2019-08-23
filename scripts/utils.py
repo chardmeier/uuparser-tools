@@ -29,7 +29,7 @@ class Batch:
         self.modules = "\n\nmodule purge\nmodule load gcc\n\n"
 
     def init_args(self, memory=None, timelimit=None, partition=None, account=None, args=None):
-        if memoy:
+        if memory:
             self.memory    = memory
         if timelimit:
             self.timelimit = timelimit
