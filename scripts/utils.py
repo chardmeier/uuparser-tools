@@ -2,7 +2,7 @@ from .config import *
 from .helpers import create_dir, get_split_files
 import os, pprint, re, random
 
-DEFAULT_TimeLimit = '96:00:00'
+DEFAULT_TimeLimit = '24:00:00'
 DEFAULT_Partition = 'normal'
 DEFAULT_Account   = 'nn9447k'
 DEFAULT_Memory    = '60GB'
@@ -19,7 +19,8 @@ class Batch:
         self.account   = DEFAULT_Account
 
         self.init_args(memory=memory, timelimit=timelimit, partition=partition, account=account)
-        self.init_args(memory=args.mem, timelimit=args.duration, partition=args.partition, account=args.account)
+        if args:
+            self.init_args(memory=args.mem, timelimit=args.duration, partition=args.partition, account=args.account)
 
         self.batch_string = None
         self.shell_string = None

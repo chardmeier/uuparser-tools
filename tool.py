@@ -142,9 +142,9 @@ elif args.command == 'conll':
         if args.split:
             input_dir = args.parse
             match_string = args.split
-            helpers.handle_split(input_dir, match_string, do=conll.parse)
+            helpers.handle_split(input_dir, match_string, do=conll.parse, args=args)
         else:
-            conll.parse(args.parse)
+            conll.parse(args.parse, args=args)
     elif args.train:
         conll.train_parser(args.train, args=args)
 
