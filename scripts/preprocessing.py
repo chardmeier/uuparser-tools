@@ -56,6 +56,18 @@ def remove_n(input_file):
     with open(input_path, 'w') as f:
         f.write(text)
 
+def sublinks(input_file):
+    input_path = os.path.abspath(input_file)
+    with open(input_path) as f:
+        lines = f.readlines()
+    with open(input_path, 'w') as f:
+        for i, line in enumerate(lines):
+            if re.search(r'\w+\.\w+\s*\n', line):
+                new_line = re.sub(r'(\w+)\.(\w+\s+)', r'\1\\.\2', line)
+                print(i, line, '-->', new_line)
+                line = new_line
+            f.write(line)
+
 def add_nl2x(input_file):
     input_path = os.path.abspath(input_file)
     print(f'Adding \\n to every line in: {input_path}')

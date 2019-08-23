@@ -34,6 +34,7 @@ utils_group.add_argument('--fast_text', type=str, nargs=3, metavar=['lang1', 'la
 utils_group.add_argument('--fast_text_dir', type=str, help='Expects path to directory with parallel token files. Files will be converted to fast_text format.')
 utils_group.add_argument('--add_nl2x', type=str, help='Adds a \\n to every line in the input file.')
 utils_group.add_argument('--del_nl2x', type=str, help='Reduces the number of \\n evenly.')
+utils_group.add_argument('--sublinks', type=str, help='Performs substitution for links in form of: "(\w+)\.(\w+\s+)" --> "\1\\.\2"')
 
 
 
@@ -111,6 +112,8 @@ elif args.command == 'utils':
         preprocessing.add_nl2x(args.add_nl2x)
     elif args.del_nl2x:
         preprocessing.del_nl2x(args.del_nl2x)
+    elif args.sublinks:
+        preprocessing.sublinks(args.sublinks)
 
 
 elif args.command == 'token':
