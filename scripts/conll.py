@@ -204,9 +204,8 @@ def chr_format_file(input_file, output_file, verbose=True):
                     doc_sents.append(' '.join(current_sent))
                     current_sent = []
                     if sum(n_in_token) > 1:
-                        print('Line:', conll_line_id)
-                        print('n_in_token', n_in_token)
-                        print('current_sent', current_sent)
+                        print('Line:', conll_line_id, f'({len(n_in_token)})')
+                        #print('n_in_token', n_in_token)
 
                     n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
                     n_in_token = []
