@@ -74,7 +74,9 @@ def del_nl2x(input_file):
         lines = i.readlines()
         print(f'Reading {len(lines)} lines.')
     with open(input_path, 'w') as o:
-        lines = list(map(lambda l: l[:-1], lines))
+        for j in range(len(lines)):
+            if j % 2 == 1:
+                lines[j] = lines[j][:-1]
         print(f'Writing {len(lines)//2} lines.')
         o.writelines(lines)
 
