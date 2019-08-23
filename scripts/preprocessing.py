@@ -64,7 +64,18 @@ def add_nl2x(input_file):
         print(f'Reading {len(lines)} lines.')
     with open(input_path, 'w') as o:
         lines = list(map(lambda l: l + '\n', lines))
-        print(f'Writing {len(lines)} lines.')
+        print(f'Writing {len(lines)*2} lines.')
+        o.writelines(lines)
+
+def del_nl2x(input_file):
+    input_path = os.path.abspath(input_file)
+    print(f'Adding \\n to every line in: {input_path}')
+    with open(input_path) as i:
+        lines = i.readlines()
+        print(f'Reading {len(lines)} lines.')
+    with open(input_path, 'w') as o:
+        lines = list(map(lambda l: l[:-1], lines))
+        print(f'Writing {len(lines)//2} lines.')
         o.writelines(lines)
 
 
