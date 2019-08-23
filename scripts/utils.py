@@ -2,24 +2,41 @@ from .config import *
 from .helpers import create_dir, get_split_files
 import os, pprint, re, random
 
+DEFAULT_TimeLimit = '96:00:00'
+DEFAULT_Partition = 'normal'
+DEFAULT_Account   = 'nn9447k'
+DEFAULT_Memory    = '60GB'
 
 class Batch:
-    def __init__(self, name, memory, log_dir, timelimit='96:00:00', partition='normal', account='nn9447k'):
+    def __init__(self, name, log_dir, memory=None, timelimit=None, partition=None, account=None, args=None):
         self.name   = name
-        self.memory = memory 
         log_path = os.path.join(LOGS, log_dir)
         create_dir(log_path)
 
-        self.log_path  = log_path
-        self.timelimit = timelimit
-        self.partition = partition
-        self.account   = account
+        self.memory    = DEFAULT_Memory
+        self.timelimit = DEFAULT_TimeLimit
+        self.partition = DEFAULT_Partition
+        self.account   = DEFAULT_Account
+
+        self.init_args(memory=memory, timelimit=timelimit, partition=partition, account=account)
+        self.init_args(memory=args.mem, timelimit=args.duration, partition=args.partition, account=args.account)
+
         self.batch_string = None
         self.shell_string = None
         self.srun_prefix  = 'srun '
         self.shebang = '#!/bin/sh\n'
         self.source  = '\nsource ~/.bashrc\n'
         self.modules = "\n\nmodule purge\nmodule load gcc\n\n"
+
+    def init_args(self, memory=None, timelimit=None, partition=None, account=None, args=None):
+        if memoy:
+            self.memory    = memory
+        if timelimit:
+            self.timelimit = timelimit
+        if partition:
+            self.partition = partition
+        if account:
+            self.account   = account
 
 
     def construct_command(self, name, num_prefix=1):

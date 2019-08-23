@@ -49,13 +49,16 @@ def get_split_files(input_dir, match_string, verbose=True):
     assert part_files, 'No valid files found!'
     return part_files
 
-def handle_split(input_dir, match_string, do):
+def handle_split(input_dir, match_string, do, args=None):
     """Collects all files from the input_dir matching with match_string and handing over to do=func()"""
     assert os.path.isdir(input_dir), f'Directory not found: {input_dir}'
     part_files = get_split_files(input_dir, match_string)
 
     for file in part_files:
-        do(os.path.join(input_dir, file))
+        if args:
+            do(os.path.join(input_dir, file), args=args)
+        else:
+            do(os.path.join(input_dir, file))
         print()
 
 def create_same_level_output_dir(input_dir, output_dir_name, verbose=True):

@@ -130,12 +130,12 @@ def merge_conll(input_dir, match_string, output_name=None, nl2x=False):
     if nl2x:
         remove_added_n(output_path)
 
-def train_parser(code):
-    batch = Batch(name=f'tp_{code}', memory='60GB', log_dir=NAME_PARSER)
+def train_parser(code, args):
+    batch = Batch(name=f'tp_{code}', duration=args.duration, memory=args.mem, partition=args.partition, log_dir=NAME_PARSER)
     batch.train_parser(code)
     batch.submit()
 
-def parse(arg1, model_path=None):
+def parse(arg1, model_path=None, args=None):
     # arg1: path to file that will be tokenized/tagged
     # input file is expected to end with the respective language for example: abc.xy.en
     input_path = os.path.abspath(arg1)
@@ -150,7 +150,8 @@ def parse(arg1, model_path=None):
     model_path = f"{MODELS}/{NAME_PARSER}/{d[lang]}/" # ADD JOIN
 
     batch = Batch(name=f'parse_{lang}', memory='60GB', log_dir=NAME_PARSER)
-    batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir)
+    batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir, 
+                duration=args.duration, memory=args.mem, partition=args.partition)
     batch.submit()
 
 def parse_split(input_dir, match_string):

@@ -2,12 +2,22 @@
 
 import argparse, os
 
+from scripts import tokenizer
+from scripts import conll
+from scripts import preprocessing
+from scripts import utils
+from scripts import helpers
+from scripts import tokens
+import time
+
+
 batch_job_options  = argparse.ArgumentParser(add_help=False)
 batch_group = batch_job_options.add_argument_group('Batch Job Script options')
-batch_group.add_argument('--mem', default='60GB', type=str, help='Sets amount of memory allocated for the job. For example "60GB"')
-batch_group.add_argument('--duration', '-d', default='96:00:00', type=str, help='Sets the TimeLimit for the job. For example "96:00:00"')
 batch_group.add_argument('--name', '-n', type=str, help='Option for setting a manual name for batch job.')
-batch_group.add_argument('--partition', type=str, choices=['normal', 'hugemem', 'accel'], default='normal', help='Setting partition for the job to run on (default=normal).')
+batch_group.add_argument('--mem', default='60GB', default=None, help=f'Sets amount of memory allocated for the job. Default: {utils.DEFAULT_Memory}')
+batch_group.add_argument('--duration', '-d', default=None, help=f'Sets the TimeLimit for the job. Default: {utils.DEFAULT_TimeLimit}')
+batch_group.add_argument('--partition', choices=['normal', 'hugemem', 'accel'], default=None, help='Setting partition for the job to run on (default=normal).')
+batch_group.add_argument('--account', default='nn9447k', type=str, help='Sets the account the job will run on.')
 
 
 other_options  = argparse.ArgumentParser(add_help=False)
@@ -83,13 +93,7 @@ eflomal_group.add_argument('--align', '-a', type=str, help='Expects path to toke
 args = arg_parser.parse_args()
 print (args)
 
-from scripts import tokenizer
-from scripts import conll
-from scripts import preprocessing
-from scripts import utils
-from scripts import helpers
-from scripts import tokens
-import time
+
 
 
 if args.command == 'text':
@@ -141,6 +145,8 @@ elif args.command == 'conll':
             helpers.handle_split(input_dir, match_string, do=conll.parse)
         else:
             conll.parse(args.parse)
+    elif args.train:
+        conll.train_parser(args.train, args=args)
 
 
 
