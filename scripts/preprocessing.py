@@ -62,7 +62,7 @@ def sublinks(input_file):
         lines = f.readlines()
     with open(input_path, 'w') as f:
         for i, line in enumerate(lines):
-            if re.search(r'\w+\.[a-z]+\s*\n', line):
+            if re.search(r'\w+\.[a-z]{2, 15}+\s*\n', line):
                 new_line = re.sub(r'(\w+)\.(\w+\s+)', r'\1\\.\2', line)
                 print(i, line, '-->', new_line)
                 line = new_line
