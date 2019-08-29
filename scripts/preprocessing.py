@@ -106,7 +106,7 @@ def resublinks(input_file, strict=True):
         i = int(SUB_TOKEN.split('_')[3])
         assert SUB_TOKEN in lines[i], f'Coud not fould token "{SUB_TOKEN}" at line {i}'
         lines[i] = lines[i].replace(SUB_TOKEN, link_dict[SUB_TOKEN])
-        print(f'{i: 7} {SUB_TOKEN}   --->   {link_dict[SUB_TOKEN]}')
+        print(f'{i: 9} {SUB_TOKEN}   --->   {link_dict[SUB_TOKEN]}')
     with open(input_file, 'w') as f:
         f.writelines(lines)
         print(f'{len(link_dict)} placeholders were substituted by links.')
@@ -137,11 +137,11 @@ def sublinks(input_path, i_prec=7):
                 mail = re.findall(mail_reg, line)
                 link = re.findall(link_reg, line)
                 if mail:
-                    SUB_TOKEN = fr'__MAIL_{i:07}__'
+                    SUB_TOKEN = fr'__MAIL_{i:09}__'
                     line = re.sub(mail_reg, SUB_TOKEN+r'\2', line)
                     link_dict[SUB_TOKEN] = mail[0][0]
                 elif link:
-                    SUB_TOKEN = fr'__LINK_{i:07}__'
+                    SUB_TOKEN = fr'__LINK_{i:09}__'
                     line = re.sub(link_reg, SUB_TOKEN+r'\6', line)
                     link_dict[SUB_TOKEN] = link[0][0]
                 else:
@@ -149,7 +149,7 @@ def sublinks(input_path, i_prec=7):
                     print(line)
                     SUB_TOKEN = None
                     print('**** Uncatched link end ****')
-                print(f'{i: 7} {SUB_TOKEN}   <---   {link_dict[SUB_TOKEN]}')
+                print(f'{i: 9} {SUB_TOKEN}   <---   {link_dict[SUB_TOKEN]}')
             f.write(line)
         print(f'{len(link_dict)} links were substituted by placeholders.')
         dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
