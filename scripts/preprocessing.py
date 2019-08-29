@@ -1,6 +1,6 @@
 import sys, os, ntpath, re
 # UDPipe tokenize.py
-from .helpers import default_by_lang, create_dir, udpipe_model_to_code, save_dict
+from .helpers import default_by_lang, create_dir, udpipe_model_to_code, save_dict, get_dict
 from .config import *
 from .utils import Batch
 
@@ -77,6 +77,20 @@ def remove_n(input_file):
 
     with open(input_path, 'w') as f:
         f.write(text)
+
+def resublinks(input_file, strict=True):
+    input_path = os.path.abspath(input_file)
+    filename   = input_path.basename(input_path)
+
+    dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
+    dict_data = get_dict(dict_path)
+    link_dict = dict_data[filename]
+    with open(input_file) as f:
+        lines = f.readlines()
+    for SUB_TOKEN in link_dict:
+        i = int(SUB_TOKEN.split('_')[3])
+        lines[i] = lines[i].replace(SUB_TOKEN, link_dict[SUB_TOKEN])
+
 
 def sublinks(input_file):
     input_path = os.path.abspath(input_file)

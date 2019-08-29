@@ -5,11 +5,9 @@ from collections import defaultdict
 
 from .config import SCRIPTS, MODELS, NAME_TOKENIZER, BATCHFILES, code2lang
 
-def save_dict(dict_path, dict_data, verbose=True):
-    dict_path = os.path.abspath(dict_path) # dictionary path
-    d = {}
+def get_dict(dict_path, auto_create=False):
     if os.path.isfile(dict_path):
-        with open(dict_path) as f:    # reading out existing data
+        with open(dict_path) as f:
             file_data = f.read()
             if file_data:
                 try:
@@ -18,6 +16,16 @@ def save_dict(dict_path, dict_data, verbose=True):
                     print('Cannot read dictionary:')
                     print(file_data)
                     raise(e)
+    else:
+        if auto_create:
+            return {}
+        else:
+            raise(FileNotFoundError('Coud not found dictionary file: '+dict_path))
+    return d
+
+def save_dict(dict_path, dict_data, verbose=True):
+    dict_path = os.path.abspath(dict_path) # dictionary path
+    d = get_dict(dict_path, auto_create=True) # reading out existing data
 
     with open(dict_path, 'w') as f:   # writing new / updated data
         d.update(dict_data)
