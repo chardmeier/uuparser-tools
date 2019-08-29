@@ -93,12 +93,13 @@ def sublinks(input_file):
                 mail = re.findall(mail_reg, line)
                 link = re.findall(link_reg, line)
                 if mail:
-                    SUB_TOKEN = fr'__MAIL_{i:04}__\2'
-                    line = re.sub(mail_reg, SUB_TOKEN, line)
+                    SUB_TOKEN = fr'__MAIL_{i:04}__'
+                    line = re.sub(mail_reg, SUB_TOKEN+r'\2', line)
+                    SUB_TOKEN = SUB_TOKEN.split
                     link_dict[SUB_TOKEN] = mail[0][0]
                 elif link:
-                    SUB_TOKEN = fr'__LINK_{i:04}__\6'
-                    line = re.sub(link_reg, SUB_TOKEN, line)
+                    SUB_TOKEN = fr'__LINK_{i:04}__'
+                    line = re.sub(link_reg, SUB_TOKEN+r'\6', line)
                     link_dict[SUB_TOKEN] = link[0][0]
                 else:
                     print('**** WARNING: Uncatched link ****')
