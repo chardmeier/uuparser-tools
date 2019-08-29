@@ -16,6 +16,7 @@ def add_fast_text_n(input_path, ending=True, assertion=True):
             except AssertionError as e:
                 print(e)
                 print('Ommiting file:', filename)
+            print()
         return
 
     input_path = os.path.abspath(input_path)

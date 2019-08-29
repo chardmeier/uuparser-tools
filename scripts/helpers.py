@@ -5,14 +5,15 @@ from collections import defaultdict
 
 from .config import SCRIPTS, MODELS, NAME_TOKENIZER, BATCHFILES, code2lang
 
-def get_dict(dict_path, auto_init=False):
+def get_dict(dict_path, auto_init=False, verbose=True):
     if os.path.isfile(dict_path):
         with open(dict_path) as f:
             file_data = f.read()
             if file_data:
                 try:
                     d = eval(file_data)
-                    print('Reading dictionary:', dict_path)
+                    if verbose:
+                        print('Reading dictionary:', dict_path)
                 except SyntaxError as e:
                     print('Cannot read dictionary:', dict_path)
                     print('Data:')
