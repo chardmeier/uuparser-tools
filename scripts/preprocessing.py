@@ -148,7 +148,7 @@ def sublinks(input_path):
                     print(line)
                     SUB_TOKEN = None
                     print('**** Uncatched link end ****')
-                print(link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, '- new line:', line, end='')
+                print(link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, '- new line: ..', line[-65:], end='')
             f.write(line)
         dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
         dict_data = {filename: link_dict}
