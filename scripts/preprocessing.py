@@ -9,7 +9,7 @@ def add_fast_text_n(input_file, ending=True, assertion=True):
     input_dir  = os.path.dirname(input_path)
     filename   = os.path.basename(input_path)
 
-    dict_path  = os.abspath(os.path.join(input_dir, '..', 'empty.dict'))
+    dict_path  = os.path.abspath(os.path.join(input_dir, '..', 'empty.dict'))
     empty_dict = get_dict(dict_path)
     with open(input_path) as f:
         fast_text_lines = f.readlines()
