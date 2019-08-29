@@ -283,7 +283,7 @@ class TokenManager:
     def process_line(self, i, line):
         self.line_id += 1
         placeholder, link = self.current()
-        if placeholder and (self.SUB_TOKENS in line):
+        if placeholder and (placeholder in line):
             line = line.replace(placeholder, link)
             print(f'{i: 9} {placeholder}   --->   {link}')
             self.got_match()
