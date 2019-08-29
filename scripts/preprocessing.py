@@ -109,6 +109,7 @@ def resublinks(input_file, strict=True):
         print(i, SUB_TOKEN, '-->', link_dict[SUB_TOKEN])
     with open(input_file, 'w') as f:
         f.writelines(lines)
+        print(f'{len(link_dict)} placeholders were substituted by links.')
         print('Changes saved to:', input_path)
 
 
@@ -150,7 +151,7 @@ def sublinks(input_path):
                     print('**** Uncatched link end ****')
                 print(i, link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, '- new line: ..', line[-60:], end='')
             f.write(line)
-        print(f'{len(link_dict)} links were replaced.')
+        print(f'{len(link_dict)} links were substituted by placeholders.')
         dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
         dict_data = {filename: link_dict}
         save_dict(dict_path=dict_path, dict_data=dict_data)
