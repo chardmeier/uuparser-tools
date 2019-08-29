@@ -7,12 +7,15 @@ from .utils import Batch
 def add_fast_text_n(input_path, ending=True, assertion=True):
     if os.path.isdir(input_path):
         files = get_files(input_path, allowed_endings=['.rev', '.fwd'])
+        if not files:
+            print('No valid files found in:', input_path)
         for filename in files:
             try:
                 add_fast_text_n(os.path.join(input_path, filename))
             except AssertionError as e:
                 print(e)
                 print('Ommiting file:', filename)
+        return
 
     input_path = os.path.abspath(input_path)
     input_dir  = os.path.dirname(input_path)
