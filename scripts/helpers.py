@@ -73,6 +73,17 @@ def get_pairs(input_dir, ending='', verbose=False):
         pairs_dict[re.findall(r'([a-z]{2}-[a-z]{2})\.', file)[0]][lang] = file
     return dict(pairs_dict)
 
+def get_corpus_files(input_dir):
+    input_dir = os.path.abspath(input_dir)
+    files = os.listdir(input_dir)
+    files = list(filter(lambda f: not f.startswith('PART_'), files))
+    files = list(filter(lambda f: os.path.isfile(f), files))
+    files = list(filter(lambda f: re.match(r'.+\.[a-z]{2,5}\-[a-z]{2,5}\.[a-z]{2,5}$', f), files))
+    print('Found corpus files:',)
+    files.sort()
+    pprint.pprint(files)
+    return files
+
 def get_conlls(input_dir, exclude_parts=True, verbose=True):
     files = os.listdir(input_dir)
     conll_files = list(filter(lambda f: f.endswith('.conll'), files))

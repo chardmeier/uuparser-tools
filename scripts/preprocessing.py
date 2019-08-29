@@ -1,6 +1,6 @@
 import sys, os, ntpath, re
 # UDPipe tokenize.py
-from .helpers import default_by_lang, create_dir, udpipe_model_to_code, save_dict, get_dict
+from .helpers import default_by_lang, create_dir, udpipe_model_to_code, save_dict, get_dict, get_corpus_files
 from .config import *
 from .utils import Batch
 
@@ -97,8 +97,13 @@ def resublinks(input_file, strict=True):
         print('Changes saved to:', input_path)
 
 
-def sublinks(input_file):
-    input_path = os.path.abspath(input_file)
+def sublinks(input_path):
+    input_path = os.path.abspath(input_path)
+    if os.path.isdir(input_path):
+        files = get_corpus_files(input_path)
+        for file in files:
+            sublinks(file)
+        return
     filename   = os.path.basename(input_path)
 
     with open(input_path) as f:
