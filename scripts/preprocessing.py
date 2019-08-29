@@ -28,7 +28,7 @@ def add_fast_text_n(input_path, ending=True, assertion=True):
     assert len(lines) != empty_dict[filename+'.no_lines'], 'No lines added - already has correct number of lines.'
     for e_id in empty_dict[filename]:
         lines.insert(e_id, '\n')
-    assert len(lines) == empty_dict[filename+'.no_lines'], f'Something is wrong. Got {len(lines)} lines but expected {empty_dict[filename+'.no_lines']} lines.'
+    assert len(lines) == empty_dict[filename+'.no_lines'], f'Something is wrong. Got {len(lines)} lines but expected {empty_dict[filename+".no_lines"]} lines.'
     with open(input_path, 'w') as f:
         f.writelines(lines)
 
