@@ -89,6 +89,7 @@ def resublinks(input_file, strict=True):
         lines = f.readlines()
     for SUB_TOKEN in link_dict:
         i = int(SUB_TOKEN.split('_')[3])
+        assert SUB_TOKEN in lines[i], f'Coud not fould token "{SUB_TOKEN}" at line {i}'
         lines[i] = lines[i].replace(SUB_TOKEN, link_dict[SUB_TOKEN])
         print(i, SUB_TOKEN, '-->', link_dict[SUB_TOKEN])
     with open(input_file, 'w') as f:
