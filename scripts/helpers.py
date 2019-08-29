@@ -11,6 +11,7 @@ def save_dict(dict_path, dict_data, verbose=True):
     if os.path.isfile(dict_path):
         with open(dict_path) as f:    # reading out existing data
             d = eval(f.read())
+
     with open(dict_path, 'w') as f:   # writing new / updated data
         d.update(dict_data)
         f.write(repr(d))
