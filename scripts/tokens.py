@@ -20,7 +20,8 @@ def file2fast_text(in_file_1, in_file_2, out_file, empty_dict=None):
                 empty_lines.append(i)
 
     if empty_dict != None:
-        empty_dict[out_file] = empty_lines
+        filename = os.path.basename(out_file)
+        empty_dict[filename] = empty_lines
 
 def dir2fast_text(input_dir):
     input_dir, output_dir = create_same_level_output_dir(input_dir, 'merged')
@@ -38,7 +39,7 @@ def dir2fast_text(input_dir):
         lang_1, lang_2 = pair.split('-')
         root = root = pairs_dict[pair][lang_1].split('.')[0]
         
-        filename_d1 = f'{root}.{lang_1}-{lang_2}'
+        filename_d1 = f'{root}.{lang_1}-{lang_2}.fast_text'
         outputpath_d1 = os.path.join(output_dir, filename_d1)
 
         inputpath_l1 = os.path.join(input_dir, pairs_dict[pair][lang_1])
@@ -46,7 +47,7 @@ def dir2fast_text(input_dir):
         file2fast_text(inputpath_l1, inputpath_l2, outputpath_d1, empty_dict)
         
 
-        filename_d2 = f'{root}.{lang_2}-{lang_1}'
+        filename_d2 = f'{root}.{lang_2}-{lang_1}.fast_text'
 
         outputpath_d2 = os.path.join(output_dir, filename_d2)
         file2fast_text(inputpath_l2, inputpath_l1, outputpath_d2, empty_dict)

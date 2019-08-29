@@ -4,6 +4,28 @@ from .helpers import default_by_lang, create_dir, udpipe_model_to_code
 from .config import *
 from .utils import Batch
 
+def add_fast_text_n(input_file, ending=True, assertion=True):
+    input_path = os.path.abspath(input_file)
+    input_dir  = os.path.dirname(input_path)
+    filename   = os.path.basename(input_path)
+
+    dict_path  = os.path.join(input_dir, 'empty.dict')
+    with open(dict_path) as f:
+        empty_dict = eval(f.read())
+    with open(input_path) as f:
+        fast_text_lines = f.readlines()
+
+    if ending:
+        filename = filename.rsplit('.', 1)[0]
+    for e_id in empty_dict[filename]:
+        if assertion:
+            assert fast_text_lines[e_id] != '\n', f'Error line: {e_id}\n{input_path} already contains "\\n"!'
+        fast_text_lines.insert(e_id, '\n')
+        assertion = False
+    with open(input_path, 'w') as f:
+        f.writelines(fast_text_lines)
+
+
 def replace_chars_file(filepath):
     filepath = os.path.abspath(filepath)
     replace_pairs = [('\u2028', ' '), ('\x85', '')]
@@ -60,12 +82,30 @@ def sublinks(input_file):
     input_path = os.path.abspath(input_file)
     with open(input_path) as f:
         lines = f.readlines()
+
+    link_dict = {}
     with open(input_path, 'w') as f:
         for i, line in enumerate(lines):
             if re.search(r'\w+\.[a-z]{2,15}\s*\n', line):
-                new_line = re.sub(r'(\w+)\.(\w+\s+)', r'\1\\.\2', line)
-                print(i, line, '-->', new_line)
-                line = new_line
+                mail_reg = '([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)(\s*\n)'
+                link_reg = r'((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[A-Za-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)(:?\s*\n)'
+
+                mail = re.findall(mail_reg, line)
+                link = re.findall(link_reg, line)
+                if mail:
+                    SUB_TOKEN = fr'__MAIL_{i:04}__\2'
+                    line = re.sub(mail_reg, SUB_TOKEN, line)
+                    link_dict[SUB_TOKEN] = mail[0][0]
+                elif link:
+                    SUB_TOKEN = fr'__LINK_{i:04}__\6'
+                    line = re.sub(link_reg, SUB_TOKEN, line)
+                    link_dict[SUB_TOKEN] = link[0][0]
+                else:
+                    print('**** WARNING: Uncatched link ****')
+                    print(line)
+                    SUB_TOKEN = None
+                    print('**** Uncatched link end ****')
+                print(link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, line)
             f.write(line)
 
 def add_nl2x(input_file):

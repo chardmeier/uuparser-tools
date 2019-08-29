@@ -291,7 +291,7 @@ def extract_tokens(input_arg, nl2x=False):
                         line = []
                         
         out_file = '.'.join(file.split('.')[:-1]) + ending
-        out_path = os.path.join(output_dir, out_file)
+        out_path = os.path.join(output_dir, out_file, '.token')
         with open(out_path, 'w') as f:
             print(f' \u2b91  writing tokens ({count_n} lines) to:', out_path)
             f.writelines(lines)
