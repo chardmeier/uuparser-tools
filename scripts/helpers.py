@@ -11,7 +11,7 @@ def get_dict(dict_path, auto_create=False):
             file_data = f.read()
             if file_data:
                 try:
-                    d = eval(f.read())
+                    d = eval(file_data)
                 except SyntaxError as e:
                     print('Cannot read dictionary:', dict_path)
                     print('Data:')
