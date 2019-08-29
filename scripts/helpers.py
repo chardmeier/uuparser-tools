@@ -5,7 +5,7 @@ from collections import defaultdict
 
 from .config import SCRIPTS, MODELS, NAME_TOKENIZER, BATCHFILES, code2lang
 
-def save_dict(path, dict_data, verbose=True):
+def save_dict(dict_path, dict_data, verbose=True):
     path = os.path.abspath(path) # dictionary path
     if os.path.isfile(path):
         with open(path) as f:    # reading out existing data
