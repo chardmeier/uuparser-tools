@@ -90,6 +90,10 @@ def resublinks(input_file, strict=True):
     for SUB_TOKEN in link_dict:
         i = int(SUB_TOKEN.split('_')[3])
         lines[i] = lines[i].replace(SUB_TOKEN, link_dict[SUB_TOKEN])
+        print(i, SUB_TOKEN, '-->', link_dict[SUB_TOKEN])
+    with open(input_file, 'w') as f:
+        f.writelines(lines)
+        print('Changes saved to:', input_path)
 
 
 def sublinks(input_file):
