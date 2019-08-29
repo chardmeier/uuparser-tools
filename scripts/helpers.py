@@ -6,16 +6,16 @@ from collections import defaultdict
 from .config import SCRIPTS, MODELS, NAME_TOKENIZER, BATCHFILES, code2lang
 
 def save_dict(dict_path, dict_data, verbose=True):
-    path = os.path.abspath(path) # dictionary path
-    if os.path.isfile(path):
-        with open(path) as f:    # reading out existing data
+    dict_path = os.path.abspath(dict_path) # dictionary path
+    if os.path.isfile(dict_path):
+        with open(dict_path) as f:    # reading out existing data
             d = eval(f.read())
 
-    with open(path, 'w') as f:   # writing new / updated data
+    with open(dict_path, 'w') as f:   # writing new / updated data
         d.update(dict_data)
         f.write(repr(d))
     if verbose:
-        print('Saved:', path)
+        print('Saved:', dict_path)
 
 
 
