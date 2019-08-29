@@ -85,15 +85,21 @@ def get_corpus_files(input_dir):
     pprint.pprint(files)
     return files
 
-def get_conlls(input_dir, exclude_parts=True, verbose=True):
+def get_files(input_dir, allowed_endings, exclude_parts=True, verbose=True):
     files = os.listdir(input_dir)
-    conll_files = list(filter(lambda f: f.endswith('.conll'), files))
+    assert isinstance(allowed_endings, list) or isinstance(allowed_endings, tuple)
     if exclude_parts:
-        conll_files = list(filter(lambda f: (not f.startswith('PART_')), conll_files))
-    print('Found .conll files:',)
-    conll_files.sort()
-    pprint.pprint(conll_files)
-    return conll_files
+        files = list(filter(lambda f: (not f.startswith('PART_')), files))
+    for ending in allowed_endings:
+        files = list(filter(lambda f: f.endswith(ending), files))
+    
+    print(f'Found {allowed_endings} files:',)
+    files.sort()
+    pprint.pprint(files)
+    return files
+
+def get_conlls(input_dir, exclude_parts=True, verbose=True):
+    return get_files(input_dir, ['.conll'], exclude_parts=True, verbose=True)
 
 def get_split_files(input_dir, match_string, verbose=True):
     files = os.listdir(input_dir)
