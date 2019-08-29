@@ -1,0 +1,6 @@
+https://wit3.fbk.eu/archive/2016-01//texts/cs/en/cs-en.tgz
+https://wit3.fbk.eu/archive/2016-01//texts/de/en/de-en.tgz
+https://wit3.fbk.eu/archive/2016-01//texts/en/cs/en-cs.tgz
+https://wit3.fbk.eu/archive/2016-01//texts/en/de/en-de.tgz
+https://wit3.fbk.eu/archive/2016-01//texts/en/fr/en-fr.tgz
+https://wit3.fbk.eu/archive/2016-01//texts/fr/en/fr-en.tgz
