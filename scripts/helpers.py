@@ -10,7 +10,14 @@ def save_dict(dict_path, dict_data, verbose=True):
     d = {}
     if os.path.isfile(dict_path):
         with open(dict_path) as f:    # reading out existing data
-            d = eval(f.read())
+            file_data = f.read()
+            if file_data:
+                try:
+                    d = eval(f.read())
+                except SyntaxError as e:
+                    print('Cannot read dictionary:')
+                    print(file_data)
+                    raise(e)
 
     with open(dict_path, 'w') as f:   # writing new / updated data
         d.update(dict_data)
