@@ -1,6 +1,6 @@
 import sys, os, ntpath, re
 # UDPipe tokenize.py
-from .helpers import default_by_lang, create_dir, udpipe_model_to_code, save_dict, get_dict, get_corpus_files
+from .helpers import default_by_lang, create_dir, udpipe_model_to_code, save_dict, get_dict, get_corpus_files, get_dict
 from .config import *
 from .utils import Batch
 
@@ -9,9 +9,8 @@ def add_fast_text_n(input_file, ending=True, assertion=True):
     input_dir  = os.path.dirname(input_path)
     filename   = os.path.basename(input_path)
 
-    dict_path  = os.path.join(input_dir, 'empty.dict')
-    with open(dict_path) as f:
-        empty_dict = eval(f.read())
+    dict_path  = os.abspath(os.path.join(input_dir, '..', 'empty.dict'))
+    empty_dict = get_dict(dict_path)
     with open(input_path) as f:
         fast_text_lines = f.readlines()
 

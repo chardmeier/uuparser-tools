@@ -279,7 +279,7 @@ class TokenManager:
             print('Error: Not all tokens found:')
             print(self.counter)
             print(self.SUB_TOKENS)
-            assert sum(self.counter) == len(self.SUB_TOKENS)*2
+            assert sum(self.counter) == len(self.SUB_TOKENS)*2, 'Not all tokens could be found in .conll - changes not saved!'
     def process_line(self, i, line):
         self.line_id += 1
         placeholder, link = self.current()
