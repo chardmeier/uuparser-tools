@@ -1,6 +1,6 @@
 import sys, os, ntpath, re
 # UDPipe tokenize.py
-from .helpers import default_by_lang, create_dir, udpipe_model_to_code
+from .helpers import default_by_lang, create_dir, udpipe_model_to_code, save_dict
 from .config import *
 from .utils import Batch
 
@@ -107,6 +107,10 @@ def sublinks(input_file):
                     print('**** Uncatched link end ****')
                 print(link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, line)
             f.write(line)
+        dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
+        dict_data = {os.path.basename(input_path): link_dict}
+        save_dict(dict_path=dict_path, dict_data=dict_data)
+
 
 def add_nl2x(input_file):
     input_path = os.path.abspath(input_file)

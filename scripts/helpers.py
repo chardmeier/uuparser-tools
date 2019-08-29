@@ -5,6 +5,21 @@ from collections import defaultdict
 
 from .config import SCRIPTS, MODELS, NAME_TOKENIZER, BATCHFILES, code2lang
 
+def save_dict(path, dict_data, verbose=True):
+    path = os.path.abspath(path) # dictionary path
+    if os.path.isfile(path):
+        with open(path) as f:    # reading out existing data
+            d = eval(f.read())
+
+    with open(path, 'w') as f:   # writing new / updated data
+        d.update(dict_data)
+        f.write(repr(d))
+    if verbose:
+        print('Saved:', path)
+
+
+
+
 def get_pairs(input_dir, ending='', verbose=False):
     input_dir = os.path.abspath(input_dir)
     files = os.listdir(input_dir)

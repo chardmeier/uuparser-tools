@@ -33,3 +33,4 @@ from .mappings import code2lang
 
 # put batch_history_dir in config
 # global double_n switch for all operations
+# add endings .tokens, .fast_text
