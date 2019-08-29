@@ -5,7 +5,7 @@ from collections import defaultdict
 
 from .config import SCRIPTS, MODELS, NAME_TOKENIZER, BATCHFILES, code2lang
 
-def get_dict(dict_path, auto_create=False):
+def get_dict(dict_path, auto_init=False):
     if os.path.isfile(dict_path):
         with open(dict_path) as f:
             file_data = f.read()
@@ -19,18 +19,30 @@ def get_dict(dict_path, auto_create=False):
                     print()
                     raise(e)
     else:
-        if auto_create:
+        if auto_init:
             return {}
         else:
             raise(FileNotFoundError('Coud not found dictionary file: '+dict_path))
     return d
 
-def save_dict(dict_path, dict_data, verbose=True):
+def save_dict(dict_path, dict_data, overwrite_keys=False, verbose=True):
     dict_path = os.path.abspath(dict_path) # dictionary path
-    d = get_dict(dict_path, auto_create=True) # reading out existing data
+    d = get_dict(dict_path, auto_init=True) # reading out existing data
 
     with open(dict_path, 'w') as f:   # writing new / updated data
-        d.update(dict_data)
+        if overwrite_keys:
+            d.update(dict_data)
+        else:
+            for key in dict_data:
+                if key in d:
+                    d[key].update(dict_data[key])
+                    if verbose:
+                        print('Updated:', key)
+                else:
+                    d[key] = dict_data[key]
+
+
+            
         f.write(repr(d))
     if verbose:
         print('Saved:', dict_path)

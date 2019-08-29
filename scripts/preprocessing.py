@@ -94,9 +94,11 @@ def resublinks(input_file, strict=True):
 
 def sublinks(input_file):
     input_path = os.path.abspath(input_file)
+    filename   = input_path.basename(input_path)
+
     with open(input_path) as f:
         lines = f.readlines()
-
+        
     link_dict = {}
     with open(input_path, 'w') as f:
         for i, line in enumerate(lines):
@@ -122,7 +124,7 @@ def sublinks(input_file):
                 print(link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, line)
             f.write(line)
         dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
-        dict_data = {os.path.basename(input_path): link_dict}
+        dict_data = {filename: link_dict}
         save_dict(dict_path=dict_path, dict_data=dict_data)
 
 
