@@ -121,7 +121,7 @@ elif args.command == 'utils':
     elif args.sublinks:
         preprocessing.sublinks(args.sublinks)
     elif args.resublinks:
-        preprocessing.sublinks(args.resublinks)
+        preprocessing.resublinks(args.resublinks)
 
 
 elif args.command == 'token':
