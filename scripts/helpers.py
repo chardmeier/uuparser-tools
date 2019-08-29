@@ -38,8 +38,9 @@ def save_dict(dict_path, dict_data, overwrite_keys=False, verbose=True):
                 if key in d:
                     d[key].update(dict_data[key])
                     if verbose:
-                        print('Updated:', key)
+                        print('Updating key:', key)
                 else:
+                    print('Writing new key:', key)
                     d[key] = dict_data[key]
 
 

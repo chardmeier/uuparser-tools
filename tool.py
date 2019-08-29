@@ -15,7 +15,7 @@ batch_job_options  = argparse.ArgumentParser(add_help=False)
 batch_group = batch_job_options.add_argument_group('Batch Job Script options')
 batch_group.add_argument('--name', '-n', type=str, help='Option for setting a manual name for batch job.')
 batch_group.add_argument('--mem', default=None, help=f'Sets amount of memory allocated for the job. Default: {utils.DEFAULT_Memory}')
-batch_group.add_argument('--duration', '-d', default=None, help=f'Sets the TimeLimit for the job. Default: {utils.DEFAULT_TimeLimit}')
+batch_group.add_argument('--duration', default=None, help=f'Sets the TimeLimit for the job. Default: {utils.DEFAULT_TimeLimit}')
 batch_group.add_argument('--partition', choices=['normal', 'hugemem', 'accel'], default=None, help='Setting partition for the job to run on (default=normal).')
 batch_group.add_argument('--account', default='nn9447k', type=str, help='Sets the account the job will run on.')
 
@@ -23,9 +23,10 @@ batch_group.add_argument('--account', default='nn9447k', type=str, help='Sets th
 other_options  = argparse.ArgumentParser(add_help=False)
 other_options_group = batch_job_options.add_argument_group('Other options')
 #other_options_group.add_argument('--split', '-s', nargs='?', const=True, default=False, help='If set True, text file will be splitted before tokenizing.')
-other_options_group.add_argument('--split_size', type=int, default=150000, help='Sets split size (in lines).')
+other_options_group.add_argument('--split_size', type=int, default=100000, help='Sets split size (in lines).')
 other_options_group.add_argument('--nl2x', action='store_true', help='If set, newlines will be doubled while processing.')
 other_options_group.add_argument('--shell', action='store_true', help='If set, job will be executed via local shell instead of slurm-srun.')
+
 
 
 
@@ -46,6 +47,7 @@ utils_group.add_argument('--add_nl2x', type=str, help='Adds a \\n to every line 
 utils_group.add_argument('--del_nl2x', type=str, help='Reduces the number of \\n evenly.')
 utils_group.add_argument('--sublinks', type=str, help='Replaces links and mail addresses at the end of the line by placeholders.')
 utils_group.add_argument('--resublinks', type=str, help='Replaces placeholders by original links and mail addresses.')
+utils_group.add_argument('--download', type=str, nargs='*', help='Downloads specified corpus.')
 
 
 
@@ -122,6 +124,13 @@ elif args.command == 'utils':
         preprocessing.sublinks(args.sublinks)
     elif args.resublinks:
         preprocessing.resublinks(args.resublinks)
+    elif args.download:
+        if args.download[0] == 'news':
+            directory = args.download[1] if len(args.download) == 2 else '.'
+            preprocessing.news_commentary_v14(directory)
+        else:
+            print('Unkown corpus:', args.download[0])
+
 
 
 elif args.command == 'token':

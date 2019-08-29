@@ -126,7 +126,7 @@ def sublinks(input_file):
                     print(line)
                     SUB_TOKEN = None
                     print('**** Uncatched link end ****')
-                print(link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, line)
+                print(link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, '- new line:', line)
             f.write(line)
         dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
         dict_data = {filename: link_dict}
@@ -204,3 +204,8 @@ def split(input_file, chunksize, conll=False, nl2x=False):
             log.write(repr(part_list))
             
         return part_list
+
+
+def news_commentary_v14(download_dir='.'):
+    print('Saving corpus "news_commentary_v14" to:', download_dir)
+    os.system(f'sh scripts/shell_scripts/download_news_commentary.sh {download_dir}')
