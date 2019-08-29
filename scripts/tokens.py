@@ -24,6 +24,8 @@ def file2fast_text(in_file_1, in_file_2, out_file, empty_dict=None):
         if filename.endswith('.fast_text'):
             filename = filename.rsplit('.', 1)[0]
         empty_dict[filename] = empty_lines
+        empty_dict[filename+'.no_lines'] = i+1
+
 
 def dir2fast_text(input_dir):
     input_dir, output_dir = create_same_level_output_dir(input_dir, 'merged')
