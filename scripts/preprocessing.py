@@ -95,7 +95,6 @@ def sublinks(input_file):
                 if mail:
                     SUB_TOKEN = fr'__MAIL_{i:04}__'
                     line = re.sub(mail_reg, SUB_TOKEN+r'\2', line)
-                    SUB_TOKEN = SUB_TOKEN.split
                     link_dict[SUB_TOKEN] = mail[0][0]
                 elif link:
                     SUB_TOKEN = fr'__LINK_{i:04}__'
