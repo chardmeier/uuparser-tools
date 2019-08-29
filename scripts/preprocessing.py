@@ -80,6 +80,21 @@ def remove_n(input_file):
 
 def resublinks(input_file, strict=True):
     input_path = os.path.abspath(input_file)
+    if os.path.isdir(input_path):
+        files = get_corpus_files(input_path)
+        for file in files:
+            try:
+                resublinks(file)
+                print()
+            except AssertionError as e:
+                print(e)
+                print('Ommiting:', file)
+                continue
+            except KeyError as e:
+                print(e)
+                print('Ommiting:', file)
+                continue
+        return
     filename   = os.path.basename(input_path)
 
     dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
@@ -103,6 +118,7 @@ def sublinks(input_path):
         files = get_corpus_files(input_path)
         for file in files:
             sublinks(file)
+            print()
         return
     filename   = os.path.basename(input_path)
 
@@ -111,6 +127,7 @@ def sublinks(input_path):
 
     link_dict = {}
     with open(input_path, 'w') as f:
+        print('Reading:', input_path)
         for i, line in enumerate(lines):
             if re.search(r'\w+\.[a-z]{2,15}\s*\n', line):
                 mail_reg = '([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)(\s*\n)'
@@ -131,7 +148,7 @@ def sublinks(input_path):
                     print(line)
                     SUB_TOKEN = None
                     print('**** Uncatched link end ****')
-                print(link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, '- new line:', line)
+                print(link_dict.get(SUB_TOKEN), '-->', SUB_TOKEN, '- new line:', line, end='')
             f.write(line)
         dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
         dict_data = {filename: link_dict}
