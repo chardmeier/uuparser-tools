@@ -7,10 +7,10 @@ from .config import SCRIPTS, MODELS, NAME_TOKENIZER, BATCHFILES, code2lang
 
 def save_dict(dict_path, dict_data, verbose=True):
     dict_path = os.path.abspath(dict_path) # dictionary path
+    d = {}
     if os.path.isfile(dict_path):
         with open(dict_path) as f:    # reading out existing data
             d = eval(f.read())
-
     with open(dict_path, 'w') as f:   # writing new / updated data
         d.update(dict_data)
         f.write(repr(d))
