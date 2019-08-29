@@ -55,20 +55,22 @@ class Batch:
 #SBATCH --output={self.log_path}/{self.name}-%j.out"""
         return self.shebang + slurm_string + self.modules
 
-    def align(self, input_dir, output_dir, filename):
+    def align(self, input_dir, output_dir, filename, outputname=None):
+        if not outputname:
+            outputname = filename
         self.command_string = f"""
 source activate py37
 {'{}'}python3 {os.path.join(EFLOMAL, 'align.py')} \\
         -i {os.path.join(input_dir, filename)} \\
         -m 3  \\
-        -f {os.path.join(output_dir, filename)}.fwd \\
-        -r {os.path.join(output_dir, filename)}.rev
+        -f {os.path.join(output_dir, outputname)}.fwd \\
+        -r {os.path.join(output_dir, outputname)}.rev
         
 {'{}'}python3 {os.path.join(EFLOMAL, 'makepriors.py')} \\
         -i {os.path.join(input_dir, filename)} \\
-        -f {os.path.join(output_dir, filename)}.fwd \\
-        -r {os.path.join(output_dir, filename)}.rev \\
-        --priors {os.path.join(output_dir, filename)}.priors"""
+        -f {os.path.join(output_dir, outputname)}.fwd \\
+        -r {os.path.join(output_dir, outputname)}.rev \\
+        --priors {os.path.join(output_dir, outputname)}.priors"""
         self.construct_command('align', num_prefix=2)
 
     def parse(self, model_path, input_path, output_dir):

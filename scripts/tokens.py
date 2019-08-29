@@ -21,6 +21,8 @@ def file2fast_text(in_file_1, in_file_2, out_file, empty_dict=None):
 
     if empty_dict != None:
         filename = os.path.basename(out_file)
+        if filename.endswith('.fast_text'):
+            filename = filename.rsplit('.', 1)[0]
         empty_dict[filename] = empty_lines
 
 def dir2fast_text(input_dir):
@@ -74,8 +76,12 @@ def align(input_dir, use_shell=False, args=None):
     print('Create and submit batchfiles..')
     batch = Batch(name=f'alignment', memory='10GB', log_dir='alignment', timelimit='00:25:00', args=args)
 
-    for file in merged_files:
-        pair = 'al_'+file.split('.')[-1]
+    for filename in merged_files:
+        outputname = filename
+        if filename.endswith('.fast_text'):
+            outputname = filename.rsplit('.', 1)[0]
+        pair = 'al_'+outputname.split('.')[-1]
         batch.name = pair
-        batch.align(input_dir=input_dir, output_dir=output_dir, filename=file)
+
+        batch.align(input_dir=input_dir, output_dir=output_dir, filename=filename, outputname=outputname)
         batch.shell() if use_shell else batch.submit()
