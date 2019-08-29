@@ -13,8 +13,10 @@ def get_dict(dict_path, auto_create=False):
                 try:
                     d = eval(f.read())
                 except SyntaxError as e:
-                    print('Cannot read dictionary:')
+                    print('Cannot read dictionary:', dict_path)
+                    print('Data:')
                     print(file_data)
+                    print()
                     raise(e)
     else:
         if auto_create:
