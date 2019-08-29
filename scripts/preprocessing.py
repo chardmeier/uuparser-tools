@@ -80,7 +80,7 @@ def remove_n(input_file):
 
 def resublinks(input_file, strict=True):
     input_path = os.path.abspath(input_file)
-    filename   = input_path.basename(input_path)
+    filename   = os.path.basename(input_path)
 
     dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
     dict_data = get_dict(dict_path)
@@ -94,11 +94,11 @@ def resublinks(input_file, strict=True):
 
 def sublinks(input_file):
     input_path = os.path.abspath(input_file)
-    filename   = input_path.basename(input_path)
+    filename   = os.path.basename(input_path)
 
     with open(input_path) as f:
         lines = f.readlines()
-        
+
     link_dict = {}
     with open(input_path, 'w') as f:
         for i, line in enumerate(lines):
