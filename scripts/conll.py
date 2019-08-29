@@ -257,7 +257,7 @@ def extract_tokens(input_arg, nl2x=False):
     #main_dir  = os.path.abspath(sys.argv[1])
 
     # set ending of output files  (dot (.) must be included !):
-    ending = '' # '.token'
+    ending = '.token' # '.token'
     if os.path.isdir(input_arg):
         input_dir, output_dir = create_same_level_output_dir(input_arg, 'tokens')
         files = get_conlls(input_dir)
@@ -291,7 +291,7 @@ def extract_tokens(input_arg, nl2x=False):
                         line = []
                         
         out_file = '.'.join(file.split('.')[:-1]) + ending
-        out_path = os.path.join(output_dir, out_file, '.token')
+        out_path = os.path.join(output_dir, out_file)
         with open(out_path, 'w') as f:
             print(f' \u2b91  writing tokens ({count_n} lines) to:', out_path)
             f.writelines(lines)
