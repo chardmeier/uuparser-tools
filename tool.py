@@ -72,6 +72,8 @@ conll_group.add_argument('--chr', '-c', type=str, help='Expects path to director
 conll_group.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
 conll_group.add_argument('--merge', '-m', metavar=['Directory', 'MatchString', 'OutputName'], type=str, nargs='+', 
     help='Merges all files in the given Directory that match the MatchString e.g. the original file name like: "europarl-v7.de-en.de". OutputName can be set  optionally.')
+conll_group.add_argument('--resublinks', type=str, help='Replaces placeholders by original links and mail addresses.')
+
 
 
 
@@ -160,6 +162,8 @@ elif args.command == 'conll':
             conll.parse(args.parse, args=args)
     elif args.train:
         conll.train_parser(args.train, args=args)
+    elif args.resublinks:
+        conll.resublinks(args.resublinks)
 
 
 

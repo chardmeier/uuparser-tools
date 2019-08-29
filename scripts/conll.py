@@ -252,6 +252,73 @@ def chr_format_dir(input_dir, verbose=True):
         output_file = os.path.join(output_dir, file[:-5] + 'chr')
         chr_format_file(input_file, output_file, verbose)
 
+class TokenManager:
+    def __init__(self, link_dict):
+        self.link_dict = link_dict
+        self.SUB_TOKENS = list(link_dict.keys())
+        self.SUB_TOKENS.sort(key=lambda SUB_TOKEN: int(SUB_TOKEN.split('_')[3]))
+        self.counter = [0]*len(self.SUB_TOKENS)
+        self.i = 0
+        self.line_id = -1
+        self.first_match = None
+        
+    def current(self):
+        return self.SUB_TOKENS[i], self.link_dict[self.SUB_TOKENS[i]]
+    
+    def got_match(self):
+        self.counter[self.i] += 1
+        if self.counter[self.i] == 2:
+            self.first_match = None
+            self.i += 1
+            
+    def check(self):
+        if sum(self.counter) != len(self.SUB_TOKENS)*2:
+            print('Error: Not all tokens found:')
+            print(self.counter)
+            print(self.SUB_TOKENS)
+            assert sum(self.counter) == len(self.SUB_TOKENS)*2
+    def process_line(self, i, line):
+        self.line_id += 1
+        placeholder, link = self.current()
+        if placeholder in line:
+            line = line.replace(placeholder, link)
+            print(f'{i: 9} {placeholder}   --->   {link}')
+            self.got_match()
+        return line
+
+def resublinks(input_file, strict=True):
+    input_path = os.path.abspath(input_file)
+    if os.path.isdir(input_path):
+        files = get_conlls(input_path)
+        for file in files:
+            try:
+                resublinks(file)
+                print()
+            except AssertionError as e:
+                print(e)
+                print('Ommiting:', file)
+                continue
+            except KeyError as e:
+                print(e)
+                print('Ommiting:', file)
+                continue
+        return
+    corpus_file  = os.path.basename(input_path)[:-6] # remove conll
+
+    dict_path = os.path.abspath(os.path.join(os.path.dirname(input_path), '..', 'link.dict'))
+    dict_data = get_dict(dict_path)
+    link_dict = dict_data[filename]
+    tc = TokenManager(link_dict)
+    with open(input_path) as f:
+        lines = f.readlines()
+    for i, line in enumerate(lines):
+        lines[i] = tc.process_line(i, line)
+    tc.check()
+    with open(input_path, 'w') as f:
+        f.writelines(lines)
+        print(f'{len(link_dict)} placeholders were substituted by links.')
+        print('Changes saved to:', input_path)
+
 def extract_tokens(input_arg, nl2x=False):
     print('nl2x:', nl2x)
     #main_dir  = os.path.abspath(sys.argv[1])

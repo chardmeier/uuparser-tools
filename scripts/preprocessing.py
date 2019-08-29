@@ -100,14 +100,14 @@ def resublinks(input_file, strict=True):
     dict_path = os.path.join(os.path.dirname(input_path), 'link.dict')
     dict_data = get_dict(dict_path)
     link_dict = dict_data[filename]
-    with open(input_file) as f:
+    with open(input_path) as f:
         lines = f.readlines()
     for SUB_TOKEN in link_dict:
         i = int(SUB_TOKEN.split('_')[3])
         assert SUB_TOKEN in lines[i], f'Coud not fould token "{SUB_TOKEN}" at line {i}'
         lines[i] = lines[i].replace(SUB_TOKEN, link_dict[SUB_TOKEN])
         print(f'{i: 9} {SUB_TOKEN}   --->   {link_dict[SUB_TOKEN]}')
-    with open(input_file, 'w') as f:
+    with open(input_path, 'w') as f:
         f.writelines(lines)
         print(f'{len(link_dict)} placeholders were substituted by links.')
         print('Changes saved to:', input_path)
