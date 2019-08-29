@@ -263,7 +263,10 @@ class TokenManager:
         self.first_match = None
         
     def current(self):
-        return self.SUB_TOKENS[self.i], self.link_dict[self.SUB_TOKENS[self.i]]
+        if self.i < len(self.SUB_TOKENS):
+            return self.SUB_TOKENS[self.i], self.link_dict[self.SUB_TOKENS[self.i]]
+        else:
+            return False, False
     
     def got_match(self):
         self.counter[self.i] += 1
@@ -280,7 +283,7 @@ class TokenManager:
     def process_line(self, i, line):
         self.line_id += 1
         placeholder, link = self.current()
-        if placeholder in line:
+        if placeholder and (self.SUB_TOKENS in line):
             line = line.replace(placeholder, link)
             print(f'{i: 9} {placeholder}   --->   {link}')
             self.got_match()
