@@ -5,6 +5,7 @@ from .config import *
 from .utils import Batch
 
 def add_fast_text_n(input_path, ending=True, assertion=True):
+    input_path = os.path.abspath(input_path)
     if os.path.isdir(input_path):
         files = get_files(input_path, allowed_endings=['.rev', '.fwd'])
         if not files:
@@ -23,7 +24,7 @@ def add_fast_text_n(input_path, ending=True, assertion=True):
     print('Processing:', input_path, '..')
 
     dict_path  = os.path.abspath(os.path.join(input_dir, '..', 'merged', 'empty.dict'))
-    empty_dict = get_dict(dict_path)
+    empty_dict = get_dict(dict_path, verbose=False)
     with open(input_path) as f:
         lines = f.readlines()
     if ending:
@@ -34,6 +35,7 @@ def add_fast_text_n(input_path, ending=True, assertion=True):
     assert len(lines) == empty_dict[filename+'.no_lines'], f'Something is wrong. Got {len(lines)} lines but expected {empty_dict[filename+".no_lines"]} lines.'
     with open(input_path, 'w') as f:
         f.writelines(lines)
+    print('Empty lines successfully added.')
 
 
 def replace_chars_file(filepath):
