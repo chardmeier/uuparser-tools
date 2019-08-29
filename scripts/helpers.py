@@ -90,13 +90,14 @@ def get_files(input_dir, allowed_endings, exclude_parts=True, verbose=True):
     assert isinstance(allowed_endings, list) or isinstance(allowed_endings, tuple)
     if exclude_parts:
         files = list(filter(lambda f: (not f.startswith('PART_')), files))
+    valid_files = []
     for ending in allowed_endings:
-        files = list(filter(lambda f: f.endswith(ending), files))
+        valid_files += list(filter(lambda f: f.endswith(ending), files))
     
     print(f'Found {allowed_endings} files:',)
-    files.sort()
-    pprint.pprint(files)
-    return files
+    valid_files.sort()
+    pprint.pprint(valid_files)
+    return valid_files
 
 def get_conlls(input_dir, exclude_parts=True, verbose=True):
     return get_files(input_dir, ['.conll'], exclude_parts=True, verbose=True)
