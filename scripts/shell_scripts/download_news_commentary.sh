@@ -24,7 +24,7 @@ for LP in $pairs
 do 
     substitute_link
     create_filenames
-    wget $LINK
+    wget -q --show-progress --progress=bar $LINK
     gunzip $FILENAME_GZ
     cut -f1 $FILENAME > $FILENAME_L1
     cut -f2 $FILENAME > $FILENAME_L2
