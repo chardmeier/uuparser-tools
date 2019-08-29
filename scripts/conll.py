@@ -307,7 +307,7 @@ def resublinks(input_file, strict=True):
 
     dict_path = os.path.abspath(os.path.join(os.path.dirname(input_path), '..', 'link.dict'))
     dict_data = get_dict(dict_path)
-    link_dict = dict_data[filename]
+    link_dict = dict_data[corpus_file]
     tc = TokenManager(link_dict)
     with open(input_path) as f:
         lines = f.readlines()
