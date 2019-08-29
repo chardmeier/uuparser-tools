@@ -263,7 +263,7 @@ class TokenManager:
         self.first_match = None
         
     def current(self):
-        return self.SUB_TOKENS[i], self.link_dict[self.SUB_TOKENS[i]]
+        return self.SUB_TOKENS[self.i], self.link_dict[self.SUB_TOKENS[self.i]]
     
     def got_match(self):
         self.counter[self.i] += 1
