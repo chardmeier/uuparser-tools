@@ -85,7 +85,7 @@ def align(input_dir, use_shell=False, args=None):
     args:
         input_dir (string): path to token directory
         use_shell (bool)  : trys to perform alignment in shell instead of slurm sbatch (experimental)
-        args (argparser.args): additional arguments to modify parameters such es memory, timelimit or partition to run on
+        args (None or argparser.args): additional arguments to modify parameters such es memory, timelimit or partition to run on
 
     """
 

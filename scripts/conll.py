@@ -5,23 +5,8 @@ from .config import *
 d = parser_default_mappings
 from .utils import Batch
 
-def remove_added_n(input_file):
-    """Removes added \n from file. Note: File will be overwritten!"""
-    input_path = os.path.abspath(input_file)
-    print(f'Removing added newlines in: {input_path}')
-    with open(input_path) as f:
-        text = f.read()
-    r = r"""SpacesAfter=\\n\\n\n\n# newpar"""
-    n = r"""SpacesAfter=\\n\n"""
-    text = re.sub(r, n, text)
-    r = r"SpacesAfter=\\n\\n\\n\\n"
-    n = r"SpacesAfter=\\n\\n"
-    text = re.sub(r, n, text)
-
-    with open(input_path, 'w') as f:
-        f.write(text)
-
 class Counter:
+    """ Helpers class for merging conll files"""
     def __init__(self, i=0, line_i=0):
         self.i = i
         self.line_i = line_i
@@ -29,6 +14,7 @@ class Counter:
         self.new_n  = 0
         
     def count_line(self):
+        """ Keeps track of current line id """
         self.line_i += 1
     
     def next_i(self):
@@ -36,6 +22,7 @@ class Counter:
         return str(self.i)
     
     def process_line(self, line):
+        """ Processed ine and adapts document and sent id"""
         self.count_line()
         if line.startswith('# sent_id = '):
             return f'# sent_id = {self.next_i()}\n'
@@ -44,23 +31,15 @@ class Counter:
         else:
             return line
 
-"""
-import re, sys
-l = []
-for i, line in enumerate(sys.stdin):
-    if ('SpacesAfter=\\n' in line) or ('SpacesAfter=\\s\\n' in line):
-        line_seg = line.split('\t')
-        nl2x_n = len(re.findall(r'\\n', line_seg[9]))
-        first_match = re.search(r'\\n', line_seg[9])
-        l.append(nl2x_n)
-        print(line_seg[9][:first_match.start()])
-        print(nl2x_n, line)
-        if nl2x_n == 4:
-            print(i)
-print(l)
-"""
-
 def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
+    """
+    Merges split .conll files. With newlines added that will be removed during merging
+    args:
+        input_dir (string): path to input directory
+        match_string (string): string that matches all split files for example 'de-en.de'
+        output_name (string): optional custom filename for output
+        nl2x (bool): If set True added \\n will be removed from file during merging / not tested thoroughly, for nl2x=False better use merge_conll()
+    """
     print('nl2x:', nl2x)
     input_dir = os.path.abspath(input_dir)
 
@@ -106,7 +85,14 @@ def merge_conll_nl2x(input_dir, match_string, output_name=None, nl2x=True):
         print(f'{c.nl2x_n} "\\n" counted in input.')
         print(f'{c.new_n} "\\n" counted in output.')
 
-def merge_conll(input_dir, match_string, output_name=None, nl2x=False):
+def merge_conll(input_dir, match_string, output_name=None):
+    """
+    Merges split .conll files. Without new lines added.
+    args:
+        input_dir (string): path to input directory
+        match_string (string): string that matches all split files for example 'de-en.de'
+        output_name (string): optional custom filename for output
+    """
     print('nl2x:', nl2x)
     input_dir = os.path.abspath(input_dir)
 
@@ -127,17 +113,26 @@ def merge_conll(input_dir, match_string, output_name=None, nl2x=False):
             with open(file_path) as f:
                 for line in f:
                     out.write(c.process_line(line))
-    if nl2x:
-        remove_added_n(output_path)
 
 def train_parser(code, args=None):
+    """ 
+    Submits training job on UUParser on given treebank code
+    args:
+        code (string): language code of UD-treebank
+        args (None or argparser.args): additional arguments to modify parameters such es memory, timelimit or partition to run on
+    """
     batch = Batch(name=f'tp_{code}', log_dir=NAME_PARSER, args=args)
     batch.train_parser(code)
     batch.submit()
 
 def parse(arg1, model_path=None, args=None):
-    # arg1: path to file that will be tokenized/tagged
-    # input file is expected to end with the respective language for example: abc.xy.en
+    """
+    Creates a parsing job for given intputs. Language detection will be done automatically.
+    Input file is expected to hold the following format for language detection: '.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*'
+    args:
+        arg1 (string): path to file that will be tokenized/tagged
+    """
+    # 
     input_path = os.path.abspath(arg1)
     input_file = os.path.basename(input_path)
 
@@ -154,7 +149,12 @@ def parse(arg1, model_path=None, args=None):
     batch.submit()
 
 def parse_split(input_dir, match_string):
-
+    """
+    Submits parsing jobs on splitted .conll files
+    args:
+        input_dir (string): path to input directory
+        match_string (string): string that matches all split files for example 'de-en.de'
+    """
     files = os.listdir(input_dir)
     part_files = list(filter(lambda x: re.match(fr'PART_\d+___.*{match_string}.*\.conll', x), files))
     print('Found parts:')
@@ -164,6 +164,13 @@ def parse_split(input_dir, match_string):
         print()
 
 def chr_format_file(input_file, output_file, verbose=True):
+    """
+    Creates .chr format file form .conll file
+    args:
+        input_file (string): path to input file
+        output_file (string): path where output will be saved to
+        verbose (bool): controlls print outs
+    """
     input_file = os.path.abspath(input_file)
     output_file = os.path.abspath(output_file)
     with open(input_file) as f:
@@ -243,6 +250,12 @@ def chr_format_file(input_file, output_file, verbose=True):
         o.writelines(out_lines)
                 
 def chr_format_dir(input_dir, verbose=True):
+    """
+        Converts .conll files in given directory to .chr format
+        args:
+            input_dir (string): path to directory
+            verbose (bool): controlls print outs
+    """
     print('Convert .conll -> chr-format')
     input_dir, output_dir = create_same_level_output_dir(input_dir, 'chr_format')
     
@@ -252,8 +265,16 @@ def chr_format_dir(input_dir, verbose=True):
         output_file = os.path.join(output_dir, file[:-5] + 'chr')
         chr_format_file(input_file, output_file, verbose)
 
-class TokenManager:
+class PlaceholderManager:
+    """ 
+    Helper class for re-inserting links using resublinks.
+    Keeps track of that all links will be replaced correctly. Provides some fualty checks
+    """
     def __init__(self, link_dict):
+        """
+        args:
+            link_dict (dict): dictionary containing placeholder:link mappings
+        """
         self.link_dict = link_dict
         self.SUB_TOKENS = list(link_dict.keys())
         self.SUB_TOKENS.sort(key=lambda SUB_TOKEN: int(SUB_TOKEN.split('_')[3]))
@@ -263,24 +284,36 @@ class TokenManager:
         self.first_match = None
         
     def current(self):
+        """ Keeps track placeholder oder"""
         if self.i < len(self.SUB_TOKENS):
             return self.SUB_TOKENS[self.i], self.link_dict[self.SUB_TOKENS[self.i]]
         else:
             return False, False
     
     def got_match(self):
+        """ Counts number of replacements """
         self.counter[self.i] += 1
         if self.counter[self.i] == 2:
             self.first_match = None
             self.i += 1
             
     def check(self):
+        """
+        Checks if all every link was exactly inserted two times (Sent Line and Token line)
+        """
         if sum(self.counter) != len(self.SUB_TOKENS)*2:
             print('Error: Not all tokens found:')
             print(self.counter)
             print(self.SUB_TOKENS)
             assert sum(self.counter) == len(self.SUB_TOKENS)*2, 'Not all tokens could be found in .conll - changes not saved!'
+
     def process_line(self, i, line):
+        """
+        Processes a single line of .conll file and replaces placeholders
+        args:
+            i (int): line id
+            line (string): current line of .conll file
+        """
         self.line_id += 1
         placeholder, link = self.current()
         if placeholder and (placeholder in line):
@@ -289,7 +322,13 @@ class TokenManager:
             self.got_match()
         return line
 
-def resublinks(input_file, strict=True):
+def resublinks(input_file):
+    """
+    Re-subsitutes Links into conll-files that were replaced by placedholders before tokenization
+    Expects dictionary with placeholder / link mappings to be placed in the main corpus directory with name 'link.dict'
+    args:
+        input_file (string): path to input file
+    """
     input_path = os.path.abspath(input_file)
     if os.path.isdir(input_path):
         files = get_conlls(input_path)
@@ -311,18 +350,24 @@ def resublinks(input_file, strict=True):
     dict_path = os.path.abspath(os.path.join(os.path.dirname(input_path), '..', 'link.dict'))
     dict_data = get_dict(dict_path)
     link_dict = dict_data[corpus_file]
-    tc = TokenManager(link_dict)
+    pm = PlaceholderManager(link_dict)
     with open(input_path) as f:
         lines = f.readlines()
     for i, line in enumerate(lines):
-        lines[i] = tc.process_line(i, line)
-    tc.check()
+        lines[i] = pm.process_line(i, line)
+    pm.check()
     with open(input_path, 'w') as f:
         f.writelines(lines)
         print(f'{len(link_dict)} placeholders were substituted by links.')
         print('Changes saved to:', input_path)
 
 def extract_tokens(input_arg, nl2x=False):
+    """
+    Extracts tokens form .conll
+    args:
+        input_arg (string): can be either path to .conll file or directory containing .conll files
+        nl2x        (bool): must be True if \\n where added at the beginning of the pipeline, then additional \\n will be removed
+    """
     print('nl2x:', nl2x)
     #main_dir  = os.path.abspath(sys.argv[1])
 
