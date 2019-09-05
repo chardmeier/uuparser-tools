@@ -1,3 +1,0 @@
-#!/bin/sh
-
-less $(eval find $LOGS -name *$1*)

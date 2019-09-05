@@ -52,16 +52,6 @@ utils_group.add_argument('--resublinks', type=str, help='Replaces placeholders b
 utils_group.add_argument('--download', type=str, nargs='*', help='Downloads specified corpus.')
 
 
-
-
-
-sub_name = 'parser'
-uuparser_args = subparsers.add_parser(sub_name, help='Options for UUParser', parents=[batch_job_options])
-# use store true, set split size separately 
-train_parse = uuparser_args.add_mutually_exclusive_group(required=True)
-train_parse.add_argument('--parse', '-p', type=str, help='Expects path to .conll file that will be parsed using UUParser')
-train_parse.add_argument('--train', '-t', type=str, help='Trains UUParser on a given treebank, expects treebank language code as input such as "de_gsd"')
-
 sub_name = 'conll'
 conll_args = subparsers.add_parser(sub_name, help='Options for .conll files', parents=[batch_job_options])
 conll_args.add_argument('--split', '-s', help='Argument must be a match-string that all respective parts share e.g. the original file name like: "europarl-v7.de-en.de"')
