@@ -105,7 +105,7 @@ cd {PARSER}
 
     def train_udpipe(self, model_path, train_data_path):
         self.command_string = f"""
-{'{}'}udpipe --train \\
+{'{}'}/projects/nlpl/software/udpipe/latest/bin/udpipe --train \\
     --tagger \\
     --tokenizer {model_path} {train_data_path}"""
         self.construct_command('train_udpipe')
