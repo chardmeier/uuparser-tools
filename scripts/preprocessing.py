@@ -15,7 +15,7 @@ def add_fast_text_n(input_path, ending=True, assertion=True):
                 add_fast_text_n(os.path.join(input_path, filename))
             except AssertionError as e:
                 print(e)
-                print(f'.. "{filename}" omitted.')
+                print(f' .. "{filename}" omitted.')
             print()
         return
 
@@ -101,11 +101,11 @@ def resublinks(input_file, strict=True):
                 print()
             except AssertionError as e:
                 print(e)
-                print(f'.. "{file}" omitted.')
+                print(f' .. "{file}" omitted.')
                 continue
             except KeyError as e:
                 print(e)
-                print(f'.. "{file}" omitted.')
+                print(f' .. "{file}" omitted.')
                 continue
         return
     filename   = os.path.basename(input_path)

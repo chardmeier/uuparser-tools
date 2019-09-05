@@ -5,7 +5,18 @@ from .config import *
 
 from .utils import Batch
 
+
+
 def file2fast_text(in_file_1, in_file_2, out_file, empty_dict=None):
+    """
+    Converts two tokenized text files into fast_text format
+    Empty lines as well original number of lines will be saved to empty_dict dictionary 
+    args:
+        in_file_1 (string): valid path to file 1
+        in_file_2 (string): valid path to file 1
+        out_file  (string): path where output should be saved to
+        empty_dict  (dict): a dictionary where empty line indeces and number of lines in the input files will be saved to
+    """
     print('Writing:', out_file)
     with open(in_file_1, 'r') as srcf, \
          open(in_file_2, 'r') as trgf, \
@@ -28,6 +39,11 @@ def file2fast_text(in_file_1, in_file_2, out_file, empty_dict=None):
 
 
 def dir2fast_text(input_dir):
+    """
+    Finds language pairs based on notation in form de-en.de, de-en.en and converts them into fast text format using file2fast_text()
+    args:
+        input_dir (string): path to input directory
+    """
     input_dir, output_dir = create_same_level_output_dir(input_dir, 'merged')
     pairs_dict = get_pairs(input_dir, verbose=False)
     for lang_pair in pairs_dict:
@@ -64,7 +80,13 @@ def dir2fast_text(input_dir):
 
 def align(input_dir, use_shell=False, args=None):
     """
-        input_dir: token directory
+    Expects 'input_dir' to be the path to the directory with tokens. Tokens will be converted to fast text and saved
+    into a directory 'merged'. Batchfiles for alignment jobs will be created and submitted to slurm job system
+    args:
+        input_dir (string): path to token directory
+        use_shell (bool)  : trys to perform alignment in shell instead of slurm sbatch (experimental)
+        args (argparser.args): additional arguments to modify parameters such es memory, timelimit or partition to run on
+
     """
 
     input_dir = dir2fast_text(input_dir=input_dir)

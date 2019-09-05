@@ -1,0 +1,2 @@
+export PATH="/projects/nlpl/software/udpipe/latest/bin:/projects/nlpl/software/efmaral/0.1_2018_12_17:$PATH"
+
