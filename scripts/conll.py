@@ -183,6 +183,7 @@ def chr_format_file(input_file, output_file, verbose=True):
         n_in_sent    = []
         count_insent_n = 0
         out_lines = []
+        count_line_ids = 0
         for conll_line_id, line in enumerate(f):
             #print(current_sent, doc_sents)
             if line.startswith('# newpar'): # initalize new document
@@ -198,6 +199,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                     print_next_line_id = str(line_id)*True
                     for i, sent in enumerate(doc_sents):    # write all doc sents
                         line_id += n_in_sent[i]
+                        count_line_ids += int(bool(print_next_line_id))
                         out_line = '\t'.join((print_doc_id, print_next_line_id, sent)) + '\n'
                         out_lines.append(out_line)
                         print_doc_id = ''
@@ -243,6 +245,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                     print_doc_id = ''
                     print_next_line_id = str(line_id)*n_in_sent[i]
     print(f'Found {count_insent_n} sentences that contain multiple "\\n".')
+    print(f'{count_line_ids} line ids written.')
     with open(output_file, 'w') as o:
         if verbose:
             print(f' \u2b91  writing chr-format output ({len(out_lines)}) to:', output_file)
@@ -327,7 +330,7 @@ def resublinks(input_file):
     Re-subsitutes Links into conll-files that were replaced by placedholders before tokenization
     Expects dictionary with placeholder / link mappings to be placed in the main corpus directory with name 'link.dict'
     args:
-        input_file (string): path to input file
+        input_file (string): path to input file or directory
     """
     input_path = os.path.abspath(input_file)
     if os.path.isdir(input_path):
