@@ -210,7 +210,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                 n_in_sent    = []
             elif line.startswith('# sent_id'):
                 if current_sent:
-                    doc_sents.append(' '.join(current_sent))
+                    doc_sents.append(' '.join(current_sent)) 
                     current_sent = []
                     if sum(n_in_token) > 1:
                         print('Line:', conll_line_id, f'({sum(n_in_token)})')
@@ -219,6 +219,9 @@ def chr_format_file(input_file, output_file, verbose=True):
 
                     n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
                     n_in_token = []
+                    for i in range(n-1):
+                        doc_sents.append('\\n')
+                        n_in_sent.append(True)
             elif line.startswith('#') or line == '\n':
                 assert line.startswith('# text') or line.startswith('# newdoc') or line == '\n', f'Got: {line}'
                 continue
@@ -228,10 +231,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                 current_sent.append(token)
                 n_in_token.append(('\\n' in line_split[9])) # checks for \n at the end of sent (\n should not appear within the sentence)
                 n = len(re.findall(r'\\n', line_split[9]))
-                if n > 1:
-                    for i in range(n-1):
-                        n_in_token.append(True)
-                        current_sent.append('\\n')
+
 
         if current_sent:            # if there is a # newpar after a sentence it must be still written to old doc
             doc_sents.append(' '.join(current_sent))
