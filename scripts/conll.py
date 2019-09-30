@@ -227,7 +227,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                 token = line_split[1]
                 current_sent.append(token)
                 n_in_token.append(('\\n' in line_split[9])) # checks for \n at the end of sent (\n should not appear within the sentence)
-                n = len(re.findall(r'\\n', token_line[9]))
+                n = len(re.findall(r'\\n', line_split[9]))
                 if n > 1:
                     for i in range(n-1):
                         n_in_token.append(True)
