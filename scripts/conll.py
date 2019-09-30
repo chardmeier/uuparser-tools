@@ -201,6 +201,9 @@ def chr_format_file(input_file, output_file, verbose=True):
                         line_id += n_in_sent[i]
                         count_line_ids += int(bool(print_next_line_id))
                         out_line = '\t'.join((print_doc_id, print_next_line_id, sent)) + '\n'
+                        if print_next_line_id == '\\n':
+                            print(line_id)
+                            print(out_line)
                         out_lines.append(out_line)
                         print_doc_id = ''
                         print_next_line_id = str(line_id)*n_in_sent[i]
