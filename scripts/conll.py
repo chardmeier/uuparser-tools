@@ -227,7 +227,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                     n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
                     n_in_token = []
                     for i in range(n-1):
-                        doc_sents.append(r'\\n')
+                        doc_sents.append(r' ')
                         n_in_sent.append(True)
                     n = 0
             elif line.startswith('#') or line == '\n':
@@ -235,10 +235,11 @@ def chr_format_file(input_file, output_file, verbose=True):
                 continue
             else:
                 line_split = line.split()
-                token = line_split[1]
-                current_sent.append(token)
-                n_in_token.append(('\\n' in line_split[9])) # checks for \n at the end of sent (\n should not appear within the sentence)
-                n = len(re.findall(r'\\n', line_split[9]))
+                line_no, token = line_split[0], line_split[1]
+                if not ('-' in line_no):
+                    current_sent.append(token)
+                    n_in_token.append(('\\n' in line_split[9])) # checks for \n at the end of sent (\n should not appear within the sentence)
+                    n = len(re.findall(r'\\n', line_split[9]))
 
 
         if current_sent:            # if there is a # newpar after a sentence it must be still written to old doc
@@ -266,7 +267,7 @@ def chr_format_file(input_file, output_file, verbose=True):
     print(f'{count_line_ids} line ids written.')
     with open(output_file, 'w') as o:
         if verbose:
-            print(f' \u2b91  writing chr-format output ({len(out_lines)}) to:', output_file)
+            print(f' \u2b91  writing chr-format output ({len(out_lines)} overall lines) to:', output_file)
             print()
         o.writelines(out_lines)
                 
