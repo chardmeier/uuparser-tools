@@ -193,7 +193,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                     n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
                     n_in_token = []
                     for i in range(n-1):
-                        doc_sents.append(r'\\n')
+                        doc_sents.append(r' ')
                         n_in_sent.append(True)
                     n = 0
                 if doc_sents: 
@@ -248,7 +248,7 @@ def chr_format_file(input_file, output_file, verbose=True):
             n_in_sent.append((True in n_in_token))
             n_in_token = []
             for i in range(n-1):
-                doc_sents.append(r'\\n')
+                doc_sents.append(r' ')
                 n_in_sent.append(True)
             n = 0
             if doc_sents: 
