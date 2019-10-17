@@ -163,7 +163,7 @@ def parse_split(input_dir, match_string):
         parse(os.path.join(input_dir, file))
         print()
 
-def chr_format_file(input_file, output_file, verbose=True):
+def chr_format_file(input_file, output_file, verbose=True, empty_line=''):
     """
     Creates .chr format file form .conll file
     args:
@@ -193,7 +193,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                     n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
                     n_in_token = []
                     for i in range(n-1):
-                        doc_sents.append(r' ')
+                        doc_sents.append(empty_line)
                         n_in_sent.append(True)
                     n = 0
                 if doc_sents: 
@@ -227,7 +227,7 @@ def chr_format_file(input_file, output_file, verbose=True):
                     n_in_sent.append((True in n_in_token))  # checking if a token in sent is followed by \n
                     n_in_token = []
                     for i in range(n-1):
-                        doc_sents.append(r' ')
+                        doc_sents.append(empty_line)
                         n_in_sent.append(True)
                     n = 0
             elif line.startswith('#') or line == '\n':
@@ -248,7 +248,7 @@ def chr_format_file(input_file, output_file, verbose=True):
             n_in_sent.append((True in n_in_token))
             n_in_token = []
             for i in range(n-1):
-                doc_sents.append(r' ')
+                doc_sents.append(empty_line)
                 n_in_sent.append(True)
             n = 0
             if doc_sents: 
