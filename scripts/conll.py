@@ -283,7 +283,7 @@ class Sent:
         self.mid_n  = 0
         self.extract_spaces()
         if self.mid_n:
-            print('Sent_id:', self.sent_id, f'Found \\n in within sentence ({self.min_n})')
+            print('Sent_id:', self.sent_id, f'Found \\n in within sentence ({self.mid_n})')
         
     def extract_spaces(self):
         for i, line in enumerate(self.lines):
