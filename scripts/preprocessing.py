@@ -146,16 +146,16 @@ def sublinks(input_path, i_prec=7):
     with open(input_path, 'w') as f:
         print('Reading:', input_path)
         for i, line in enumerate(lines):
-            if re.search(r'\w+\.[A-Za-z]{2,15}\s*(\n)', line) or re.search(dotname_reg, line):
+            if re.search(r'\w+\.[A-Za-z]{2,15}\s*(\n)', line):
 
 
                 #re.sub(r'([A-Z]\w+\.[A-Z]\w+)(\s*\n)', 'test'+r'\2', l)
                 mail = re.findall(mail_reg, line)
                 link = re.findall(link_reg, line)
                 dot_name = re.findall(dotname_reg, line)
-                print(mail)
-                print(link)
-                print(dot_name)
+                #print(mail)
+                #print(link)
+                #print(dot_name)
                 if mail:
                     SUB_TOKEN = fr'__MAIL_{i:09}__'
                     line = re.sub(mail_reg, SUB_TOKEN+r'\2', line)
