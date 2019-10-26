@@ -245,6 +245,7 @@ def chr_format_file(input_file, output_file, verbose=True, empty_line=''):
                     current_sent.append(token)
                     n_in_token.append(('\\n' in line_split[9])) # checks for \n at the end of sent (\n should not appear within the sentence)
                     n = len(re.findall(r'\\n', line_split[9]))
+                    pre_n = 0
                     if n and 'SpacesBefore' in line_split[9]:
                         pre_n = n
                         n = 0
