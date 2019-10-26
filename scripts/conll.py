@@ -312,7 +312,7 @@ class Sent:
             else:
                 i += 1
         for key in d:
-            self.lines[key-1][9] = d[i]
+            self.lines[key-1][9] = d[key]
 
         
     def __len__(self):
