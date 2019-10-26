@@ -146,9 +146,12 @@ def sublinks(input_path, i_prec=7):
             if re.search(r'\w+\.[a-z]{2,15}\s*\n', line):
                 mail_reg = '([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)(\s*\n)'
                 link_reg = r'((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[A-Za-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)(:?\s*\n)'
+                dotname_reg = '([A-Z]\w+\.[A-Z]\w+)(\s*\n)'
 
+                #re.sub(r'([A-Z]\w+\.[A-Z]\w+)(\s*\n)', 'test'+r'\2', l)
                 mail = re.findall(mail_reg, line)
                 link = re.findall(link_reg, line)
+                dot_name = re.findall(dotname_reg, line)
                 if mail:
                     SUB_TOKEN = fr'__MAIL_{i:09}__'
                     line = re.sub(mail_reg, SUB_TOKEN+r'\2', line)
@@ -156,6 +159,10 @@ def sublinks(input_path, i_prec=7):
                 elif link:
                     SUB_TOKEN = fr'__LINK_{i:09}__'
                     line = re.sub(link_reg, SUB_TOKEN+r'\6', line)
+                    link_dict[SUB_TOKEN] = link[0][0]
+                elif dot_name:
+                    SUB_TOKEN = fr'__DOT_NAME__{i:09}__'
+                    line = re.sub(dotname_reg, SUB_TOKEN+r'\2', line)
                     link_dict[SUB_TOKEN] = link[0][0]
                 else:
                     print('**** WARNING: Uncatched link ****')

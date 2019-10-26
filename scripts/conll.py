@@ -196,6 +196,7 @@ def chr_format_file(input_file, output_file, verbose=True, empty_line=''):
                         doc_sents.append(empty_line)
                         n_in_sent.append(True)
                     n = 0
+                    pre_n = 0
                 if doc_sents: 
                     print_doc_id = str(doc_id)   # set doc_id to write at first doc line
                     doc_id += 1                  # add doc id
@@ -229,7 +230,11 @@ def chr_format_file(input_file, output_file, verbose=True, empty_line=''):
                     for i in range(n-1):
                         doc_sents.append(empty_line)
                         n_in_sent.append(True)
+                    for i in range(pre_n):
+                        doc_sents = [empty_line] + doc_sents
+                        n_in_sent = [True] + n_in_sent
                     n = 0
+                    pre_n = 0
             elif line.startswith('#') or line == '\n':
                 assert line.startswith('# text') or line.startswith('# newdoc') or line == '\n', f'Got: {line}'
                 continue
@@ -240,6 +245,11 @@ def chr_format_file(input_file, output_file, verbose=True, empty_line=''):
                     current_sent.append(token)
                     n_in_token.append(('\\n' in line_split[9])) # checks for \n at the end of sent (\n should not appear within the sentence)
                     n = len(re.findall(r'\\n', line_split[9]))
+                    if n and 'SpacesBefore' in line_split[9]:
+                        pre_n = n
+                        n = 0
+                        assert line_no == 1, 'SpacesBefore should only occur at the beginning of a sentence'
+                        del n_in_token[-1]
 
 
         if current_sent:            # if there is a # newpar after a sentence it must be still written to old doc
@@ -251,6 +261,7 @@ def chr_format_file(input_file, output_file, verbose=True, empty_line=''):
                 doc_sents.append(empty_line)
                 n_in_sent.append(True)
             n = 0
+            pre_n = 0
             if doc_sents: 
                 print_doc_id = str(doc_id)   # set doc_id to write at first doc line
                 doc_id += 1                  # add doc id
