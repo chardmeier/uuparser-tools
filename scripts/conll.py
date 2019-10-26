@@ -163,6 +163,157 @@ def parse_split(input_dir, match_string):
         parse(os.path.join(input_dir, file))
         print()
 
+
+import linecache, re
+class CoNLLReader:
+    def __init__(self, filepath):
+        self.filepath = filepath
+        with open(filepath) as f:
+            self.__len = sum(1 for line in f)
+            
+        self._i = 0
+        
+    def write_chr(self, save_path):
+        num_line_ids = 0
+        written_lines = 0
+        with open(save_path, 'w') as f:
+            for doc in self.docs:
+                lines = doc.get_chr()
+                num_line_ids += doc.num_line_ids
+                written_lines += len(lines)
+                f.write('\n'.join(lines))
+                f.write('\n')
+        print(f'{num_line_ids} line ids written.')
+        print(f' \u2b91  writing chr-format output ({written_lines} overall lines) to:', save_path)
+        print()
+            
+    @property    
+    def docs(self):
+        sent_list = []
+        doc_id = 0
+        for i, sent in enumerate(self.sents):
+            if sent.newpar and sent_list:
+                doc_sents, sent_list = sent_list, []
+                doc_id += 1
+                yield Doc(doc_sents, doc_id=doc_id)
+            sent_list.append(sent)
+        doc_id += 1
+        yield Doc(sent_list, doc_id=doc_id)
+        
+    @property
+    def sents(self):
+        while True:
+            sent = self.next_sent()
+            if sent:
+                yield sent
+            else:
+                break
+        
+    def get_line(self, i):
+        return linecache.getline(self.filepath, i)
+    
+    def next_line(self):
+        self._i += 1
+        return self.get_line(self._i)
+    
+    def next_sent(self):
+        lines = []
+        current_line = self.next_line()
+        while current_line and current_line != '\n':
+            lines.append(current_line)
+            current_line = self.next_line()
+        if lines:
+            return Sent(lines)
+        
+class Doc:
+    def __init__(self, sents, doc_id):
+        self.sents = sents
+        self.doc_id = doc_id
+        self.num_line_ids = 0
+        
+    def create_chr_line(self, text, sent_id, doc_id=''):
+        return '\t'.join(doc_id, sent_id, doc_id)
+        
+    def get_chr(self):
+        doc_id = str(self.doc_id)
+        n_id = 1
+        output_lines = []
+        for sent in self.sents:
+            for i in range(sent.pre_n):
+                output_lines.append('\t'.join((doc_id, str(n_id), '')))
+                self.num_line_ids += 1
+                n_id += 1
+                doc_id = ''
+            write_n_id = ''
+            if sent.post_n:
+                write_n_id = str(n_id)
+                self.num_line_ids += 1
+                n_id += 1
+            output_lines.append('\t'.join((doc_id, write_n_id, str(sent))))
+            doc_id   = ''
+            for i in range(max(sent.post_n-1, 0)):
+                output_lines.append('\t'.join((doc_id, str(n_id), '')))
+                self.num_line_ids += 1
+                n_id += 1
+                doc_id = ''
+        return (output_lines)
+                
+        
+    
+    
+class Sent:
+    def __init__(self, lines, start_line=None):
+        
+        self.newdoc  = None
+        self.newpar  = False
+        self.sent_id = None
+        
+        self.start_line = start_line
+        while lines and lines[0].startswith('#'):
+            info_line = lines.pop(0)
+            if '# newpar' in info_line:
+                self.newpar = True
+            elif '# newdoc' in info_line:
+                self.newdoc = info_line.split(' = ')[-1]
+            elif '# sent_id' in info_line:
+                self.sent_id = int(info_line.split(' = ')[-1])
+        self.lines = list(map(lambda l: l.split('\t'), lines))
+        self.pre_n  = 0
+        self.post_n = 0
+        self.mid_n  = 0
+        self.extract_spaces()
+        if self.mid_n:
+            print('Sent_id:', self.sent_id, f'Found \\n in within sentence ({self.min_n})')
+        
+    def extract_spaces(self):
+        for i, line in enumerate(self.lines):
+            space_segment = line[9]
+            n = len(re.findall(r'\\n', space_segment))
+            if 'SpacesBefore' in space_segment:
+                if i == 0:
+                    self.pre_n += n
+                else:
+                    self.mid_n += n
+            else:
+                if i == len(self)-1:
+                    self.post_n += n
+                else:
+                    self.mid_n += n   
+        
+    def __len__(self):
+        return len(self.lines)
+    
+    def __str__(self):
+        return repr(self)
+        
+    def __repr__(self):
+        return ' '.join(map(lambda l: l[1], self.lines))
+    
+    
+
+#cnlr = CoNLLReader('news-commentary-v14.de-en.en.conll')
+#cnlr.write_chr('test_out_en.chr')
+
 def chr_format_file(input_file, output_file, verbose=True, empty_line=''):
     """
     Creates .chr format file form .conll file
@@ -249,7 +400,7 @@ def chr_format_file(input_file, output_file, verbose=True, empty_line=''):
                     if n and 'SpacesBefore' in line_split[9]:
                         pre_n = n
                         n = 0
-                        assert line_no == 1, 'SpacesBefore should only occur at the beginning of a sentence'
+                        assert line_no == 1, f'SpacesBefore should only occur at the beginning of a sentence got sentence line {line_no} in {conll_line_id}'
                         del n_in_token[-1]
 
 
@@ -297,7 +448,8 @@ def chr_format_dir(input_dir, verbose=True):
     for file in files:
         input_file  = os.path.join(input_dir, file)
         output_file = os.path.join(output_dir, file[:-5] + 'chr')
-        chr_format_file(input_file, output_file, verbose)
+        cnlr = CoNLLReader(input_file)
+        cnlr.write_chr(output_file)
 
 class PlaceholderManager:
     """ 
