@@ -294,13 +294,15 @@ class Sent:
                     self.pre_n += n
                 else:
                     self.mid_n += n
-                    print('Sent_id:', self.sent_id, f'Found \\n in within sentence:', line[0], line[1], space_segment)
+                    if n:
+                        print('Sent_id:', self.sent_id, f'Found \\n in within sentence:', line[0], line[1], space_segment)
             else:
                 if i == len(self)-1:
                     self.post_n += n
                 else:
                     self.mid_n += n   
-                    print('Sent_id:', self.sent_id, f'Found \\n in within sentence:', line[0], line[1], space_segment)
+                    if n:
+                        print('Sent_id:', self.sent_id, f'Found \\n in within sentence:', line[0], line[1], space_segment)
 
     def handle_minus(self):
         d = {}
