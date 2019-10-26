@@ -281,9 +281,7 @@ class Sent:
         self.pre_n  = 0
         self.post_n = 0
         self.mid_n  = 0
-        self.extract_spaces()
-        if self.mid_n:
-            print('Sent_id:', self.sent_id, f'Found \\n in within sentence ({self.mid_n})')
+        self.extract_spaces()            
         
     def extract_spaces(self):
         for i, line in enumerate(self.lines):
@@ -294,11 +292,13 @@ class Sent:
                     self.pre_n += n
                 else:
                     self.mid_n += n
+                    print('Sent_id:', self.sent_id, f'Found \\n in within sentence:', line[0], line[1], space_segment)
             else:
                 if i == len(self)-1:
                     self.post_n += n
                 else:
                     self.mid_n += n   
+                    print('Sent_id:', self.sent_id, f'Found \\n in within sentence:', line[0], line[1], space_segment)
         
     def __len__(self):
         return len(self.lines)
