@@ -146,7 +146,7 @@ def sublinks(input_path, i_prec=7):
             if re.search(r'\w+\.[a-z]{2,15}\s*\n', line):
                 mail_reg = '([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)(\s*\n)'
                 link_reg = r'((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[A-Za-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)(:?\s*\n)'
-                dotname_reg = r'([A-Z]\w+\.[A-Z]\w+)(\s*\n)'
+                dotname_reg = r'([A-Z]\w+\.[A-Z]\w+)(\s*\n|$)'
 
                 #re.sub(r'([A-Z]\w+\.[A-Z]\w+)(\s*\n)', 'test'+r'\2', l)
                 mail = re.findall(mail_reg, line)
