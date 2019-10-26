@@ -146,7 +146,7 @@ def sublinks(input_path, i_prec=7):
     with open(input_path, 'w') as f:
         print('Reading:', input_path)
         for i, line in enumerate(lines):
-            if re.search(r'\w+\.[A-Za-z]{2,15}\s*(\n|$)', line):
+            if re.search(r'\w+\.[A-Za-z]{2,15}\s*(\n|$)', line) or re.search(dotname_reg, line):
 
 
                 #re.sub(r'([A-Z]\w+\.[A-Z]\w+)(\s*\n)', 'test'+r'\2', l)
