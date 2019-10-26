@@ -146,7 +146,7 @@ def sublinks(input_path, i_prec=7):
     with open(input_path, 'w') as f:
         print('Reading:', input_path)
         for i, line in enumerate(lines):
-            if re.search(r'\w+\.[A-Za-z]{2,15}\s*(\n|$)', line) or re.search(dotname_reg, line):
+            if re.search(r'\w+\.[A-Za-z]{2,15}\s*(\n)', line) or re.search(dotname_reg, line):
 
 
                 #re.sub(r'([A-Z]\w+\.[A-Z]\w+)(\s*\n)', 'test'+r'\2', l)
@@ -160,13 +160,13 @@ def sublinks(input_path, i_prec=7):
                     SUB_TOKEN = fr'__MAIL_{i:09}__'
                     line = re.sub(mail_reg, SUB_TOKEN+r'\2', line)
                     link_dict[SUB_TOKEN] = mail[0][0]
+               elif dot_name:
+                    SUB_TOKEN = fr'__DOT_NAME__{i:09}__'
+                    line = re.sub(dotname_reg, SUB_TOKEN+r'\2', line)
+                    link_dict[SUB_TOKEN] = link[0][0]
                 elif link:
                     SUB_TOKEN = fr'__LINK_{i:09}__'
                     line = re.sub(link_reg, SUB_TOKEN+r'\6', line)
-                    link_dict[SUB_TOKEN] = link[0][0]
-                elif dot_name:
-                    SUB_TOKEN = fr'__DOT_NAME__{i:09}__'
-                    line = re.sub(dotname_reg, SUB_TOKEN+r'\2', line)
                     link_dict[SUB_TOKEN] = link[0][0]
                 else:
                     print('**** WARNING: Uncatched link ****')
