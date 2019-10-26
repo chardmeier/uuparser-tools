@@ -167,6 +167,7 @@ def parse_split(input_dir, match_string):
 import linecache, re
 class CoNLLReader:
     def __init__(self, filepath):
+        print('Reading file:', filepath)
         self.filepath = filepath
         with open(filepath) as f:
             self.__len = sum(1 for line in f)
@@ -278,6 +279,7 @@ class Sent:
             elif '# sent_id' in info_line:
                 self.sent_id = int(info_line.split(' = ')[-1])
         self.lines = list(map(lambda l: l.split('\t'), lines))
+        self.handle_minus()
         self.pre_n  = 0
         self.post_n = 0
         self.mid_n  = 0
@@ -299,6 +301,19 @@ class Sent:
                 else:
                     self.mid_n += n   
                     print('Sent_id:', self.sent_id, f'Found \\n in within sentence:', line[0], line[1], space_segment)
+
+    def handle_minus(self):
+        d = {}
+        i = 0
+        while i < len(self):
+            if '-' in self.lines[i][0]:
+                d[int(self.lines[i][0].split('-')[-1])] = self.lines[i][9]
+                self.lines.pop(i)
+            else:
+                i += 1
+        for key in d:
+            self.lines[key-1][9] = d[i]
+
         
     def __len__(self):
         return len(self.lines)
