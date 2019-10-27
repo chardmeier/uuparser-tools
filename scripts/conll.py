@@ -533,6 +533,8 @@ def resublinks(input_file):
         input_file (string): path to input file or directory
     """
     input_path = os.path.abspath(input_file)
+    print(f'Re-subsitute Links in: {input_path}')
+
     if os.path.isdir(input_path):
         files = get_conlls(input_path)
         for file in files:
