@@ -553,6 +553,8 @@ def resublinks(input_file):
     dict_path = os.path.abspath(os.path.join(os.path.dirname(input_path), '..', 'link.dict'))
     dict_data = get_dict(dict_path)
     link_dict = dict_data[corpus_file]
+    if None in link_dict:
+        del link_dict[None]
     pm = PlaceholderManager(link_dict)
     with open(input_path) as f:
         lines = f.readlines()
