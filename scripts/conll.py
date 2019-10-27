@@ -537,7 +537,7 @@ def resublinks(input_file):
 
     if os.path.isdir(input_path):
         files = get_conlls(input_path)
-        files = map(lambda f: os.path.join(os.path.dirname(input_path), f), files)
+        files = map(lambda f: os.path.join(input_path, f), files)
         for file in files:
             try:
                 resublinks(file)
