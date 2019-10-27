@@ -480,7 +480,7 @@ class PlaceholderManager:
         """
         self.link_dict = link_dict
         self.SUB_TOKENS = list(link_dict.keys())
-        self.SUB_TOKENS.sort(key=lambda SUB_TOKEN: int(SUB_TOKEN.split('_')[3]))
+        self.SUB_TOKENS.sort(key=lambda SUB_TOKEN: int(SUB_TOKEN.split('_')[-3]))
         self.counter = [0]*len(self.SUB_TOKENS)
         self.i = 0
         self.line_id = -1
@@ -533,7 +533,7 @@ def resublinks(input_file):
         input_file (string): path to input file or directory
     """
     input_path = os.path.abspath(input_file)
-    print(f'Re-subsitute Links in: {input_path}')
+    #print(f'Re-subsitute Links in: {input_path}')
 
     if os.path.isdir(input_path):
         files = get_conlls(input_path)

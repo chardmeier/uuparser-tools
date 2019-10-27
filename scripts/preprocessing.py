@@ -161,7 +161,7 @@ def sublinks(input_path, i_prec=7):
                     line = re.sub(mail_reg, SUB_TOKEN+r'\2', line)
                     link_dict[SUB_TOKEN] = mail[0][0]
                 elif dot_name:
-                    SUB_TOKEN = fr'__DOT_NAME__{i:09}__'
+                    SUB_TOKEN = fr'__DOTNAME_{i:09}__'
                     line = re.sub(dotname_reg, SUB_TOKEN+r'\2', line)
                     link_dict[SUB_TOKEN] = dot_name[0][0]
                 elif link:
