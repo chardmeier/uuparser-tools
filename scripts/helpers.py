@@ -95,6 +95,7 @@ def get_files(input_dir, allowed_endings, exclude_parts=True, verbose=True):
     for ending in allowed_endings:
         valid_files += list(filter(lambda f: f.endswith(ending), files))
     
+    print('Directory:', input_dir)
     print(f'Found {allowed_endings} files:',)
     valid_files.sort()
     pprint.pprint(valid_files)
