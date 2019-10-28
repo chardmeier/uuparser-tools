@@ -552,10 +552,10 @@ def resublinks(input_file):
                 continue
         return
     corpus_file  = os.path.basename(input_path)[:-6] # remove conll
-    print('corpus_file', corpus_file)
+    #print('corpus_file', corpus_file)
 
     dict_path = os.path.abspath(os.path.join(os.path.dirname(input_path), '..', 'link.dict'))
-    print('dict_path', dict_path)
+    #print('dict_path', dict_path)
     dict_data = get_dict(dict_path)
     link_dict = dict_data[corpus_file]
     if None in link_dict:
