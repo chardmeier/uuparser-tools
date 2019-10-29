@@ -142,11 +142,11 @@ def sublinks(input_path, i_prec=7):
     link_dict = {None: None}
     mail_reg = '([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)(\s*\n|$)'
     link_reg = r'((http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[A-Za-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)(:?\s*\n|$)'
-    dotname_reg = r'([A-Za-z]\w+\.[A-Z]\w+)(\s*\n|$)'
+    dotname_reg = r'((\w\.?)*\w+\.\w+)(\s*\n|$)'
     with open(input_path, 'w') as f:
         print('Reading:', input_path)
         for i, line in enumerate(lines):
-            if re.search(r'\w+\.[A-Za-z]{2,15}\s*(\n)', line):
+            if re.search(r'(\w\.?)*\w+\.[A-Za-z]{2,}\s*(\n)', line):
 
 
                 #re.sub(r'([A-Z]\w+\.[A-Z]\w+)(\s*\n)', 'test'+r'\2', l)
