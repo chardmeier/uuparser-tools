@@ -122,7 +122,7 @@ def train_parser(code, args=None):
         args (None or argparser.args): additional arguments to modify parameters such es memory, timelimit or partition to run on
     """
     batch = Batch(name=f'tp_{code}', log_dir=NAME_PARSER, args=args)
-    batch.train_parser(code)
+    batch.train_uuparser(code)
     batch.submit()
 
 def parse(arg1, model_path=None, args=None):
