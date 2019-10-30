@@ -480,7 +480,7 @@ class PlaceholderManager:
         """
         self.link_dict = link_dict
         self.SUB_TOKENS = list(link_dict.keys())
-        self.SUB_TOKENS.sort(key=lambda SUB_TOKEN: int(SUB_TOKEN.split('_')[-3]))
+        self.SUB_TOKENS.sort(key=lambda SUB_TOKEN: int(SUB_TOKEN.split('_')[-1]))
         self.counter = [0]*len(self.SUB_TOKENS)
         self.i = 0
         self.line_id = -1
