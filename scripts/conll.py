@@ -506,6 +506,7 @@ class PlaceholderManager:
         """
         if sum(self.counter) != len(self.SUB_TOKENS)*2:
             print('Error: Not all tokens found:')
+            print(self.SUB_TOKENS[self.i])
             print(self.counter)
             print(self.SUB_TOKENS)
             assert sum(self.counter) == len(self.SUB_TOKENS)*2, 'Not all tokens could be found in .conll - changes not saved!'
@@ -519,15 +520,11 @@ class PlaceholderManager:
         """
         self.line_id += 1
         placeholder, link = self.current()
-        if placeholder and (placeholder in line):
+        if placeholder and ((placeholder in line) or (placeholder.lower() in line.lower())):
             line = line.replace(placeholder, link)
+            line = line.replace(placeholder.lower(), link)
             print(f'{i: 9} {placeholder}   --->   {link}')
             self.got_match()
-        elif placeholder and (placeholder.lower() in line):
-            placeholder = placeholder.lower()
-            line = line.replace(placeholder, link)
-            print(f'{i: 9} {placeholder}   --->   {link}')
-            self.got_match()           
         return line
 
 def resublinks(input_file):
