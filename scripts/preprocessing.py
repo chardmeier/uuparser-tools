@@ -277,6 +277,6 @@ def download_ud24_treebank(download_dir=None):
         download_dir = DATA
     if not os.path.isdir(download_dir):
         os.mkdir(download_dir)
-    print('Saving UDPipe models to:', download_dir)
+    print('Saving UD Treebank v2.4 models to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_treebank.sh')
     os.system(f'sh {script_path} {download_dir}')
