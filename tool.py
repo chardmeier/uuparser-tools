@@ -124,7 +124,7 @@ elif args.command == 'utils':
         elif args.download[0] == 'udpmodels':
             preprocessing.download_udpipe_models()
         elif args.download[0] == 'ud2.4':
-            preprocessing.download_udpipe_models()
+            preprocessing.download_ud24_treebank()
         else:
             print('Unkown corpus:', args.download[0])
     elif args.ft_add_n:
