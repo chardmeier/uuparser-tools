@@ -121,6 +121,8 @@ elif args.command == 'utils':
     elif args.download:
         if args.download[0] == 'news':
             preprocessing.news_commentary_v14()
+        elif args.download[0] == 'udmodels':
+            preprocessing.download_udpipe_models()
         else:
             print('Unkown corpus:', args.download[0])
     elif args.ft_add_n:
