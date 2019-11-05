@@ -8,6 +8,15 @@ DATA=       os.path.join(PROJECT, "data")
 MODELS=     os.path.join(PROJECT, "models")
 SCRIPTS=    os.path.join(PROJECT, "scripts")
 
+if not os.path.isdir(DATA):
+    os.mkdir(DATA)
+if not os.path.isdir(BATCHFILES):
+    os.mkdir(BATCHFILES)
+if not os.path.isdir(MODELS):
+    os.mkdir(MODELS)
+if not os.path.isdir(BATCHFILES):
+    os.mkdir(BATCHFILES)
+
 EFLOMAL=    os.path.abspath(os.path.expanduser('~/software/eflomal/'))
 
 SOURCE_PATH = os.path.join(PROJECT, 'pn.env')

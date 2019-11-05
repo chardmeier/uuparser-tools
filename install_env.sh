@@ -8,6 +8,9 @@ echo "Writing into pn.env"
 echo ". $(pwd)/miniconda/etc/profile.d/conda.sh" >> pn.env
 echo "conda activate base" >> pn.env
 echo "export PROJECT=""$(pwd)" >> pn.env
+echo ""
+echo "module load gcc "
+echo "module load python3/3.7.0.gnu"
 
 . miniconda/etc/profile.d/conda.sh
 
