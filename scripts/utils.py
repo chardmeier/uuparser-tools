@@ -59,7 +59,6 @@ class Batch:
         if not outputname:
             outputname = filename
         self.command_string = f"""
-source activate py37
 {'{}'}python3 {os.path.join(EFLOMAL, 'align.py')} \\
         -i {os.path.join(input_dir, filename)} \\
         -m 3  \\
