@@ -7,7 +7,7 @@ echo "Writing into pn.env"
 
 echo ". $(pwd)/miniconda/etc/profile.d/conda.sh" >> pn.env
 echo "conda activate base" >> pn.env
-echo 'export PROJECT="$(pwd)"' >> pn.env
+echo "export PROJECT=""$(pwd)" >> pn.env
 
 . miniconda/etc/profile.d/conda.sh
 
