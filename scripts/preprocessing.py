@@ -160,14 +160,14 @@ def sublinks(input_path, i_prec=7):
                     SUB_TOKEN = fr'__MAIL_{i:09}'
                     line = re.sub(mail_reg, SUB_TOKEN+r'\2', line)
                     link_dict[SUB_TOKEN] = mail[0][0]
-                elif dot_name:
-                    SUB_TOKEN = fr'__DOTNAME_{i:09}'
-                    line = re.sub(dotname_reg, SUB_TOKEN+r'\3', line)
-                    link_dict[SUB_TOKEN] = dot_name[0][0]
                 elif link:
                     SUB_TOKEN = fr'__LINK_{i:09}'
                     line = re.sub(link_reg, SUB_TOKEN+r'\6', line)
                     link_dict[SUB_TOKEN] = link[0][0]
+                elif dot_name:
+                    SUB_TOKEN = fr'__DOTNAME_{i:09}'
+                    line = re.sub(dotname_reg, SUB_TOKEN+r'\3', line)
+                    link_dict[SUB_TOKEN] = dot_name[0][0]
                 else:
                     print('**** WARNING: Uncatched link ****')
                     print(line)
@@ -257,8 +257,7 @@ def split(input_file, chunksize, conll=False, nl2x=False):
 def news_commentary_v14(download_dir=None):
     if download_dir is None:
         download_dir = DATA
-    if not os.path.isdir(download_dir):
-        os.mkdir(download_dir)
+    create_dir(download_dir)
     print('Saving corpus "news_commentary_v14" to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_news_commentary.sh')
     os.system(f'sh {script_path} {download_dir}')
@@ -266,8 +265,7 @@ def news_commentary_v14(download_dir=None):
 def download_udpipe_models(download_dir=None):
     if download_dir is None:
         download_dir = os.path.join(MODELS, NAME_TOKENIZER)
-    if not os.path.isdir(download_dir):
-        os.mkdir(download_dir)
+    create_dir(download_dir)
     print('Saving UDPipe models to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_udpipe_models.sh')
     os.system(f'sh {script_path} {download_dir}')
@@ -275,8 +273,7 @@ def download_udpipe_models(download_dir=None):
 def download_ud24_treebank(download_dir=None):
     if download_dir is None:
         download_dir = DATA
-    if not os.path.isdir(download_dir):
-        os.mkdir(download_dir)
+    create_dir(download_dir)
     print('Saving UD Treebank v2.4 models to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_treebank.sh')
     os.system(f'sh {script_path} {download_dir}')
