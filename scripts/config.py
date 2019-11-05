@@ -10,8 +10,8 @@ SCRIPTS=    os.path.join(PROJECT, "scripts")
 
 if not os.path.isdir(DATA):
     os.mkdir(DATA)
-if not os.path.isdir(BATCHFILES):
-    os.mkdir(BATCHFILES)
+if not os.path.isdir(LOGS):
+    os.mkdir(LOGS)
 if not os.path.isdir(MODELS):
     os.mkdir(MODELS)
 if not os.path.isdir(BATCHFILES):
