@@ -254,7 +254,9 @@ def split(input_file, chunksize, conll=False, nl2x=False):
         return part_list
 
 
-def news_commentary_v14(download_dir=DATA):
+def news_commentary_v14(download_dir=None):
+    if download_dir is None:
+        download_dir = DATA
     if not os.path.isdir(download_dir):
         os.mkdir(download_dir)
     print('Saving corpus "news_commentary_v14" to:', download_dir)

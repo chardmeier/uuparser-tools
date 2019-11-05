@@ -120,8 +120,7 @@ elif args.command == 'utils':
         preprocessing.resublinks(args.resublinks)
     elif args.download:
         if args.download[0] == 'news':
-            directory = args.download[1] if len(args.download) == 2 else '.'
-            preprocessing.news_commentary_v14(directory)
+            preprocessing.news_commentary_v14()
         else:
             print('Unkown corpus:', args.download[0])
     elif args.ft_add_n:
