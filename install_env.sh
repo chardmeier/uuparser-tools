@@ -17,6 +17,8 @@ BIN_DIR="$(pwd)/bin"
 conda activate base
 pip install dynet
 
+git clone https://github.com/maxtrem/uuparser
+
 conda create -n py37 python=3.7 -y
 conda activate py37
 module purge

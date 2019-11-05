@@ -1,6 +1,6 @@
 import os
 
-PROJECT=    os.path.abspath(os.path.expanduser("~/pronoun_project"))
+PROJECT=    os.environ.get('PROJECT')
 PARSER=     os.path.join(PROJECT, "uuparser/barchybrid")
 BATCHFILES= os.path.join(PROJECT, "batchfiles")
 LOGS=       os.path.join(PROJECT, "logfiles")
@@ -10,10 +10,13 @@ SCRIPTS=    os.path.join(PROJECT, "scripts")
 
 EFLOMAL=    os.path.abspath(os.path.expanduser('~/software/eflomal/'))
 
+SOURCE_PATH = os.path.join(PROJECT, 'pn.env')
+
 NAME_PARSER="UUParser"
 NAME_TOKENIZER="UDPipe"
 
 TREEBANKS = os.path.join(DATA, 'ud-treebanks-v2.4')
+
 
 parser_default_mappings = {'de':'de_gsd', 'en':'en_ewt', 'cs':'cs_pdt', 'fr':'fr_gsd', 'sv':'sv_talbanken'}
 
