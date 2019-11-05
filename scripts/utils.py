@@ -26,7 +26,7 @@ class Batch:
         self.shell_string = None
         self.srun_prefix  = 'srun '
         self.shebang = '#!/bin/sh\n'
-        self.source  = '\nsource ~/.bashrc\n'
+        self.source  = f'\nsource {SOURCE_PATH}'
         self.modules = "\n\nmodule purge\nmodule load gcc\n\n"
 
     def init_args(self, memory=None, timelimit=None, partition=None, account=None, args=None):
