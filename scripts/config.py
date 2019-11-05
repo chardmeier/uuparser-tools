@@ -12,7 +12,7 @@ EFLOMAL=    os.path.abspath(os.path.expanduser('~/software/eflomal/'))
 
 SOURCE_PATH = os.path.join(PROJECT, 'pn.env')
 
-NAME_PARSER="UUParser"
+NAME_PARSER   ="UUParser"
 NAME_TOKENIZER="UDPipe"
 
 TREEBANKS = os.path.join(DATA, 'ud-treebanks-v2.4')

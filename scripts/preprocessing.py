@@ -254,6 +254,10 @@ def split(input_file, chunksize, conll=False, nl2x=False):
         return part_list
 
 
-def news_commentary_v14(download_dir='.'):
+def news_commentary_v14(download_dir=DATA):
+    if not os.path.isdir(download_dir):
+        os.mkdir(download_dir)
     print('Saving corpus "news_commentary_v14" to:', download_dir)
-    os.system(f'sh scripts/shell_scripts/download_news_commentary.sh {download_dir}')
+    script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_news_commentary.sh')
+    os.system(f'sh {script_path} {download_dir}')
+
