@@ -33,3 +33,6 @@ cd eflomal
 make 
 install -t $BIN_DIR eflomal
 python3 setup.py install
+
+
+echo "Envoroment installation script finished. Use 'source pn.env' to activate."

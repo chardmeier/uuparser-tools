@@ -272,3 +272,11 @@ def download_udpipe_models(download_dir=None):
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_udpipe_models.sh')
     os.system(f'sh {script_path} {download_dir}')
 
+def download_ud24_treebank(download_dir=None):
+    if download_dir is None:
+        download_dir = DATA
+    if not os.path.isdir(download_dir):
+        os.mkdir(download_dir)
+    print('Saving UDPipe models to:', download_dir)
+    script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_treebank.sh')
+    os.system(f'sh {script_path} {download_dir}')
