@@ -280,7 +280,9 @@ def download_ud24_treebank(download_dir=None):
 
 def download_JW300(l1, l2, download_dir=None):
     if download_dir is None:
-        download_dir = os.path.join(DATA, 'JW300')
+        corpus_main_dir = os.path.join(DATA, 'JW300')
+        create_dir(corpus_main_dir)
+        download_dir = os.path.join(corpus_main_dir, f'{l1}-{l2}')
     create_dir(download_dir)
     print(f'Saving JW300 ({l1}-{l2}) to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_jw300.sh')
@@ -290,9 +292,9 @@ def download_JW300(l1, l2, download_dir=None):
 
 def download_europarl(l1, l2, download_dir=None):
     if download_dir is None:
-        europarl_main_dir = os.path.join(DATA, 'europarl')
-        create_dir(europarl_main_dir)
-        download_dir = os.path.join(europarl_main_dir, f'{l1}-{l2}')
+        corpus_main_dir = os.path.join(DATA, 'europarl')
+        create_dir(corpus_main_dir)
+        download_dir = os.path.join(corpus_main_dir, f'{l1}-{l2}')
     create_dir(download_dir)
     print(f'Saving europarl ({l1}-{l2}) to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_europarl.sh')
