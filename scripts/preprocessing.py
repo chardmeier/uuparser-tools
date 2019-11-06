@@ -287,6 +287,6 @@ def download_JW300(l1, l2, download_dir=None):
     command     = f'sh {script_path} {l1} {l2} {download_dir}'
     from subprocess import Popen, PIPE 
     execute = Popen(command.split(), stdout=PIPE, stdin=PIPE, stderr=PIPE)
-    execute.stdin.write("y")
+    execute.stdin.write('y'.encode())
 
 
