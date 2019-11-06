@@ -24,10 +24,14 @@ SOURCE_PATH = os.path.join(PROJECT, 'pn.env')
 NAME_PARSER   ="UUParser"
 NAME_TOKENIZER="UDPipe"
 
+
+PATH_UDPIPE   = '/projects/nlpl/software/udpipe/latest/bin/udpipe'
+
 TREEBANKS = os.path.join(DATA, 'ud-treebanks-v2.4')
 
 
-parser_default_mappings = {'de':'de_gsd', 'en':'en_ewt', 'cs':'cs_pdt', 'fr':'fr_gsd', 'sv':'sv_talbanken'}
+
+parser_default_mappings = {'de':'de_gsd', 'en':'en_ewt', 'cs':'cs_pdt', 'fr':'fr_gsd', 'sv':'sv_talbanken', 'no':'no_bokmaal'}
 
 
 from .mappings import code2lang

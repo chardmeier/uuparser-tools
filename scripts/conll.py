@@ -142,6 +142,8 @@ def parse(arg1, model_path=None, args=None):
 
     
     lang = re.findall(r'.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*', input_file)[0]
+    if not lang in d:
+        raise KeyError('Language not found in language dict - please add mapping in config.py')
     model_path = f"{MODELS}/{NAME_PARSER}/{d[lang]}/" # ADD JOIN
 
     batch = Batch(name=f'parse_{lang}', log_dir=NAME_PARSER, args=args)

@@ -104,14 +104,14 @@ cd {PARSER}
 
     def train_udpipe(self, model_path, train_data_path):
         self.command_string = f"""
-{'{}'}/projects/nlpl/software/udpipe/latest/bin/udpipe --train \\
+{'{}'}{PATH_UDPIPE} --train \\
     --tagger \\
     --tokenizer {model_path} {train_data_path}"""
         self.construct_command('train_udpipe')
 
     def tokenize(self, model_path, input_path, output_file):
         self.command_string = f"""
-{'{}'}/projects/nlpl/software/udpipe/latest/bin/udpipe --tokenize --tag {model_path} {input_path} > {output_file}"""
+{'{}'}{PATH_UDPIPE} --tokenize --tag {model_path} {input_path} > {output_file}"""
         self.construct_command('tokenize')
 
     def save_batchstring(self, name, history=False, shell=False):
