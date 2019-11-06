@@ -128,6 +128,9 @@ elif args.command == 'utils':
         elif args.download[0].startswith('jw300.'):
             l1, l2 = args.download[0].split('.')[-1].split('-')
             preprocessing.download_JW300(l1, l2)
+        elif args.download[0].startswith('europarl.'):
+            l1, l2 = args.download[0].split('.')[-1].split('-')
+            preprocessing.download_europarl(l1, l2)
         else:
             print('Unkown corpus:', args.download[0])
     elif args.ft_add_n:

@@ -282,10 +282,21 @@ def download_JW300(l1, l2, download_dir=None):
     if download_dir is None:
         download_dir = os.path.join(DATA, 'JW300')
     create_dir(download_dir)
-    print('Saving JW300 to:', download_dir)
+    print(f'Saving JW300 ({l1}-{l2}) to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_jw300.sh')
     BIN_PATH = os.path.join(CONDA_BIN, 'opus_read')
     command     = f'sh {script_path} {l1} {l2} {BIN_PATH} {download_dir}'
+    os.system(command)
+
+def download_europarl(l1, l2, download_dir=None):
+    if download_dir is None:
+        europarl_main_dir = os.path.join(DATA, 'europarl')
+        create_dir(europarl_main_dir)
+        download_dir = os.path.join(europarl_main_dir, f'{l1}-{l2}')
+    create_dir(download_dir)
+    print(f'Saving europarl ({l1}-{l2}) to:', download_dir)
+    script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_europarl.sh')
+    command     = f'sh {script_path}'
     os.system(command)
 
 
