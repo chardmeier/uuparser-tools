@@ -239,25 +239,30 @@ class Doc:
         
     def get_chr(self):
         doc_id = str(self.doc_id)
-        n_id = 1
-        output_lines = []
+        next_n_id = 1
+        output_lines      = []
+        line_break_before = True
         for sent in self.sents:
             for i in range(sent.pre_n):
-                output_lines.append('\t'.join((doc_id, str(n_id), '')))
+                output_lines.append('\t'.join((doc_id, str(next_n_id), '')))
                 self.num_line_ids += 1
-                n_id += 1
+                next_n_id += 1
+                line_break_before = True
                 doc_id = ''
             write_n_id = ''
-            if sent.post_n:
-                write_n_id = str(n_id)
+            if line_break_before:
+                line_break_before = False
+                write_n_id = str(next_n_id)
                 self.num_line_ids += 1
-                n_id += 1
+                next_n_id += 1
+            if sent.post_n:
+                line_break_before = True
             output_lines.append('\t'.join((doc_id, write_n_id, str(sent))))
             doc_id   = ''
             for i in range(max(sent.post_n-1, 0)):
-                output_lines.append('\t'.join((doc_id, str(n_id), '')))
+                output_lines.append('\t'.join((doc_id, str(next_n_id), '')))
                 self.num_line_ids += 1
-                n_id += 1
+                next_n_id += 1
                 doc_id = ''
         return (output_lines)
                 
