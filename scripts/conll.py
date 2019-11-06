@@ -458,17 +458,26 @@ def chr_format_file(input_file, output_file, verbose=True, empty_line=''):
             print()
         o.writelines(out_lines)
                 
-def chr_format_dir(input_dir, verbose=True):
+def chr_format_dir(path, verbose=True):
     """
         Converts .conll files in given directory to .chr format
         args:
-            input_dir (string): path to directory
+            path  (string): path to directory
             verbose (bool): controlls print outs
     """
     print('Convert .conll -> chr-format')
-    input_dir, output_dir = create_same_level_output_dir(input_dir, 'chr_format')
+    filename = None
+    if os.path.isfile(path):
+        filename = os.path.basename(path)
+        assert filename.lower().endswith('.conll')
+        path  = os.path.dirname(path)
+    input_dir, output_dir = create_same_level_output_dir(path, 'chr_format')
     
-    files = get_conlls(input_dir)
+    if filename:
+        files = [filename]
+    else:
+        files = get_conlls(input_dir)
+        
     for file in files:
         input_file  = os.path.join(input_dir, file)
         output_file = os.path.join(output_dir, file[:-5] + 'chr')
