@@ -10,6 +10,6 @@ $BIN_PATH -d JW300 \
             --target $L2 \
             --write_mode moses \
             --suppress_prompts \
-            --write "$DIR/jw300.$L1-$2.L$L1" "$DIR/jw300.$L1-$2.$L2"
+            --write "$DIR/jw300.$L1-$L2.$L1" "$DIR/jw300.$L1-$L2.$L2"
 
 rm JW300_latest_xml_*
