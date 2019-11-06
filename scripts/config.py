@@ -20,6 +20,7 @@ if not os.path.isdir(BATCHFILES):
 EFLOMAL=    os.path.abspath(os.path.expanduser('~/software/eflomal/'))
 
 SOURCE_PATH = os.path.join(PROJECT, 'pn.env')
+CONDA_BIN   = os.path.join(PROJECT, 'miniconda', 'bin')
 
 NAME_PARSER   ="UUParser"
 NAME_TOKENIZER="UDPipe"

@@ -277,3 +277,11 @@ def download_ud24_treebank(download_dir=None):
     print('Saving UD Treebank v2.4 models to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_treebank.sh')
     os.system(f'sh {script_path} {download_dir}')
+
+def download_JW300(l1, l2, download_dir=None):
+    if download_dir is None:
+        download_dir = os.path.join(DATA, 'JW300')
+    create_dir(download_dir)
+    print('Saving JW300 to:', download_dir)
+    script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_jw300.sh')
+    os.system(f'sh {script_path} {l1} {l2} {download_dir}')
