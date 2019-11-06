@@ -285,7 +285,7 @@ def download_JW300(l1, l2, download_dir=None):
     print('Saving JW300 to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_jw300.sh')
     BIN_PATH = os.path.join(CONDA_BIN, 'opus_read')
-    command     = f'sh {script_path} {l1} {l2} {download_dir}'
+    command     = f'sh {script_path} {l1} {l2} {BIN_PATH} {download_dir}'
     os.system(command)
 
 
