@@ -25,7 +25,7 @@ conda activate base
 
 git clone https://github.com/maxtrem/uuparser
 pip install -r uuparser/requirements.txt
-
+pip install --ignore-installed opustools-pkg
 #conda create -n py37 python=3.7 -y
 #conda activate py37
 module purge
