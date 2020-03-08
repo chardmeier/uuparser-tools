@@ -22,10 +22,10 @@ echo ". $(pwd)/miniconda/etc/profile.d/conda.sh" >> pn.env
 echo "conda activate base" >> pn.env
 echo "PROJECT=""$(pwd)" >> pn.env
 echo "" >> pn.env
-echo "module load gcc " >> pn.env
+echo "module load GCC " >> pn.env
 echo "SOFTWARE=$SOFTWARE" >> pn.env
 echo "BIN_DIR=$BIN_DIR" >> pn.env
-echo "PATH=$BIN_DIR:$PATH" >> pn.env
+echo "PATH=$BIN_DIR:\$PATH" >> pn.env
 #echo "module load python3/3.7.0.gnu"
 
 . miniconda/etc/profile.d/conda.sh
@@ -47,7 +47,7 @@ pip install --ignore-installed opustools-pkg
 #conda create -n py37 python=3.7 -y
 #conda activate py37
 module purge
-module load gcc
+module load GCC
 
 pip install numpy
 git clone https://github.com/robertostling/eflomal
