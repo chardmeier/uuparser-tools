@@ -20,12 +20,12 @@ echo "Writing into pn.env"
 
 echo ". $(pwd)/miniconda/etc/profile.d/conda.sh" >> pn.env
 echo "conda activate base" >> pn.env
-echo "PROJECT=""$(pwd)" >> pn.env
+echo "export PROJECT=""$(pwd)" >> pn.env
 echo "" >> pn.env
 echo "module load GCC " >> pn.env
-echo "SOFTWARE=$SOFTWARE" >> pn.env
-echo "BIN_DIR=$BIN_DIR" >> pn.env
-echo "PATH=$BIN_DIR:\$PATH" >> pn.env
+echo "export SOFTWARE=$SOFTWARE" >> pn.env
+echo "export BIN_DIR=$BIN_DIR" >> pn.env
+echo "export PATH=$BIN_DIR:\$PATH" >> pn.env
 #echo "module load python3/3.7.0.gnu"
 
 . miniconda/etc/profile.d/conda.sh
@@ -33,7 +33,7 @@ echo "PATH=$BIN_DIR:\$PATH" >> pn.env
 cd $SOFTWARE
 
 wget https://github.com/ufal/udpipe/releases/download/v1.2.0/udpipe-1.2.0-bin.zip
-unzip udpipe-1.2.0-bin.zip
+unzip -q udpipe-1.2.0-bin.zip
 rm udpipe-1.2.0-bin.zip
 mv $SOFTWARE/udpipe-1.2.0-bin/bin-linux64/udpipe $BIN_DIR/
 

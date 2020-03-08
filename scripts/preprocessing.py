@@ -260,7 +260,7 @@ def news_commentary_v14(download_dir=None):
     create_dir(download_dir)
     print('Saving corpus "news_commentary_v14" to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_news_commentary.sh')
-    os.system(f'sh {script_path} {download_dir}')
+    os.system(f'bash {script_path} {download_dir}')
 
 def download_udpipe_models(download_dir=None):
     if download_dir is None:
@@ -268,7 +268,7 @@ def download_udpipe_models(download_dir=None):
     create_dir(download_dir)
     print('Saving UDPipe models to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_udpipe_models.sh')
-    os.system(f'sh {script_path} {download_dir}')
+    os.system(f'bash {script_path} {download_dir}')
 
 def download_ud24_treebank(download_dir=None):
     if download_dir is None:
@@ -276,7 +276,7 @@ def download_ud24_treebank(download_dir=None):
     create_dir(download_dir)
     print('Saving UD Treebank v2.4 models to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_treebank.sh')
-    os.system(f'sh {script_path} {download_dir}')
+    os.system(f'bash {script_path} {download_dir}')
 
 def download_JW300(l1, l2, download_dir=None):
     if download_dir is None:
@@ -287,7 +287,7 @@ def download_JW300(l1, l2, download_dir=None):
     print(f'Saving JW300 ({l1}-{l2}) to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_jw300.sh')
     BIN_PATH = os.path.join(CONDA_BIN, 'opus_read')
-    command     = f'sh {script_path} {l1} {l2} {BIN_PATH} {download_dir}'
+    command     = f'bash {script_path} {l1} {l2} {BIN_PATH} {download_dir}'
     os.system(command)
 
 def download_europarl(l1, l2, download_dir=None):
@@ -298,7 +298,7 @@ def download_europarl(l1, l2, download_dir=None):
     create_dir(download_dir)
     print(f'Saving europarl ({l1}-{l2}) to:', download_dir)
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_europarl.sh')
-    command     = f'sh {script_path} {l1} {l2} {download_dir}'
+    command     = f'bash {script_path} {l1} {l2} {download_dir}'
     os.system(command)
 
 
