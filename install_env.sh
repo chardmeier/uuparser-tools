@@ -19,6 +19,7 @@ echo "module load gcc "
 
 mkdir software
 cd software
+echo "export SOFTWARE=""$(pwd)" >> pn.env
 
 mkdir bin
 BIN_DIR="$(pwd)/bin"
@@ -40,6 +41,8 @@ cd eflomal
 make 
 install -t $BIN_DIR eflomal
 python setup.py install
+
+conda install -c conda-forge ufal.udpipe
 
 
 echo "Envoroment installation script finished. Use 'source pn.env' to activate."
