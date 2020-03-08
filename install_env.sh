@@ -35,7 +35,7 @@ cd $SOFTWARE
 wget https://github.com/ufal/udpipe/releases/download/v1.2.0/udpipe-1.2.0-bin.zip
 unzip udpipe-1.2.0-bin.zip
 rm udpipe-1.2.0-bin.zip
-mv udpipe-1.2.0-bin/bin-linux64/udpipe* $BIN_DIR/*
+mv $SOFTWARE/udpipe-1.2.0-bin/bin-linux64/udpipe $BIN_DIR/
 
 
 conda activate base
