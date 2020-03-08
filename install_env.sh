@@ -6,6 +6,8 @@
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 bash Miniconda3-latest-Linux-x86_64.sh -b -p miniconda
 
+rm Miniconda3-latest-Linux-x86_64.sh
+
 echo "Writing into pn.env"
 
 echo ". $(pwd)/miniconda/etc/profile.d/conda.sh" >> pn.env
@@ -14,8 +16,6 @@ echo "export PROJECT=""$(pwd)" >> pn.env
 echo "" >> pn.env
 echo "module load gcc " >> pn.env
 #echo "module load python3/3.7.0.gnu"
-
-. miniconda/etc/profile.d/conda.sh
 
 mkdir software
 SOFTWARE="$(pwd)/software"
@@ -29,8 +29,13 @@ mkdir bin
 BIN_DIR="$(pwd)/bin"
 echo "PATH=$BIN_DIR:$PATH" >> pn.env
 
+. miniconda/etc/profile.d/conda.sh
+
+
+
 wget https://github.com/ufal/udpipe/releases/download/v1.2.0/udpipe-1.2.0-bin.zip
 unzip udpipe-1.2.0-bin.zip
+rm udpipe-1.2.0-bin.zip
 mv udpipe-1.2.0-bin/bin-linux64/udpipe $BIN_DIR
 
 
