@@ -1,12 +1,15 @@
 import os
 
 PROJECT=    os.environ.get('PROJECT')
-PARSER=     os.path.join(PROJECT, "uuparser/barchybrid")
 BATCHFILES= os.path.join(PROJECT, "batchfiles")
 LOGS=       os.path.join(PROJECT, "logfiles")
 DATA=       os.path.join(PROJECT, "data")
 MODELS=     os.path.join(PROJECT, "models")
 SCRIPTS=    os.path.join(PROJECT, "scripts")
+SOFTWARE=   os.path.join(PROJECT, "software")
+PARSER=     os.path.join(SOFTWARE, "uuparser/barchybrid")
+EFLOMAL=    os.path.join(SOFTWARE, "eflomal")
+
 
 if not os.path.isdir(DATA):
     os.mkdir(DATA)
@@ -17,7 +20,6 @@ if not os.path.isdir(MODELS):
 if not os.path.isdir(BATCHFILES):
     os.mkdir(BATCHFILES)
 
-EFLOMAL=    os.path.abspath(os.path.expanduser('~/software/eflomal/'))
 
 SOURCE_PATH = os.path.join(PROJECT, 'pn.env')
 CONDA_BIN   = os.path.join(PROJECT, 'miniconda', 'bin')

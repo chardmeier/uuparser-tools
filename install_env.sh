@@ -17,6 +17,9 @@ echo "module load gcc "
 
 . miniconda/etc/profile.d/conda.sh
 
+mkdir software
+cd software
+
 mkdir bin
 BIN_DIR="$(pwd)/bin"
 
