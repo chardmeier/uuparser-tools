@@ -32,7 +32,7 @@ echo "export PATH=$BIN_DIR:\$PATH" >> pn.env
 
 cd $SOFTWARE
 
-wget https://github.com/ufal/udpipe/releases/download/v1.2.0/udpipe-1.2.0-bin.zip
+wget -q https://github.com/ufal/udpipe/releases/download/v1.2.0/udpipe-1.2.0-bin.zip
 unzip -q udpipe-1.2.0-bin.zip
 rm udpipe-1.2.0-bin.zip
 mv $SOFTWARE/udpipe-1.2.0-bin/bin-linux64/udpipe $BIN_DIR/
