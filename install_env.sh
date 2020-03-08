@@ -14,7 +14,7 @@ mkdir software
 SOFTWARE="$(pwd)/software"
 
 mkdir $SOFTWARE/bin
-BIN_DIR="$(pwd)/bin"
+BIN_DIR="$SOFTWARE/bin"
 
 echo "Writing into pn.env"
 
