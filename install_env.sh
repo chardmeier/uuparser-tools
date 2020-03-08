@@ -11,25 +11,28 @@ echo "Writing into pn.env"
 echo ". $(pwd)/miniconda/etc/profile.d/conda.sh" >> pn.env
 echo "conda activate base" >> pn.env
 echo "export PROJECT=""$(pwd)" >> pn.env
-echo ""
-echo "module load gcc "
+echo "" >> pn.env
+echo "module load gcc " >> pn.env
 #echo "module load python3/3.7.0.gnu"
 
 . miniconda/etc/profile.d/conda.sh
 
 mkdir software
+SOFTWARE="$(pwd)/software"
 cd software
-echo "export SOFTWARE=""$(pwd)" >> pn.env
+
+
+echo "export SOFTWARE=""$SOFTWARE" >> pn.env
 
 
 mkdir bin
 BIN_DIR="$(pwd)/bin"
+echo "PATH=$BIN_DIR:$PATH" >> pn.env
 
 wget https://github.com/ufal/udpipe/releases/download/v1.2.0/udpipe-1.2.0-bin.zip
 unzip udpipe-1.2.0-bin.zip
 mv udpipe-1.2.0-bin/bin-linux64/udpipe $BIN_DIR
 
-echo "PATH=$BIN_DIR:$PATH" >> pn.env
 
 conda activate base
 #pip install dynet
