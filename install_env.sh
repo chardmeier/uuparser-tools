@@ -20,7 +20,7 @@ echo "Writing into pn.env"
 
 echo ". $(pwd)/miniconda/etc/profile.d/conda.sh" >> pn.env
 echo "conda activate base" >> pn.env
-echo "export PROJECT=""$(pwd)" >> pn.env
+echo "export PROJECT=$(pwd)" >> pn.env
 echo "" >> pn.env
 echo "module load GCC " >> pn.env
 echo "export SOFTWARE=$SOFTWARE" >> pn.env
