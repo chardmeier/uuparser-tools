@@ -8,27 +8,27 @@ bash Miniconda3-latest-Linux-x86_64.sh -b -p miniconda
 
 rm Miniconda3-latest-Linux-x86_64.sh
 
-echo "Writing into pn.env"
-
-echo ". $(pwd)/miniconda/etc/profile.d/conda.sh" >> pn.env
-echo "conda activate base" >> pn.env
-echo "export PROJECT=""$(pwd)" >> pn.env
-echo "" >> pn.env
-echo "module load gcc " >> pn.env
-#echo "module load python3/3.7.0.gnu"
+MAIN="$(pwd)"
 
 mkdir software
 SOFTWARE="$(pwd)/software"
 cd software
-
-
-echo "export SOFTWARE=""$SOFTWARE" >> pn.env
-
-
 mkdir bin
 BIN_DIR="$(pwd)/bin"
-echo "PATH=$BIN_DIR:$PATH" >> pn.env
 
+echo "Writing into pn.env"
+
+echo ". $(pwd)/miniconda/etc/profile.d/conda.sh" >> pn.env
+echo "conda activate base" >> pn.env
+echo "PROJECT=""$(pwd)" >> pn.env
+echo "" >> pn.env
+echo "module load gcc " >> pn.env
+echo "SOFTWARE=$SOFTWARE" >> pn.env
+echo "BIN_DIR=$BIN_DIR" >> pn.env
+echo "PATH=$BIN_DIR:$PATH" >> pn.env
+#echo "module load python3/3.7.0.gnu"
+
+cd $MAIN
 . miniconda/etc/profile.d/conda.sh
 
 
