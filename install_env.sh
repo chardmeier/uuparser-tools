@@ -35,7 +35,7 @@ cd $SOFTWARE
 wget https://github.com/ufal/udpipe/releases/download/v1.2.0/udpipe-1.2.0-bin.zip
 unzip udpipe-1.2.0-bin.zip
 rm udpipe-1.2.0-bin.zip
-mv udpipe-1.2.0-bin/bin-linux64/udpipe $BIN_DIR/udpipe
+mv udpipe-1.2.0-bin/bin-linux64/udpipe* $BIN_DIR/*
 
 
 conda activate base
@@ -46,8 +46,8 @@ pip install -r uuparser/requirements.txt
 pip install --ignore-installed opustools-pkg
 #conda create -n py37 python=3.7 -y
 #conda activate py37
-module purge
-module load GCC
+#module purge
+#module load GCC
 
 pip install numpy
 git clone https://github.com/robertostling/eflomal
