@@ -21,8 +21,15 @@ mkdir software
 cd software
 echo "export SOFTWARE=""$(pwd)" >> pn.env
 
+
 mkdir bin
 BIN_DIR="$(pwd)/bin"
+
+wget https://github.com/ufal/udpipe/releases/download/v1.2.0/udpipe-1.2.0-bin.zip
+unzip udpipe-1.2.0-bin.zip
+mv udpipe-1.2.0-bin/bin-linux64/udpipe $BIN_DIR
+
+echo "PATH=$BIN_DIR:$PATH" >> pn.env
 
 conda activate base
 #pip install dynet
@@ -42,7 +49,6 @@ make
 install -t $BIN_DIR eflomal
 python setup.py install
 
-conda install -c conda-forge ufal.udpipe
 
 
 echo "Envoroment installation script finished. Use 'source pn.env' to activate."

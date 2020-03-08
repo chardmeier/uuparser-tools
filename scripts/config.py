@@ -28,7 +28,7 @@ NAME_PARSER   ="UUParser"
 NAME_TOKENIZER="UDPipe"
 
 
-PATH_UDPIPE   = '/projects/nlpl/software/udpipe/latest/bin/udpipe'
+PATH_UDPIPE   = 'udpipe'
 
 TREEBANKS = os.path.join(DATA, 'ud-treebanks-v2.4')
 
