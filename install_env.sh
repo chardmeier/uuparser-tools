@@ -12,8 +12,8 @@ MAIN="$(pwd)"
 
 mkdir software
 SOFTWARE="$(pwd)/software"
-cd software
-mkdir bin
+
+mkdir $SOFTWARE/bin
 BIN_DIR="$(pwd)/bin"
 
 echo "Writing into pn.env"
@@ -28,10 +28,9 @@ echo "BIN_DIR=$BIN_DIR" >> pn.env
 echo "PATH=$BIN_DIR:$PATH" >> pn.env
 #echo "module load python3/3.7.0.gnu"
 
-cd $MAIN
 . miniconda/etc/profile.d/conda.sh
 
-
+cd $SOFTWARE
 
 wget https://github.com/ufal/udpipe/releases/download/v1.2.0/udpipe-1.2.0-bin.zip
 unzip udpipe-1.2.0-bin.zip
