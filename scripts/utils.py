@@ -3,9 +3,9 @@ from .helpers import create_dir, get_split_files
 import os, pprint, re, random
 
 DEFAULT_TimeLimit = '24:00:00'
-DEFAULT_Partition = 'normal'
-DEFAULT_Account   = 'nn9447k'
-DEFAULT_Memory    = '60GB'
+DEFAULT_Partition = 'batch'
+DEFAULT_Account   = 'SNIC2019-3-471'
+DEFAULT_CPUs      = '8'
 
 class Batch:
     def __init__(self, name, log_dir, memory=None, timelimit=None, partition=None, account=None, args=None):
@@ -50,7 +50,7 @@ class Batch:
 #SBATCH -t {self.timelimit}
 #SBATCH -n 1
 #SBATCH -J "{self.name}"
-#SBATCH --mem-per-cpu={self.memory} --partition={self.partition}
+#SBATCH --cpus-per-task={self.memory} --partition={self.partition}
 #SBATCH --account={self.account}
 #SBATCH --output={self.log_path}/{self.name}-%j.out"""
         return self.shebang + slurm_string + self.modules
