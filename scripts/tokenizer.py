@@ -32,7 +32,7 @@ def tokenize(input_file, model_path=None):
 
     print(f'Using UDPipe model: {model_path}')
 
-    batch = Batch(name=f'tk_{lang_code}', memory='16GB', log_dir='UDPipe')
+    batch = Batch(name=f'tk_{lang_code}', cpus='2', log_dir='UDPipe')
     batch.tokenize(model_path=model_path, input_path=input_path, output_file=output_file)
     batch.submit()
 

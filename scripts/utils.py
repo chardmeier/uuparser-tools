@@ -5,22 +5,22 @@ import os, pprint, re, random
 DEFAULT_TimeLimit = '24:00:00'
 DEFAULT_Partition = 'batch'
 DEFAULT_Account   = 'SNIC2019-3-471'
-DEFAULT_CPUs      = '8'
+DEFAULT_N_CPUs    = '8'
 
 class Batch:
-    def __init__(self, name, log_dir, memory=None, timelimit=None, partition=None, account=None, args=None):
+    def __init__(self, name, log_dir, n_cpus=None, timelimit=None, partition=None, account=None, args=None):
         self.name   = name
         self.log_path = os.path.join(LOGS, log_dir)
         create_dir(self.log_path)
 
-        self.memory    = DEFAULT_Memory
+        self.n_cpus    = DEFAULT_N_CPUs
         self.timelimit = DEFAULT_TimeLimit
         self.partition = DEFAULT_Partition
         self.account   = DEFAULT_Account
 
-        self.init_args(memory=memory, timelimit=timelimit, partition=partition, account=account)
+        self.init_args(n_cpus=n_cpus, timelimit=timelimit, partition=partition, account=account)
         if args:
-            self.init_args(memory=args.mem, timelimit=args.duration, partition=args.partition, account=args.account)
+            self.init_args(n_cpus=args.n_cpus, timelimit=args.duration, partition=args.partition, account=args.account)
 
         self.batch_string = None
         self.shell_string = None
@@ -29,9 +29,9 @@ class Batch:
         self.source  = f'\nsource {SOURCE_PATH}'
         self.modules = "\n\nmodule purge\nmodule load gcc\n\n"
 
-    def init_args(self, memory=None, timelimit=None, partition=None, account=None, args=None):
-        if memory:
-            self.memory    = memory
+    def init_args(self, n_cpus=None, timelimit=None, partition=None, account=None, args=None):
+        if n_cpus:
+            self.n_cpus    = n_cpus
         if timelimit:
             self.timelimit = timelimit
         if partition:
@@ -50,7 +50,7 @@ class Batch:
 #SBATCH -t {self.timelimit}
 #SBATCH -n 1
 #SBATCH -J "{self.name}"
-#SBATCH --cpus-per-task={self.memory} --partition={self.partition}
+#SBATCH --cpus-per-task={self.n_cpus} --partition={self.partition}
 #SBATCH --account={self.account}
 #SBATCH --output={self.log_path}/{self.name}-%j.out"""
         return self.shebang + slurm_string + self.modules

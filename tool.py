@@ -16,8 +16,8 @@ batch_group = batch_job_options.add_argument_group('Batch Job Script options')
 batch_group.add_argument('--name', '-n', type=str, help='Option for setting a manual name for batch job.')
 batch_group.add_argument('--cpus-per-task', default=None, help=f'Sets number of CPUs allocated for the job. (RAM per core 4500MB) Default: {utils.DEFAULT_CPUS}')
 batch_group.add_argument('--duration', default=None, help=f'Sets the TimeLimit for the job. Default: {utils.DEFAULT_TimeLimit}')
-batch_group.add_argument('--partition', choices=['normal', 'hugemem', 'accel'], default=None, help='Setting partition for the job to run on (default=normal).')
-batch_group.add_argument('--account', default='nn9447k', type=str, help='Sets the account the job will run on.')
+batch_group.add_argument('--partition', choices=['batch', 'largemem'], default=None, help=f'Setting partition for the job to run on (default={utils.DEFAULT_Partition}).')
+batch_group.add_argument('--account', default=utils.DEFAULT_Account, type=str, help='Sets the account the job will run on.')
 
 
 other_options  = argparse.ArgumentParser(add_help=False)
