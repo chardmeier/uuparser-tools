@@ -49,7 +49,7 @@ utils_group.add_argument('--ft_add_n', type=str, help='Writes lines from empty.d
 
 utils_group.add_argument('--sublinks', type=str, help='Replaces links and mail addresses at the end of the line by placeholders.')
 utils_group.add_argument('--resublinks', type=str, help='Replaces placeholders by original links and mail addresses.')
-utils_group.add_argument('--download', type=str, nargs='*', help='Downloads specified corpus. ("news", "udpmodels", "ud2.4", "jw300.l1-l2" e.g. "jw300.no-en")')
+utils_group.add_argument('--download', type=str, nargs='*', help='Downloads specified corpus. ("news", "udpmodels2.4", "ud2.4", "jw300.l1-l2" e.g. "jw300.no-en")')
 
 
 sub_name = 'conll'
@@ -121,9 +121,9 @@ elif args.command == 'utils':
     elif args.download:
         if args.download[0] == 'news':
             preprocessing.news_commentary_v14()
-        elif args.download[0] == 'udpmodels2_5':
+        elif args.download[0] == 'udpmodels2.5':
             preprocessing.download_udpipe_models(version='2_5')
-        elif args.download[0] == 'udpmodels2_4':
+        elif args.download[0] == 'udpmodels2.4':
             preprocessing.download_udpipe_models(version='2_4')
         elif args.download[0] == 'ud2.4':
             preprocessing.download_ud_treebank(version='2_4')

@@ -275,7 +275,7 @@ def download_ud_treebank(download_dir=None, version='2_4'):
         download_dir = DATA
     create_dir(download_dir)
     print(f"Saving UD Treebank v{version.replace('_', '.')} models to:", download_dir)
-    script_path = os.path.join(SCRIPTS, f'shell_scripts', 'download_ud{version}.sh')
+    script_path = os.path.join(SCRIPTS, f'shell_scripts', f'download_ud{version}.sh')
     os.system(f'bash {script_path} {download_dir}')
 
 def download_JW300(l1, l2, download_dir=None):
