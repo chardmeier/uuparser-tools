@@ -20,7 +20,7 @@ class Batch:
 
         self.init_args(n_cpus=n_cpus, timelimit=timelimit, partition=partition, account=account)
         if args:
-            self.init_args(n_cpus=args.n_cpus, timelimit=args.duration, partition=args.partition, account=args.account)
+            self.init_args(n_cpus=args.cpus_per_task, timelimit=args.duration, partition=args.partition, account=args.account)
 
         self.batch_string = None
         self.shell_string = None
