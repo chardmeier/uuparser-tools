@@ -262,20 +262,20 @@ def news_commentary_v14(download_dir=None):
     script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_news_commentary.sh')
     os.system(f'bash {script_path} {download_dir}')
 
-def download_udpipe_models(download_dir=None):
+def download_udpipe_models(download_dir=None, version='2_4'):
     if download_dir is None:
         download_dir = os.path.join(MODELS, NAME_TOKENIZER)
     create_dir(download_dir)
-    print('Saving UDPipe models to:', download_dir)
-    script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_udpipe_models.sh')
+    print(f'Saving UDPipe models (v{version.replace('_', '.')}) to:', download_dir)
+    script_path = os.path.join(SCRIPTS, 'shell_scripts', f'download_udpipe_models{version}.sh')
     os.system(f'bash {script_path} {download_dir}')
 
-def download_ud24_treebank(download_dir=None):
+def download_ud_treebank(download_dir=None, version='2_4'):
     if download_dir is None:
         download_dir = DATA
     create_dir(download_dir)
-    print('Saving UD Treebank v2.4 models to:', download_dir)
-    script_path = os.path.join(SCRIPTS, 'shell_scripts', 'download_treebank.sh')
+    print(f'Saving UD Treebank v{version.replace('_', '.')} models to:', download_dir)
+    script_path = os.path.join(SCRIPTS, f'shell_scripts', 'download_ud{version}.sh')
     os.system(f'bash {script_path} {download_dir}')
 
 def download_JW300(l1, l2, download_dir=None):

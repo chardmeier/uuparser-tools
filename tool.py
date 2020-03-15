@@ -121,10 +121,14 @@ elif args.command == 'utils':
     elif args.download:
         if args.download[0] == 'news':
             preprocessing.news_commentary_v14()
-        elif args.download[0] == 'udpmodels':
-            preprocessing.download_udpipe_models()
+        elif args.download[0] == 'udpmodels2_5':
+            preprocessing.download_udpipe_models(version='2_5')
+        elif args.download[0] == 'udpmodels2_4':
+            preprocessing.download_udpipe_models(version='2_4')
         elif args.download[0] == 'ud2.4':
-            preprocessing.download_ud24_treebank()
+            preprocessing.download_ud_treebank(version='2_4')
+        elif args.download[0] == 'ud2.5':
+            preprocessing.download_ud_treebank(version='2_5')
         elif args.download[0].startswith('jw300.'):
             l1, l2 = args.download[0].split('.')[-1].split('-')
             preprocessing.download_JW300(l1, l2)
