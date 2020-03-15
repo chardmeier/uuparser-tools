@@ -162,6 +162,7 @@ elif args.command == 'conll':
         conll.chr_format_dir(args.chr)
     elif args.parse:
         if args.split:
+            # add --lang -l for manually choosing language
             input_dir = args.parse
             match_string = args.split
             helpers.handle_split(input_dir, match_string, do=conll.parse, args=args)

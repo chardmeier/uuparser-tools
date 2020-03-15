@@ -93,7 +93,7 @@ def merge_conll(input_dir, match_string, output_name=None):
         match_string (string): string that matches all split files for example 'de-en.de'
         output_name (string): optional custom filename for output
     """
-    print('nl2x:', nl2x)
+    #print('nl2x:', nl2x)
     input_dir = os.path.abspath(input_dir)
 
     part_files = get_split_files(input_dir, match_string)
@@ -125,7 +125,7 @@ def train_parser(code, args=None):
     batch.train_uuparser(code)
     batch.submit()
 
-def parse(arg1, model_path=None, args=None):
+def parse(arg1, model_path=None, args=None, model_name=None):
     """
     Creates a parsing job for given intputs. Language detection will be done automatically.
     Input file is expected to hold the following format for language detection: '.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*'
@@ -140,11 +140,13 @@ def parse(arg1, model_path=None, args=None):
     input_dir, output_dir = create_same_level_output_dir(os.path.dirname(input_path), 'parsed')
     # input_dir expected to be .conll/
 
-    
-    lang = re.findall(r'.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*', input_file)[0]
-    if not lang in d:
-        raise KeyError('Language not found in language dict - please add mapping in config.py')
-    model_path = f"{MODELS}/{NAME_PARSER}/{d[lang]}/" # ADD JOIN
+    if model_name == None:
+        lang = re.findall(r'.*\.[a-z]{2}-[a-z]{2}\.([a-z]{2})\.?[a-zA-Z]*', input_file)[0]
+        if not lang in d:
+            raise KeyError('Language not found in language dict - please add mapping in config.py')
+        model_name = {d[lang]}
+    model_path = f"{MODELS}/{NAME_PARSER}/{model_name}/" # ADD JOIN
+    assert os.path.isdir(model_name), f'Model "{model_name}" not found at: "{model_path}"'
 
     batch = Batch(name=f'parse_{lang}', log_dir=NAME_PARSER, args=args)
     batch.parse(model_path=model_path, input_path=input_path, output_dir=output_dir)
