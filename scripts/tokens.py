@@ -98,7 +98,7 @@ def align(input_dir, use_shell=False, args=None):
     pprint.pprint(merged_files)
     print()
     print('Create and submit batchfiles..')
-    batch = Batch(name=f'alignment', memory='10GB', log_dir='alignment', timelimit='04:00:00', args=args)
+    batch = Batch(name=f'alignment', n_cpus='2', log_dir='alignment', timelimit='04:00:00', args=args)
 
     for filename in merged_files:
         outputname = filename
