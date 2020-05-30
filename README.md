@@ -192,6 +192,31 @@ When the tokenized `.conll` files are ready we can start parsing. To parse the o
 - `--parse` indicates parsing using the `UUParser`. Takes as argument a `.conll` file or a directory when using `--split` option. 
 - `-s` or `--split` *(optional)* takes as argument the language keys (`de-en.en`) to identify the correct parts. If `--split` is not set `--parse` expects a single `.conll` file as input.
 
+***Notes:***
+
+This will again display some information in the shell such as the parts that were found:
+
+```
+Input: de-en.de
+Full match-string: PART_\d+___.*de-en.de.*\.conll
+Found parts in "data/news-commentary-v14/conll/":
+['PART_00___news-commentary-v14.de-en.de.conll',
+'PART_01___news-commentary-v14.de-en.de.conll',
+'PART_02___news-commentary-v14.de-en.de.conll',
+'PART_03___news-commentary-v14.de-en.de.conll']
+```
+
+As well as input and output of the job and the batch file and job id:
+
+```
+Reading file: /pfs/nobackup/home/t/trembczm/test/pronouns/data/news-commentary-v14/conll/PART_00___news-commentary-v14.de-en.de.conll
+Input directory:  /pfs/nobackup/home/t/trembczm/test/pronouns/data/news-commentary-v14/conll
+Output directory: /pfs/nobackup/home/t/trembczm/test/pronouns/data/news-commentary-v14/parsed
+
+parse_de Submitted batch job 9222150
+Batchfile location: /home/t/trembczm/pfs/test/pronouns/batchfiles/history/9222150.sh
+```
+
 ### 5. Merge
 
 .. comming soon ..
