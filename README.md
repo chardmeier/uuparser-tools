@@ -209,12 +209,12 @@ Found parts in "data/news-commentary-v14/conll/":
 As well as input and output of the job and the batch file and job id:
 
 ```
-Reading file: /pfs/nobackup/home/t/trembczm/test/pronouns/data/news-commentary-v14/conll/PART_00___news-commentary-v14.de-en.de.conll
-Input directory:  /pfs/nobackup/home/t/trembczm/test/pronouns/data/news-commentary-v14/conll
-Output directory: /pfs/nobackup/home/t/trembczm/test/pronouns/data/news-commentary-v14/parsed
+Reading file: .. pronouns/data/news-commentary-v14/conll/PART_00___news-commentary-v14.de-en.de.conll
+Input directory:  .. pronouns/data/news-commentary-v14/conll
+Output directory: .. pronouns/data/news-commentary-v14/parsed
 
 parse_de Submitted batch job 9222150
-Batchfile location: /home/t/trembczm/pfs/test/pronouns/batchfiles/history/9222150.sh
+Batchfile location: .. pronouns/batchfiles/history/9222150.sh
 ```
 
 ### 5. Merge
