@@ -217,6 +217,84 @@ parse_de Submitted batch job 9222150
 Batchfile location: .. pronouns/batchfiles/history/9222150.sh
 ```
 
+
 ### 5. Merge
 
-.. comming soon ..
+Now that we have finished the parsing we can merge the split parts again by using the following command.
+
+```
+./tool.py conll --merge pronouns/data/news-commentary-v14/parsed de-en.de —nl2x
+./tool.py conll --merge pronouns/data/news-commentary-v14/parsed de-en.en —nl2x
+```
+
+#### Explanation of the command parts:
+
+- `--merge` takes as first argument the directory to the `.conll` files that should be merged and as second argument a the language key (`de-en.de`) for to identify the respective parts.
+- `-nl2x` adding this flag will remove the doubled newline (`\n`) characters again
+
+***Notes:***
+As before the shell output will display which files will be merged and where they will be saved:
+
+```
+Input: de-en.de
+Full match-string: PART_\d+___.*de-en.de.*\.conll
+Found parts in "pronouns/data/news-commentary-v14/parsed":
+['PART_00___news-commentary-v14.de-en.de.conll',
+'PART_01___news-commentary-v14.de-en.de.conll',
+'PART_02___news-commentary-v14.de-en.de.conll',
+'PART_03___news-commentary-v14.de-en.de.conll']
+
+Merged output will be saved to:
+pronouns/data/news-commentary-v14/parsed/news-commentary-v14.de-en.de.conll
+.. processing (starting at sent 1): PART_00___news-commentary-v14.de-en.de.conll
+.. processing (starting at sent 105260): PART_01___news-commentary-v14.de-en.de.conll
+.. processing (starting at sent 210471): PART_02___news-commentary-v14.de-en.de.conll
+.. processing (starting at sent 316047): PART_03___news-commentary-v14.de-en.de.conll
+```
+
+### 6. Re-Substitute links and other problematic symbols
+
+Now we can replace the placeholders that where inserted in step 2. by the tokens / sequences again:
+
+```
+./tool.py conll --resublinks data/news-commentary-v14/parsed/news-commentary-v14.de-en.de.conll
+./tool.py conll --resublinks data/news-commentary-v14/parsed/news-commentary-v14.de-en.en.conll
+```
+
+The shell output will display the replacements.
+
+### 7. Extract tokens from `.conll`
+
+Now we can extract the tokens from the created `.conll` files and get them into sentence aligned format again:
+
+```
+./tool.py conll -e data/news-commentary-v14/parsed/
+```
+
+The shell output states which files are taken as input as well where the output is saved to. The number of lines for the output lines is displayed as well.
+
+```
+Input directory:  pronouns/data/news-commentary-v14/parsed
+Output directory: pronouns/data/news-commentary-v14/tokens
+
+  
+
+Directory: pronouns/data/news-commentary-v14/parsed
+
+Found ['.conll'] files:
+['news-commentary-v14.de-en.de.conll', 'news-commentary-v14.de-en.en.conll']
+
+Reading file: pronouns/data/news-commentary-v14/parsed/news-commentary-v14.de-en.de.conll
+⮑  writing tokens (676570 lines) to: pronouns/data/news-commentary-v14/tokens/news-commentary-v14.de-en.de.token
+
+Reading file: pronouns/data/news-commentary-v14/parsed/news-commentary-v14.de-en.en.conll
+⮑  writing tokens (676570 lines) to: pronouns/data/news-commentary-v14/tokens/news-commentary-v14.de-en.en.token
+```
+
+
+### 8.  Create `.chr` format *(optional)*
+ ..
+
+### 9. Word alignment
+
+..
