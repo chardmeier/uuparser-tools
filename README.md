@@ -293,8 +293,174 @@ Reading file: pronouns/data/news-commentary-v14/parsed/news-commentary-v14.de-en
 
 
 ### 8.  Create `.chr` format *(optional)*
- ..
+ 
+ To create token output in `.chr` format use the following command:
+
+```
+./tool.py conll -c data/news-commentary-v14/parsed/
+```
+
+This extracts the tokens from `.conll` and stores the output in `.chr` the corpus  directory in the directory `chr_format`.
+
+The shell output displays input and output files:
+
+```
+Input directory:  pronouns/data/news-commentary-v14/parsed
+Output directory: pronouns/data/news-commentary-v14/chr_format
+
+Directory: pronouns/data/news-commentary-v14/parsed
+
+Found ['.conll'] files:
+['news-commentary-v14.de-en.de.conll', 'news-commentary-v14.de-en.en.conll']
+
+Reading file: pronouns/data/news-commentary-v14/parsed/news-commentary-v14.de-en.de.conll
+676570 line ids written.
+⮑  writing chr-format output (703189 overall lines) to: pronouns/data/news-commentary-v14/chr_format/news-commentary-v14.de-en.de.chr
+
+Reading file: pronouns/data/news-commentary-v14/parsed/news-commentary-v14.de-en.en.conll
+676570 line ids written.
+⮑  writing chr-format output (695048 overall lines) to: pronouns/data/news-commentary-v14/chr_format/news-commentary-v14.de-en.en.chr
+```
+
 
 ### 9. Word alignment
 
-..
+The word alignment batch job is started using the following command.
+```
+./tool.py token --align data/news-commentary-v14/tokens/
+```
+The command does not only the word alignment it also creates fast text files from `.token` files from the `token` directory:
+```
+Pairs found:
+{'de-en': {'de': 'news-commentary-v14.de-en.de.token',
+           'en': 'news-commentary-v14.de-en.en.token'}}
+```
+
+Output in fast text format is saved to the directory `merged`:
+```
+['news-commentary-v14.de-en.fast_text', 'news-commentary-v14.en-de.fast_text']
+```
+
+This format does not accept empty lines. Therefore all empty lines are removed before merging. The line numbers are stored for each file in a dictionary file `empty.dict` in the `merged` directory.
+
+After that the word alignment job is submitted for the fast text files using `eflomal`. For the fast text file creation again it is important to keep the naming routine in the format ___L1-L2.L1___ at the end of the file. This is needed to correctly associate the correct language pairs for the merging part.
+The alignment output is stored in a directory `alignment` in the corpus directory.
+
+All important information is stated in the shell output:
+
+```
+Input directory: pronouns/data/news-commentary-v14/tokens
+Output directory: pronouns/data/news-commentary-v14/merged
+
+de-en
+Pairs found:
+{'de-en': {'de': 'news-commentary-v14.de-en.de.token',
+           'en': 'news-commentary-v14.de-en.en.token'}}
+Merging..
+Writing: pronouns/data/news-commentary-v14/merged/news-commentary-v14.de-en.fast_text
+Writing: pronouns/data/news-commentary-v14/merged/news-commentary-v14.en-de.fast_text
+.. done.
+
+Input directory:  pronouns/data/news-commentary-v14/merged
+Output directory: pronouns/data/news-commentary-v14/alignment
+
+Valid input files  ("pronouns/data/news-commentary-v14/merged"):
+['news-commentary-v14.de-en.fast_text', 'news-commentary-v14.en-de.fast_text']
+Create and submit batchfiles..
+Create directory: pronouns/logfiles/alignment
+
+al_de-en Submitted batch job 9224669
+Batchfile location: pronouns/batchfiles/history/9224669.sh
+al_en-de Submitted batch job 9224670
+Batchfile location: pronouns/batchfiles/history/9224670.sh
+```
+### 10. Add empty lines again
+
+Finally we need to add the empty lines again that were removed in step 9.:
+
+```
+./tool.py utils --ft_add_n data/news-commentary-v14/alignment/
+```
+Shell output:
+```
+Directory: pronouns/data/news-commentary-v14/alignment
+
+Found ['.rev', '.fwd'] files:
+['news-commentary-v14.de-en.fwd',
+'news-commentary-v14.de-en.rev',
+'news-commentary-v14.en-de.fwd',
+'news-commentary-v14.en-de.rev']
+
+Processing: pronouns/data/news-commentary-v14/alignment/news-commentary-v14.de-en.fwd ..
+Empty lines successfully added.
+Processing: pronouns/data/news-commentary-v14/alignment/news-commentary-v14.de-en.rev ..
+Empty lines successfully added.
+Processing: pronouns/data/news-commentary-v14/alignment/news-commentary-v14.en-de.fwd ..
+Empty lines successfully added.
+Processing: pronouns/data/news-commentary-v14/alignment/news-commentary-v14.en-de.rev ..
+Empty lines successfully added.
+```
+
+Now we are done! The final directory tree structure will look like this:
+
+```
+$ tree data/news-commentary-v14/
+data/news-commentary-v14/
+├── alignment
+│   ├── news-commentary-v14.de-en.fwd
+│   ├── news-commentary-v14.de-en.priors
+│   ├── news-commentary-v14.de-en.rev
+│   ├── news-commentary-v14.en-de.fwd
+│   ├── news-commentary-v14.en-de.priors
+│   └── news-commentary-v14.en-de.rev
+├── chr_format
+│   ├── news-commentary-v14.de-en.de.chr
+│   └── news-commentary-v14.de-en.en.chr
+├── conll
+│   ├── PART_00___news-commentary-v14.de-en.de.conll
+│   ├── PART_00___news-commentary-v14.de-en.en.conll
+│   ├── PART_01___news-commentary-v14.de-en.de.conll
+│   ├── PART_01___news-commentary-v14.de-en.en.conll
+│   ├── PART_02___news-commentary-v14.de-en.de.conll
+│   ├── PART_02___news-commentary-v14.de-en.en.conll
+│   ├── PART_03___news-commentary-v14.de-en.de.conll
+│   └── PART_03___news-commentary-v14.de-en.en.conll
+├── link.dict
+├── merged
+│   ├── empty.dict
+│   ├── news-commentary-v14.de-en.fast_text
+│   └── news-commentary-v14.en-de.fast_text
+├── news-commentary-v14.cs-en.cs
+├── news-commentary-v14.cs-en.en
+├── news-commentary-v14.de-en.de
+├── news-commentary-v14.de-en.de.parts
+├── news-commentary-v14.de-en.en
+├── news-commentary-v14.de-en.en.parts
+├── news-commentary-v14.en-fr.en
+├── news-commentary-v14.en-fr.fr
+├── parsed
+│   ├── news-commentary-v14.de-en.de.conll
+│   ├── news-commentary-v14.de-en.en.conll
+│   ├── PART_00___news-commentary-v14.de-en.de.conll
+│   ├── PART_00___news-commentary-v14.de-en.en.conll
+│   ├── PART_01___news-commentary-v14.de-en.de.conll
+│   ├── PART_01___news-commentary-v14.de-en.en.conll
+│   ├── PART_02___news-commentary-v14.de-en.de.conll
+│   ├── PART_02___news-commentary-v14.de-en.en.conll
+│   ├── PART_03___news-commentary-v14.de-en.de.conll
+│   └── PART_03___news-commentary-v14.de-en.en.conll
+├── PART_00___news-commentary-v14.de-en.de
+├── PART_00___news-commentary-v14.de-en.en
+├── PART_01___news-commentary-v14.de-en.de
+├── PART_01___news-commentary-v14.de-en.en
+├── PART_02___news-commentary-v14.de-en.de
+├── PART_02___news-commentary-v14.de-en.en
+├── PART_03___news-commentary-v14.de-en.de
+├── PART_03___news-commentary-v14.de-en.en
+└── tokens
+    ├── news-commentary-v14.de-en.de.token
+    └── news-commentary-v14.de-en.en.token
+
+6 directories, 48 files
+```
+
